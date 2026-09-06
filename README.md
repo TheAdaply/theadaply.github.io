@@ -18,6 +18,7 @@ faster." design.
 | `static/reforge-mark.png` | `reforge-cloud/services/dashboard/static/` |
 | `FOR-AGENTS.md` | `reforge-cloud/clients/FOR-AGENTS.md` |
 | `CAPTURE-MANIFEST.json` | `reforge-cloud/clients/CAPTURE-MANIFEST.json` |
+| `llms.txt` | written for this repo, 2026-09-06 |
 
 ## Changes made when lifting it off the dashboard server
 
@@ -40,10 +41,20 @@ dead end, so they were removed:
 Nothing else was touched. `git log` has the unmodified original as the parent
 of the commit that introduced it.
 
-## Known issue
+## Changes made on 2026-09-06
 
-The three `View on GitHub` links point at `github.com/TheAdaply/re-forge`,
-which is a private repo — visitors get a 404.
+- The three **View on GitHub** links and the footer **GitHub** link pointed at
+  `github.com/TheAdaply/re-forge`, a private repo, so visitors got a 404. They
+  now point at the public org page, <https://github.com/TheAdaply>.
+- Copy (meta description, `og:description`, hero paragraph, the *evolve* node,
+  the closing headline) now describes the current positioning: agents that
+  evolve against the team's real work by Darwinian selection. Structure,
+  graphics and every measured number are unchanged.
+- `og:image` is now an absolute URL; social scrapers ignore relative ones.
+- The trust bullet "Open-source client, read every line" claimed something a
+  visitor cannot verify while the client repos are private. It now points at
+  the two public trust artifacts instead. Revert it when the client is public.
+- Added `llms.txt`, which the `<head>` comment already advertised.
 
 ## Publishing
 

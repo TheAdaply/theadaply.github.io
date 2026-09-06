@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>re-forge: the hundredth time should be faster</title>
-<meta name="description" content="re-forge builds self-evolving agents on your team's compounding memory: solve a problem once and every agent gets sharper, so no one repeats work or collides. On our own 2-person team: 200 repeated procedures detected, up to 123 h reclaimable (an upper bound), $90.5k of agent input served from cache (measured).">
+<meta name="description" content="re-forge makes coding agents that evolve against your team's real work. It captures every session (every prompt, tool call, and outcome), recognises the workflows you repeat, and keeps only the candidate agents that win on your own tasks: Darwinian selection instead of a benchmark suite. On our own 2-person team: 200 repeated procedures detected, up to 123 h reclaimable (an upper bound), $90.5k of agent input served from cache (measured).">
 <meta property="og:title" content="re-forge: the hundredth time should be faster">
-<meta property="og:description" content="Self-evolving agents on compounding team memory: every problem your team solves once makes the next run sharper. On our own 2-person team: 200 repeated procedures, up to 123 h reclaimable, $90.5k of input served from cache. Every upper bound says “up to.”">
+<meta property="og:description" content="Coding agents that evolve against your team's real work: every session captured, repeated workflows recognised, and only the candidates that win on your own tasks survive. On our own 2-person team: 200 repeated procedures, up to 123 h reclaimable, $90.5k of input served from cache. Every upper bound says “up to.”">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/static/reforge-mark.png">
+<meta property="og:image" content="https://theadaply.com/static/reforge-mark.png">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#FAF9F6">
 <link rel="icon" type="image/png" href="/static/reforge-mark.png">
@@ -480,11 +480,11 @@ dialog.connect::backdrop{background:rgba(16,19,34,.5);-webkit-backdrop-filter:bl
       <div class="hero-copy">
         <p class="eyebrow">Self-evolving agents · measured on our own team first</p>
         <h1 class="hero-h1">The hundredth time should be <em>faster.</em></h1>
-        <p class="hero-sub">re-forge builds <span class="em">self-evolving agents</span> on your team's compounding memory: solve a problem once and every agent gets sharper. No one re-derives a fix, no one collides mid-build, and the hundredth run knows what the first ninety-nine learned.</p>
+        <p class="hero-sub">re-forge makes <span class="em">agents that evolve</span> against your team's real work. It captures every session (every prompt, tool call, and outcome), recognises the workflows you repeat, and keeps only the candidate agents that win on those tasks. Darwinian selection, not a benchmark suite.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="https://tally.so/r/lb4Rkp" target="_blank" rel="noreferrer">Join the waitlist</a>
         </div>
-        <a class="text-link" href="https://github.com/TheAdaply/re-forge" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="https://github.com/TheAdaply" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
       </div>
 
       <div class="hero-stage">
@@ -549,7 +549,7 @@ dialog.connect::backdrop{background:rgba(16,19,34,.5);-webkit-backdrop-filter:bl
           <span class="node-dot" aria-hidden="true"></span>
           <div class="node-main">
             <div class="node-label">evolve</div>
-            <p class="node-desc">agents sharpen; every gain measured and labeled</p>
+            <p class="node-desc">candidates compete on real tasks; winners survive, every gain labeled</p>
             <div class="pipe-chips">
               <span class="chip chip--upper pchip">up to 123 h <span class="tag">[upper bound]</span></span>
               <span class="chip chip--measured pchip">$90.5k reused <span class="tag">[measured]</span></span>
@@ -783,7 +783,7 @@ dialog.connect::backdrop{background:rgba(16,19,34,.5);-webkit-backdrop-filter:bl
 <span class="ps">$</span> reforge off   <span class="c"># capture stops, immediately</span><span class="cur"></span></pre>
         </figure>
         <ul class="trust-lines reveal" style="--d:90ms">
-          <li>Open-source client, read every line.</li>
+          <li>Every capture is declared up front: read <a href="/CAPTURE-MANIFEST.json">the manifest</a> and <a href="/FOR-AGENTS.md">the audit guide</a>.</li>
           <li>Nothing captured before a human consents.</li>
           <li>One file kills it all: <code>~/.reforge/DISABLED</code></li>
         </ul>
@@ -842,17 +842,17 @@ dialog.connect::backdrop{background:rgba(16,19,34,.5);-webkit-backdrop-filter:bl
   <!-- ================= FINAL CTA ================= -->
   <section class="final" id="run" aria-labelledby="run-h">
     <div class="wrap final-in">
-      <h2 id="run-h">Give your team's agents a memory.</h2>
+      <h2 id="run-h">Give your agents something to evolve against.</h2>
       <p class="sub">One email when we open access.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="https://tally.so/r/lb4Rkp" target="_blank" rel="noreferrer">Join the waitlist</a>
       </div>
-      <a class="text-link" href="https://github.com/TheAdaply/re-forge" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="https://github.com/TheAdaply" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
 
       <div class="foot">
         <span class="fb"><img src="/static/reforge-mark.png" width="727" height="681" alt=""><span>re-forge</span></span>
         <span class="fm">© 2026 TheAdaply</span>
-        <a class="fm" href="https://github.com/TheAdaply/re-forge" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="fm" href="https://github.com/TheAdaply" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </div>
   </section>

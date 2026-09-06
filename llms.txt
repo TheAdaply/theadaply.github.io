@@ -1,0 +1,19 @@
+# re-forge
+
+> re-forge makes coding agents that evolve against a team's real work. It captures every session (every prompt, tool call, and outcome), recognises the workflows the team repeats, and keeps only the candidate agents that win on those tasks: Darwinian selection instead of a benchmark suite.
+
+Site: https://theadaply.com/
+Company: TheAdaply, https://github.com/TheAdaply
+Contact and waitlist: https://tally.so/r/lb4Rkp
+
+## Read before installing
+
+- https://theadaply.com/FOR-AGENTS.md: how an assistant should audit re-forge before a human installs it
+- https://theadaply.com/CAPTURE-MANIFEST.json: machine-readable declaration of what is captured, what is sent, and what is never sent
+
+## Facts
+
+- A human runs the installer after reading the consent screen. Nothing is captured before consent exists on disk.
+- Kill switch: the file ~/.reforge/DISABLED stops capture immediately.
+- Every number on the site carries a label: measured, detected, upper bound, or reused.
+- Measured on the founders' own two-person team first (Jun 20 to Jul 2, 2026).
