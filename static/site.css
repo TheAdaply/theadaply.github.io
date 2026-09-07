@@ -114,7 +114,7 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .hero.has-shader::before{display:none}
 .hero-shader{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:none}
 .hero.has-shader .hero-shader{display:block}
-.lineage{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.lineage-graph{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
 .hero .wrap{position:relative;z-index:2}
 .hero-copy{position:relative;text-align:center;max-width:860px;margin-inline:auto}
 .hero-copy .h1{margin-inline:auto;max-width:18ch}
@@ -130,36 +130,36 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .hero-stage .frame-wrap.has-overflow .window{transform:none}
 
 /* Lineage graph: strokes are set in JS-generated markup by class. */
-.lineage path{fill:none;stroke:var(--indigo);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
-.lineage path.ring{stroke:var(--ink);stroke-width:1;opacity:0;stroke-dasharray:none;stroke-dashoffset:0}
-.lineage path.edge{stroke-width:1.6;opacity:.42}
-.lineage path.edge.lin{stroke-width:2.4;opacity:.95}
-.lineage path.edge.toret{opacity:.24}
-.lineage path.flow{stroke:#C9C4FF;stroke-width:2.4;opacity:0;stroke-dasharray:6 94}
-.lineage .node{opacity:0;transform-box:fill-box;transform-origin:center;fill:var(--paper);stroke:var(--indigo);stroke-width:1.6}
-.lineage .node.fork{stroke-opacity:.7}
-.lineage .node.lin{fill:var(--indigo);stroke:var(--indigo-2)}
-.lineage .node.win{fill:var(--indigo);stroke:var(--indigo-2);stroke-width:2}
-.lineage .node.ret{fill:var(--paper-2);stroke:var(--faint)}
-.lineage .halo{fill:none;stroke:var(--indigo);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
-.lineage .base{fill:var(--indigo);opacity:0}
-.lineage .tag{fill:var(--indigo);font:500 12.5px var(--f-mono);letter-spacing:.01em;opacity:0}
-.is-grown .lineage .tag{animation:tagIn .6s var(--ease) forwards;animation-delay:var(--d,0s)}
-.lineage.settled .tag{animation:none;opacity:1}
+.lineage-graph path{fill:none;stroke:var(--indigo);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.lineage-graph path.ring{stroke:var(--ink);stroke-width:1;opacity:0;stroke-dasharray:none;stroke-dashoffset:0}
+.lineage-graph path.edge{stroke-width:1.6;opacity:.42}
+.lineage-graph path.edge.lin{stroke-width:2.4;opacity:.95}
+.lineage-graph path.edge.toret{opacity:.24}
+.lineage-graph path.flow{stroke:#C9C4FF;stroke-width:2.4;opacity:0;stroke-dasharray:6 94}
+.lineage-graph .node{opacity:0;transform-box:fill-box;transform-origin:center;fill:var(--paper);stroke:var(--indigo);stroke-width:1.6}
+.lineage-graph .node.fork{stroke-opacity:.7}
+.lineage-graph .node.lin{fill:var(--indigo);stroke:var(--indigo-2)}
+.lineage-graph .node.win{fill:var(--indigo);stroke:var(--indigo-2);stroke-width:2}
+.lineage-graph .node.ret{fill:var(--paper-2);stroke:var(--faint)}
+.lineage-graph .halo{fill:none;stroke:var(--indigo);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
+.lineage-graph .base{fill:var(--indigo);opacity:0}
+.lineage-graph .tag{fill:var(--indigo);font:500 12.5px var(--f-mono);letter-spacing:.01em;opacity:0}
+.is-grown .lineage-graph .tag{animation:tagIn .6s var(--ease) forwards;animation-delay:var(--d,0s)}
+.lineage-graph.settled .tag{animation:none;opacity:1}
 @keyframes tagIn{to{opacity:1}}
-.is-grown .lineage path.edge{animation:draw var(--t,.6s) linear forwards;animation-delay:var(--d,0s)}
-.is-grown .lineage path.ring{animation:ringIn 1.2s var(--ease) forwards;animation-delay:var(--d,0s)}
-.lineage.settled path.ring{animation:none;opacity:.07}
+.is-grown .lineage-graph path.edge{animation:draw var(--t,.6s) linear forwards;animation-delay:var(--d,0s)}
+.is-grown .lineage-graph path.ring{animation:ringIn 1.2s var(--ease) forwards;animation-delay:var(--d,0s)}
+.lineage-graph.settled path.ring{animation:none;opacity:.07}
 @keyframes ringIn{to{opacity:.07}}
-.is-grown .lineage .node{animation:nodeIn .45s var(--ease) forwards;animation-delay:var(--d,0s)}
-.is-grown .lineage .node.ret{animation-name:nodeInRet}
-.is-grown .lineage .halo{animation:halo 1.8s ease-out 3;animation-delay:var(--d,0s)}
-.is-grown .lineage .flow{animation:flowIn .6s linear forwards,flow 3.6s linear infinite;animation-delay:var(--d,0s)}
-.lineage.settled path.edge{animation:none;stroke-dashoffset:0}
-.lineage.settled .node{animation:none;opacity:1}
-.lineage.settled .node.ret{animation:none;opacity:.55}
-.lineage.settled .halo{animation:none}
-.lineage.settled .flow{animation:flow 3.6s linear infinite;opacity:.9}
+.is-grown .lineage-graph .node{animation:nodeIn .45s var(--ease) forwards;animation-delay:var(--d,0s)}
+.is-grown .lineage-graph .node.ret{animation-name:nodeInRet}
+.is-grown .lineage-graph .halo{animation:halo 1.8s ease-out 3;animation-delay:var(--d,0s)}
+.is-grown .lineage-graph .flow{animation:flowIn .6s linear forwards,flow 3.6s linear infinite;animation-delay:var(--d,0s)}
+.lineage-graph.settled path.edge{animation:none;stroke-dashoffset:0}
+.lineage-graph.settled .node{animation:none;opacity:1}
+.lineage-graph.settled .node.ret{animation:none;opacity:.55}
+.lineage-graph.settled .halo{animation:none}
+.lineage-graph.settled .flow{animation:flow 3.6s linear infinite;opacity:.9}
 @keyframes flowIn{to{opacity:.9}}
 @keyframes flow{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
 
@@ -241,7 +241,7 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .key{width:10px;height:10px;border-radius:50%;flex:none}
 .key.candidate{background:var(--a-raised);border:1.25px solid var(--a-border-strong)}
 .key.retired{background:var(--a-deep);border:1.25px solid var(--a-border-strong);opacity:.55}
-.key.lineage{background:var(--a-accent-soft);border:2px solid var(--a-accent)}
+.key.lineage-graph{background:var(--a-accent-soft);border:2px solid var(--a-accent)}
 .key.winner{background:var(--a-accent);border:1.5px solid var(--a-accent-bright)}
 .status{margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--a-deep);border:1px solid var(--a-border);
   font:500 12px/1.4 var(--f-mono);color:var(--a-dim);display:flex;gap:10px;align-items:center;min-height:40px}
@@ -284,15 +284,13 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
   .is-live .tree .node{opacity:1}
   .is-live .tree .node.ret{opacity:.5}
   .is-live .tree .edge{stroke-dashoffset:0}
-  .lineage path,.lineage circle,.lineage text{animation:none!important}
-  .lineage .tag{opacity:1}
-  .lineage path{stroke-dashoffset:0}
-  .lineage path.ring{opacity:.07}
-  .lineage .node{opacity:1}
-  .lineage .node.ret{opacity:.55}
-  .lineage .flow{display:none}
-  .hero-shader{display:none}
-  .hero.has-shader::before{display:block}
+  .lineage-graph path,.lineage-graph circle,.lineage-graph text{animation:none!important}
+  .lineage-graph .tag{opacity:1}
+  .lineage-graph path{stroke-dashoffset:0}
+  .lineage-graph path.ring{opacity:.07}
+  .lineage-graph .node{opacity:1}
+  .lineage-graph .node.ret{opacity:.55}
+  .lineage-graph .flow{display:none}
 }
 
 /* Patterns view */

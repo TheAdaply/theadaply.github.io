@@ -38,7 +38,7 @@
      window's titlebar and forks generation by generation on shared arcs. Built
      from the measured layout so it never touches the copy, at any width. ---- */
   var heroSec = document.querySelector(".hero");
-  var svg = heroSec && heroSec.querySelector(".lineage");
+  var svg = heroSec && heroSec.querySelector(".lineage-graph");
   var GROW_MS = 2400;
   var grownAt = 0;
   var settled = false;
@@ -171,21 +171,31 @@
   }
 
   if (svg) {
-    buildLineage();
-    setTimeout(function () {
+    /* Build once the web fonts have settled the line boxes (or after 900ms),
+       then start growing; a rebuild mid-growth would restart every delay. */
+    var started = false;
+    function startGrowth() {
+      if (started) return;
+      started = true;
+      buildLineage();
       heroSec.classList.add("is-grown");
       grownAt = Date.now();
       setTimeout(function () { settled = true; svg.classList.add("settled"); }, GROW_MS + 1200);
-    }, 300);
+    }
+    var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    fontsReady.then(function () { setTimeout(startGrowth, 120); });
+    setTimeout(startGrowth, 900);
     var rebuildT;
-    function rebuild() { clearTimeout(rebuildT); rebuildT = setTimeout(buildLineage, 80); }
+    function rebuild() {
+      if (!started) return;
+      clearTimeout(rebuildT); rebuildT = setTimeout(buildLineage, 80);
+    }
     window.addEventListener("resize", rebuild);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
     if ("ResizeObserver" in window) new ResizeObserver(rebuild).observe(heroSec.querySelector(".hero-copy"));
   }
   function growRemaining() {
     if (!svg || reduce.matches) return 0;
-    if (!grownAt) return GROW_MS + 300;
+    if (!grownAt) return GROW_MS + 900;
     return Math.max(0, GROW_MS - (Date.now() - grownAt));
   }
 
@@ -273,7 +283,7 @@
     if ("IntersectionObserver" in window) {
       var io = new IntersectionObserver(function (entries) {
         if (entries.some(function (e) { return e.isIntersecting; })) { play(); io.disconnect(); }
-      }, { threshold: 0.2 });
+      }, { threshold: 0.1 });
       io.observe(hero);
     } else {
       play();
