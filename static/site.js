@@ -34,23 +34,211 @@
     wraps.forEach(function (w) { ro.observe(w); });
   }
 
-  /* ---- Hero, phase one: lineage vines grow out of the window and bud.
-     Starts shortly after load; the tree inside waits for it to finish. ---- */
+  /* ---- Hero, phase one: the lineage graph. One trunk rises from behind the
+     window's titlebar and forks generation by generation on shared arcs. Built
+     from the measured layout so it never touches the copy, at any width. ---- */
   var heroSec = document.querySelector(".hero");
-  var vine = heroSec && heroSec.querySelector(".vine");
-  var VINES_MS = 2400;
+  var svg = heroSec && heroSec.querySelector(".lineage");
+  var GROW_MS = 2400;
   var grownAt = 0;
-  if (vine) {
+  var settled = false;
+
+  function buildLineage() {
+    if (!svg) return;
+    var hb = heroSec.getBoundingClientRect();
+    var W = Math.round(hb.width), H = Math.round(hb.height);
+    var win = heroSec.querySelector(".hero-stage .window");
+    if (!win || W < 360) { svg.innerHTML = ""; return; }
+    var wb = win.getBoundingClientRect();
+    var ox = W / 2, oy = wb.top - hb.top + 36;            /* origin sits under the window */
+    var topLimit = 24;
+    var scale = Math.max(0.5, Math.min(1, W / 1440));
+    var sx = 1.32;                                          /* elliptical spread */
+    var radii = [92, 178, 266, 356, 448].map(function (r) { return r * scale; });
+    var margin = 22;
+
+    /* Forbidden rectangles: every line box of the copy, padded. */
+    var rects = [];
+    function addRects(el, byLine) {
+      if (!el) return;
+      if (byLine) {
+        var rg = document.createRange(); rg.selectNodeContents(el);
+        Array.prototype.forEach.call(rg.getClientRects(), function (b) { if (b.width && b.height) rects.push(b); });
+      } else rects.push(el.getBoundingClientRect());
+    }
+    addRects(heroSec.querySelector(".h1"), true);
+    addRects(heroSec.querySelector(".hero-sub"), true);
+    addRects(heroSec.querySelector(".hero-note"), true);
+    Array.prototype.forEach.call(heroSec.querySelectorAll(".cta-row .btn"), function (b) { addRects(b, false); });
+    rects = rects.map(function (b) { return { l: b.left - hb.left - margin, r: b.right - hb.left + margin, t: b.top - hb.top - margin, b: b.bottom - hb.top + margin }; });
+    function free(x, y) {
+      if (y < topLimit || x < 14 || x > W - 14) return false;
+      for (var i = 0; i < rects.length; i++) { var q = rects[i]; if (x > q.l && x < q.r && y > q.t && y < q.b) return false; }
+      return true;
+    }
+    function pt(r, th) { return { x: ox + r * sx * Math.sin(th), y: oy - r * Math.cos(th) }; }
+    function dir(th) { var v = { x: sx * Math.sin(th), y: -Math.cos(th) }; var n = Math.hypot(v.x, v.y); return { x: v.x / n, y: v.y / n }; }
+    function seed(a, b) { var s = Math.sin(a * 12.9898 + b * 78.233) * 43758.5453; return s - Math.floor(s); }
+
+    /* Sector tree: each node owns an angular sector and splits it for its children. */
+    var nodes = [], edges = [];
+    var root = { gen: 0, th: 0, lo: -1.12, hi: 1.12, p: pt(radii[0], 0), id: 0 };
+    nodes.push(root);
+    function grow(node) {
+      if (node.gen + 1 >= radii.length) return;
+      var mid = (node.lo + node.hi) / 2;
+      var kids = [{ lo: node.lo, hi: mid }, { lo: mid, hi: node.hi }];
+      var made = 0;
+      kids.forEach(function (k, i) {
+        var th = (k.lo + k.hi) / 2;
+        var r = radii[node.gen + 1];
+        var p = pt(r, th);
+        /* sample the curve's middle as well as the endpoint */
+        var m = pt((r + radii[node.gen]) / 2, (th + node.th) / 2);
+        if (!free(p.x, p.y) || !free(m.x, m.y)) return;
+        /* deterministic retirements past generation 2, never both children */
+        var ret = node.gen >= 1 && made > 0 && seed(node.gen, nodes.length) < 0.28;
+        var child = { gen: node.gen + 1, th: th, lo: k.lo, hi: k.hi, p: p, id: nodes.length, ret: ret, parent: node };
+        nodes.push(child); edges.push({ a: node, b: child }); made++;
+        if (!ret) grow(child);
+      });
+    }
+    grow(root);
+
+    /* Winner: the deepest tip whose angle is closest to the right shoulder. */
+    var tips = nodes.filter(function (n) { return !n.ret && !edges.some(function (e) { return e.a === n; }); });
+    var maxGen = tips.reduce(function (m, n) { return Math.max(m, n.gen); }, 0);
+    var cands = tips.filter(function (n) { return n.gen >= Math.max(1, maxGen - 1); });
+    var win = cands.sort(function (a, b) { return Math.abs(a.th - 0.62) - Math.abs(b.th - 0.62); })[0] || root;
+    var chain = []; for (var n = win; n; n = n.parent) { n.lin = true; chain.unshift(n); }
+    root.lin = true;
+
+    var rmax = radii[Math.min(radii.length - 1, maxGen)] || radii[0];
+    function tAt(r) { return (r / rmax) * GROW_MS / 1000; }
+    function curve(a, b) {
+      var da = dir(a.th), db = dir(b.th);
+      var d = Math.hypot(b.p.x - a.p.x, b.p.y - a.p.y) * 0.46;
+      return "C" + (a.p.x + da.x * d).toFixed(1) + "," + (a.p.y + da.y * d).toFixed(1) + " " +
+             (b.p.x - db.x * d).toFixed(1) + "," + (b.p.y - db.y * d).toFixed(1) + " " + b.p.x.toFixed(1) + "," + b.p.y.toFixed(1);
+    }
+    var out = [];
+    /* generation arcs: faint rings through the free space, one per generation reached */
+    for (var g = 1; g <= maxGen; g++) {
+      var seg = [], segs = [];
+      var span = nodes.filter(function (n) { return n.gen === g; }).map(function (n) { return n.th; });
+      if (!span.length) continue;
+      var lo = Math.min.apply(null, span) - 0.16, hi = Math.max.apply(null, span) + 0.16;
+      for (var th = lo; th <= hi; th += 0.02) {
+        var q = pt(radii[g], th);
+        if (free(q.x, q.y)) seg.push(q.x.toFixed(1) + "," + q.y.toFixed(1));
+        else if (seg.length) { segs.push(seg); seg = []; }
+      }
+      if (seg.length) segs.push(seg);
+      segs.forEach(function (sg) {
+        if (sg.length < 6) return;
+        out.push('<path class="ring" pathLength="1" style="--d:' + tAt(radii[g]).toFixed(2) + 's" d="M' + sg.join(" L") + '"/>');
+      });
+    }
+    /* trunk from under the window to the first fork */
+    out.push('<path class="edge lin" pathLength="1" style="--d:0s;--t:' + tAt(radii[0]).toFixed(2) + 's" d="M' + ox + ',' + oy + ' L' + root.p.x.toFixed(1) + ',' + root.p.y.toFixed(1) + '"/>');
+    edges.forEach(function (e) {
+      var cls = "edge" + (e.a.lin && e.b.lin ? " lin" : "") + (e.b.ret ? " toret" : "");
+      var d0 = tAt(radii[e.a.gen]), d1 = tAt(radii[e.b.gen]);
+      out.push('<path class="' + cls + '" pathLength="1" style="--d:' + d0.toFixed(2) + 's;--t:' + (d1 - d0).toFixed(2) + 's" d="M' + e.a.p.x.toFixed(1) + ',' + e.a.p.y.toFixed(1) + ' ' + curve(e.a, e.b) + '"/>');
+    });
+    /* the surviving lineage as one path, for the travelling highlight */
+    var fd = "M" + ox + "," + oy + " L" + root.p.x.toFixed(1) + "," + root.p.y.toFixed(1);
+    for (var i = 1; i < chain.length; i++) fd += " " + curve(chain[i - 1], chain[i]);
+    out.push('<path class="flow" pathLength="100" style="--d:' + (GROW_MS / 1000 + 0.3).toFixed(2) + 's" d="' + fd + '"/>');
+    out.push('<circle class="base" cx="' + ox + '" cy="' + oy + '" r="3"/>');
+    /* a word beside the survivor, when there is room for it */
+    (function () {
+      var right = win.th >= 0, lx = win.p.x + (right ? 14 : -14), ly = win.p.y + 4;
+      var boxW = 58, ok = true;
+      for (var k = 0; k <= boxW; k += 12) if (!free(lx + (right ? k : -k), ly - 6) || !free(lx + (right ? k : -k), ly + 6)) ok = false;
+      if (ok) out.push('<text class="tag" style="--d:' + (tAt(radii[win.gen]) + 0.35).toFixed(2) + 's" x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '"' + (right ? "" : ' text-anchor="end"') + '>survives</text>');
+    })();
+    nodes.forEach(function (n) {
+      var isTip = !edges.some(function (e) { return e.a === n; });
+      var cls = "node" + (n.ret ? " ret" : n === win ? " win" : n.lin ? " lin" : " fork");
+      var r = n === win ? 5.5 : n.ret ? 3.6 : 4;
+      if (n === win) out.push('<circle class="halo" style="--d:' + (tAt(radii[n.gen]) + 0.5).toFixed(2) + 's" cx="' + n.p.x.toFixed(1) + '" cy="' + n.p.y.toFixed(1) + '" r="6"/>');
+      out.push('<circle class="' + cls + '" style="--d:' + tAt(radii[n.gen]).toFixed(2) + 's" cx="' + n.p.x.toFixed(1) + '" cy="' + n.p.y.toFixed(1) + '" r="' + r + '"' + (isTip ? ' data-tip="1"' : "") + '/>');
+    });
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.innerHTML = out.join("");
+    svg.classList.toggle("settled", settled);
+  }
+
+  if (svg) {
+    buildLineage();
     setTimeout(function () {
       heroSec.classList.add("is-grown");
       grownAt = Date.now();
-    }, 250);
+      setTimeout(function () { settled = true; svg.classList.add("settled"); }, GROW_MS + 1200);
+    }, 300);
+    var rebuildT;
+    function rebuild() { clearTimeout(rebuildT); rebuildT = setTimeout(buildLineage, 80); }
+    window.addEventListener("resize", rebuild);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
+    if ("ResizeObserver" in window) new ResizeObserver(rebuild).observe(heroSec.querySelector(".hero-copy"));
   }
-  function vinesRemaining() {
-    if (!vine || reduce.matches || getComputedStyle(vine).display === "none") return 0;
-    if (!grownAt) return VINES_MS + 250;
-    return Math.max(0, VINES_MS - (Date.now() - grownAt));
+  function growRemaining() {
+    if (!svg || reduce.matches) return 0;
+    if (!grownAt) return GROW_MS + 300;
+    return Math.max(0, GROW_MS - (Date.now() - grownAt));
   }
+
+  /* ---- Hero backdrop: a slow, grainy field of paper, wash and warm light,
+     drawn with a tiny WebGL shader at half resolution. Falls back to the CSS
+     gradient if WebGL is unavailable; static under reduced motion. ---- */
+  (function shader() {
+    var cv = heroSec && heroSec.querySelector(".hero-shader");
+    if (!cv) return;
+    var gl = cv.getContext("webgl", { antialias: false, alpha: false, powerPreference: "low-power" });
+    if (!gl) return;
+    var vs = "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}";
+    var fs = "precision mediump float;uniform vec2 u_res;uniform float u_t;" +
+      "float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}" +
+      "float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}" +
+      "float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}" +
+      "void main(){vec2 uv=gl_FragCoord.xy/u_res;vec2 p=vec2(uv.x*u_res.x/u_res.y,uv.y);float t=u_t*.045;" +
+      "vec2 q=vec2(fbm(p*1.5+t),fbm(p*1.5-t*.6+vec2(5.2,1.3)));float n=fbm(p*1.1+1.8*q+vec2(t*.3,-t*.15));" +
+      "vec3 paper=vec3(.980,.976,.965);vec3 wash=vec3(.885,.875,.990);vec3 warm=vec3(.992,.955,.900);" +
+      "vec3 col=mix(paper,wash,smoothstep(.32,.82,n));col=mix(col,warm,smoothstep(.58,.98,q.y)*.45);" +
+      "float keep=smoothstep(.05,.62,uv.y);col=mix(paper,col,keep);" +
+      "col+=(hash(gl_FragCoord.xy+fract(u_t*.7))-.5)*.022;gl_FragColor=vec4(col,1.);}";
+    function sh(t, src) { var s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; }
+    var v = sh(gl.VERTEX_SHADER, vs), f = sh(gl.FRAGMENT_SHADER, fs);
+    if (!v || !f) return;
+    var prog = gl.createProgram(); gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+    gl.useProgram(prog);
+    var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    var a = gl.getAttribLocation(prog, "a"); gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+    var uRes = gl.getUniformLocation(prog, "u_res"), uT = gl.getUniformLocation(prog, "u_t");
+    heroSec.classList.add("has-shader");
+    var visible = true, raf = 0, t0 = performance.now();
+    function size() {
+      var w = Math.max(1, Math.round(heroSec.clientWidth / 2)), h = Math.max(1, Math.round(heroSec.clientHeight / 2));
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+    }
+    function frame(now) {
+      raf = 0; size();
+      gl.uniform2f(uRes, cv.width, cv.height);
+      gl.uniform1f(uT, (now - t0) / 1000);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      if (visible && !reduce.matches) raf = requestAnimationFrame(frame);
+    }
+    function start() { if (!raf) raf = requestAnimationFrame(frame); }
+    start();
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { visible = en.some(function (e) { return e.isIntersecting; }); if (visible) start(); }, { threshold: 0 }).observe(heroSec);
+    }
+    window.addEventListener("resize", function () { size(); start(); });
+    reduce.addEventListener && reduce.addEventListener("change", start);
+  })();
 
   /* ---- Hero, phase two: the lineage tree draws itself once, generation by
      generation, and the status line narrates. Reduced motion shows the final
@@ -79,7 +267,7 @@
     setTimeout(function () {
       hero.classList.add("is-live");
       narrate();
-    }, vinesRemaining());
+    }, growRemaining());
   }
   if (hero) {
     if ("IntersectionObserver" in window) {

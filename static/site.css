@@ -3,8 +3,8 @@
    Paper under a low dawn light. Indigo is the one voltage; amber is reserved
    for "upper bound" caveats; green for a winner or a clean merge; one dark
    terminal island. The product is the hero: the app is rebuilt in its own
-   chrome. One motion in two phases: lineage vines grow out of the window and
-   bud, then the tree inside the window draws itself.
+   chrome. One motion in two phases: a lineage graph grows out of the window
+   and forks generation by generation, then the tree inside the window draws.
    ========================================================================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -71,15 +71,18 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .tnum{font-variant-numeric:tabular-nums}
 
 /* ---- buttons ---- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:48px;padding:0 24px;border-radius:999px;
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:48px;padding:0 26px;border-radius:999px;
   font:500 15.5px/1 var(--f-text);border:1px solid transparent;cursor:pointer;white-space:nowrap;
-  transition:background-color .2s var(--ease),color .2s var(--ease),box-shadow .25s var(--ease),border-color .2s var(--ease),transform .15s var(--ease)}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--indigo);color:#fff;box-shadow:0 1px 2px rgba(18,20,31,.08)}
-.btn-primary:hover{background:var(--indigo-2);box-shadow:0 10px 28px -10px rgba(109,93,252,.6)}
-.btn-ghost{background:var(--stock);color:var(--ink);border-color:var(--line-2)}
-.btn-ghost:hover{border-color:var(--indigo);color:var(--indigo)}
-.btn-sm{min-height:40px;padding:0 16px;font-size:14px}
+  transition:background-color .2s var(--ease),color .2s var(--ease),box-shadow .3s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-primary{color:#fff;background:linear-gradient(180deg,var(--indigo-2),var(--indigo) 90%);border-color:rgba(38,32,140,.35);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 1px 2px rgba(18,20,31,.14),0 10px 24px -14px rgba(79,70,229,.65)}
+.btn-primary:hover{transform:translateY(-1px);background:linear-gradient(180deg,#7A6BFF,#5A50F0 90%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 2px 4px rgba(18,20,31,.12),0 16px 34px -14px rgba(79,70,229,.75)}
+.btn-ghost{background:rgba(255,255,255,.72);color:var(--ink);border-color:var(--line-2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 1px 2px rgba(18,20,31,.05);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.btn-ghost:hover{transform:translateY(-1px);background:var(--stock);border-color:rgba(18,20,31,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 22px -14px rgba(18,20,31,.35)}
+.btn-sm{min-height:40px;padding:0 18px;font-size:14px}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 
 /* ---- nav ---- */
@@ -90,8 +93,11 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .brand img{width:26px}
 .brand span{font:600 19px/1 var(--f-display);letter-spacing:-.015em;color:var(--ink)}
 .nav-links{display:flex;gap:26px;font:500 14.5px/1 var(--f-text);color:var(--soft)}
-.nav-links a{padding:6px 0}
+.nav-links a{position:relative;padding:6px 0;transition:color .2s var(--ease)}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--indigo);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease)}
 .nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
 @media (max-width:820px){.nav-links{display:none}}
 
 /* ---- section rhythm ---- */
@@ -102,41 +108,60 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .sec-head h2{margin-bottom:16px}
 
 /* ================= HERO ================= */
-.hero{position:relative;padding-top:clamp(56px,8vw,104px);overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+.hero{position:relative;padding-top:clamp(56px,7.5vw,96px);overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(60% 50% at 50% 0%,rgba(79,70,229,.10),transparent 70%)}
-.hero-copy{position:relative;z-index:1;text-align:center;max-width:860px;margin-inline:auto}
+.hero.has-shader::before{display:none}
+.hero-shader{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:none}
+.hero.has-shader .hero-shader{display:block}
+.lineage{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.hero .wrap{position:relative;z-index:2}
+.hero-copy{position:relative;text-align:center;max-width:860px;margin-inline:auto}
 .hero-copy .h1{margin-inline:auto;max-width:18ch}
-.hero-sub{margin:26px auto 34px;max-width:66ch;font-size:clamp(17px,1.3vw,20px);line-height:1.55;color:var(--soft)}
+.hero-sub{margin:26px auto 34px;max-width:64ch;font-size:clamp(17px,1.35vw,20.5px);line-height:1.5;color:var(--soft)}
 .hero .cta-row{justify-content:center}
-.hero-note{margin-top:18px;font:400 13.5px/1.5 var(--f-text);color:var(--faint)}
-.hero-stage{position:relative;margin-top:clamp(44px,6vw,72px);padding-bottom:clamp(40px,6vw,80px)}
+.hero-note{margin-top:22px;text-align:center;font:400 13.5px/1.5 var(--f-text);color:var(--faint)}
+.hero-stage{position:relative;margin-top:clamp(120px,18vw,270px);padding-bottom:clamp(40px,6vw,80px)}
 .hero-stage::before{content:"";position:absolute;left:50%;top:6%;width:min(1200px,110%);height:84%;transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(50% 50% at 50% 50%,rgba(109,93,252,.24),rgba(242,169,59,.07) 58%,transparent 74%);filter:blur(28px)}
-.hero-stage .frame-wrap{position:relative}
+  background:radial-gradient(50% 50% at 50% 50%,rgba(109,93,252,.22),rgba(242,169,59,.07) 58%,transparent 74%);filter:blur(28px)}
+.hero-stage .frame-wrap{position:relative;perspective:1800px}
+.hero-stage .window{transform:rotateX(2.2deg);transform-origin:50% 100%;transition:transform .7s var(--ease),box-shadow .7s var(--ease)}
+.hero-stage .frame-wrap:hover .window{transform:rotateX(0deg)}
+.hero-stage .frame-wrap.has-overflow .window{transform:none}
 
-/* Lineage vines. Rooted on the window's top edge (the stage's top edge), they
-   climb the gutters either side of the headline. Sized so they never reach the
-   copy: the gutter is (100vw - 1032px)/2 plus the 103px inset of the root. */
-.vine{position:absolute;bottom:100%;z-index:0;pointer-events:none;overflow:visible;height:auto;
-  width:min(300px,calc((100vw - 1032px) / 2 + 95px))}
-.vine-l{right:calc(100% - 103px)}
-.vine-r{left:calc(100% - 103px)}
-.vine path{fill:none;stroke:var(--indigo);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
-.vine .d0{opacity:.78}
-.vine .d1{opacity:.62}
-.vine .d2{opacity:.5}
-.vine path.ret{opacity:.28}
-.vine .root{fill:var(--indigo);opacity:0;transform-box:fill-box;transform-origin:center}
-.vine .bud{fill:var(--paper);stroke:var(--indigo);stroke-width:2.2;opacity:0;transform-box:fill-box;transform-origin:center}
-.vine .bud.win{fill:var(--indigo);stroke:var(--indigo-2)}
-.vine .bud.ret{fill:var(--paper-2);stroke:var(--faint)}
-.vine .halo{fill:none;stroke:var(--indigo);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
-.is-grown .vine path{animation:draw var(--t,.8s) var(--ease) forwards;animation-delay:var(--d,0s)}
-.is-grown .vine .bud,.is-grown .vine .root{animation:nodeIn .5s var(--ease) forwards;animation-delay:var(--d,0s)}
-.is-grown .vine .bud.ret{animation-name:nodeInRet}
-.is-grown .vine .halo{animation:halo 1.6s ease-out 3;animation-delay:var(--d,0s)}
-@media (max-width:1180px){.vine{display:none}}
+/* Lineage graph: strokes are set in JS-generated markup by class. */
+.lineage path{fill:none;stroke:var(--indigo);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.lineage path.ring{stroke:var(--ink);stroke-width:1;opacity:0;stroke-dasharray:none;stroke-dashoffset:0}
+.lineage path.edge{stroke-width:1.6;opacity:.42}
+.lineage path.edge.lin{stroke-width:2.4;opacity:.95}
+.lineage path.edge.toret{opacity:.24}
+.lineage path.flow{stroke:#C9C4FF;stroke-width:2.4;opacity:0;stroke-dasharray:6 94}
+.lineage .node{opacity:0;transform-box:fill-box;transform-origin:center;fill:var(--paper);stroke:var(--indigo);stroke-width:1.6}
+.lineage .node.fork{stroke-opacity:.7}
+.lineage .node.lin{fill:var(--indigo);stroke:var(--indigo-2)}
+.lineage .node.win{fill:var(--indigo);stroke:var(--indigo-2);stroke-width:2}
+.lineage .node.ret{fill:var(--paper-2);stroke:var(--faint)}
+.lineage .halo{fill:none;stroke:var(--indigo);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
+.lineage .base{fill:var(--indigo);opacity:0}
+.lineage .tag{fill:var(--indigo);font:500 12.5px var(--f-mono);letter-spacing:.01em;opacity:0}
+.is-grown .lineage .tag{animation:tagIn .6s var(--ease) forwards;animation-delay:var(--d,0s)}
+.lineage.settled .tag{animation:none;opacity:1}
+@keyframes tagIn{to{opacity:1}}
+.is-grown .lineage path.edge{animation:draw var(--t,.6s) linear forwards;animation-delay:var(--d,0s)}
+.is-grown .lineage path.ring{animation:ringIn 1.2s var(--ease) forwards;animation-delay:var(--d,0s)}
+.lineage.settled path.ring{animation:none;opacity:.07}
+@keyframes ringIn{to{opacity:.07}}
+.is-grown .lineage .node{animation:nodeIn .45s var(--ease) forwards;animation-delay:var(--d,0s)}
+.is-grown .lineage .node.ret{animation-name:nodeInRet}
+.is-grown .lineage .halo{animation:halo 1.8s ease-out 3;animation-delay:var(--d,0s)}
+.is-grown .lineage .flow{animation:flowIn .6s linear forwards,flow 3.6s linear infinite;animation-delay:var(--d,0s)}
+.lineage.settled path.edge{animation:none;stroke-dashoffset:0}
+.lineage.settled .node{animation:none;opacity:1}
+.lineage.settled .node.ret{animation:none;opacity:.55}
+.lineage.settled .halo{animation:none}
+.lineage.settled .flow{animation:flow 3.6s linear infinite;opacity:.9}
+@keyframes flowIn{to{opacity:.9}}
+@keyframes flow{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
 
 /* ================= APP FRAMES ================= */
 .frame-wrap{--fw:1120px;position:relative;overflow:visible;border-radius:16px}
@@ -259,10 +284,15 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
   .is-live .tree .node{opacity:1}
   .is-live .tree .node.ret{opacity:.5}
   .is-live .tree .edge{stroke-dashoffset:0}
-  .is-grown .vine path,.is-grown .vine .bud,.is-grown .vine .root,.is-grown .vine .halo{animation:none!important}
-  .is-grown .vine path{stroke-dashoffset:0}
-  .is-grown .vine .bud,.is-grown .vine .root{opacity:1}
-  .is-grown .vine .bud.ret{opacity:.5}
+  .lineage path,.lineage circle,.lineage text{animation:none!important}
+  .lineage .tag{opacity:1}
+  .lineage path{stroke-dashoffset:0}
+  .lineage path.ring{opacity:.07}
+  .lineage .node{opacity:1}
+  .lineage .node.ret{opacity:.55}
+  .lineage .flow{display:none}
+  .hero-shader{display:none}
+  .hero.has-shader::before{display:block}
 }
 
 /* Patterns view */
