@@ -69,10 +69,14 @@
       }
       opts.copy.forEach(function (sel) { Array.prototype.forEach.call(section.querySelectorAll(sel[0]), function (el) { addRects(el, sel[1]); }); });
       rects = rects.map(function (b) { return { l: b.left - hb.left - margin, r: b.right - hb.left + margin, t: b.top - hb.top - margin, b: b.bottom - hb.top + margin }; });
-      function free(x, y) {
-        if (y < topLimit || x < 14 || x > W - 14) return false;
+      function clearOfCopy(x, y) {
         for (var i = 0; i < rects.length; i++) { var q = rects[i]; if (x > q.l && x < q.r && y > q.t && y < q.b) return false; }
         return true;
+      }
+      /* With avoid off the graph grows behind the copy instead of around it. */
+      function free(x, y) {
+        if (y < topLimit || x < 14 || x > W - 14) return false;
+        return opts.avoid === false ? true : clearOfCopy(x, y);
       }
       function pt(r, th) { return { x: ox + r * sx * Math.sin(th), y: oy - r * Math.cos(th) }; }
       function dir(th) { var v = { x: sx * Math.sin(th), y: -Math.cos(th) }; var n = Math.hypot(v.x, v.y); return { x: v.x / n, y: v.y / n }; }
@@ -142,7 +146,10 @@
       (function () {
         var right = win.th >= 0, lx = win.p.x + (right ? 14 : -14), ly = win.p.y + 4;
         var boxW = 58, ok = true;
-        for (var k = 0; k <= boxW; k += 12) if (!free(lx + (right ? k : -k), ly - 6) || !free(lx + (right ? k : -k), ly + 6)) ok = false;
+        for (var k = 0; k <= boxW; k += 12) {
+          var tx = lx + (right ? k : -k);
+          if (!free(tx, ly - 6) || !free(tx, ly + 6) || !clearOfCopy(tx, ly - 6) || !clearOfCopy(tx, ly + 6)) ok = false;
+        }
         if (ok) out.push('<text class="tag" style="--d:' + (tAt(radii[win.gen]) + 0.35).toFixed(2) + 's" x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '"' + (right ? "" : ' text-anchor="end"') + '>' + (opts.tag || "survives") + '</text>');
       })();
       nodes.forEach(function (n) {
@@ -190,7 +197,9 @@
         return { x: hb.width / 2, y: wb.top - hb.top + 36 };
       },
       copy: [[".h1", true], [".hero-sub", true], [".cta-row .btn", false]],
-      watch: ".hero-copy"
+      watch: ".hero-copy",
+      avoid: false,
+      topLimit: 12
     });
     var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
     fontsReady.then(function () { setTimeout(heroGraph.start, 120); });
