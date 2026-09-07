@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/site.css?v=3">
+<link rel="stylesheet" href="/static/site.css?v=4">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -62,7 +62,7 @@
 
       <div class="hero-stage">
         <div class="frame-wrap" data-min-zoom="0.62">
-          <div class="window" data-evo role="img" aria-label="The re-forge desktop app, Evolution view. A lineage tree of candidate agents across six generations: weak candidates are retired each generation and one lineage survives and becomes the specialised agent. Alongside it, the five steps of the pipeline: capture, generate, score, retire, specialise.">
+          <div class="window" data-evo role="img" aria-label="The re-forge desktop app, Evolution view. A lineage tree of candidate agents across six generations: weak candidates are retired each generation and one lineage survives and becomes the specialised agent. Below it, the captured data that met the threshold and the scores of generation four.">
             <div class="titlebar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="ttl">re-forge</span></div>
             <div class="app" aria-hidden="true">
               <aside class="side">
@@ -86,121 +86,111 @@
                   <span class="pill accent">generation 4 of 6</span>
                 </div>
 
-                <section class="panel readiness">
-                  <div class="readiness-head">
-                    <div>
-                      <div class="readiness-title">Your data</div>
-                      <div class="readiness-hint">Sessions collected from the 29 repositories you registered, measured against the threshold that starts specialising.</div>
-                    </div>
-                    <span class="meter">21 of 14 days, threshold met</span>
+                <section class="panel tree-panel">
+                  <div class="ph">Lineage tree</div>
+                  <p class="intro">Every column is a generation of candidate agents. The highlighted path is the lineage that survives and specialises.</p>
+                  <div class="tree-frame">
+                    <svg class="tree" viewBox="0 0 664 358" role="presentation">
+                      <!-- edges: --g is the generation of the target node -->
+                      <path class="edge lin" style="--g:1" pathLength="1" d="M44 166 C92 166,92 166,140 166"/>
+                      <path class="edge" style="--g:2" pathLength="1" d="M140 166 C188 166,188 78,236 78"/>
+                      <path class="edge" style="--g:2" pathLength="1" d="M140 166 C188 166,188 122,236 122"/>
+                      <path class="edge lin" style="--g:2" pathLength="1" d="M140 166 C188 166,188 210,236 210"/>
+                      <path class="edge" style="--g:2" pathLength="1" d="M140 166 C188 166,188 298,236 298"/>
+                      <path class="edge" style="--g:3" pathLength="1" d="M236 78 C284 78,284 34,332 34"/>
+                      <path class="edge" style="--g:3" pathLength="1" d="M236 122 C284 122,284 122,332 122"/>
+                      <path class="edge lin" style="--g:3" pathLength="1" d="M236 210 C284 210,284 166,332 166"/>
+                      <path class="edge" style="--g:3" pathLength="1" d="M236 210 C284 210,284 254,332 254"/>
+                      <path class="edge toret" style="--g:3" pathLength="1" d="M236 298 C284 298,284 298,332 298"/>
+                      <path class="edge lin" style="--g:4" pathLength="1" d="M332 166 C380 166,380 78,428 78"/>
+                      <path class="edge toret" style="--g:4" pathLength="1" d="M332 122 C380 122,380 122,428 122"/>
+                      <path class="edge" style="--g:4" pathLength="1" d="M332 166 C380 166,380 210,428 210"/>
+                      <path class="edge" style="--g:4" pathLength="1" d="M332 254 C380 254,380 298,428 298"/>
+                      <path class="edge" style="--g:5" pathLength="1" d="M332 34 C428 34,428 34,524 34"/>
+                      <path class="edge" style="--g:5" pathLength="1" d="M428 210 C476 210,476 166,524 166"/>
+                      <path class="edge toret" style="--g:5" pathLength="1" d="M428 298 C476 298,476 254,524 254"/>
+                      <path class="edge" style="--g:5" pathLength="1" d="M428 298 C476 298,476 298,524 298"/>
+                      <path class="edge" style="--g:6" pathLength="1" d="M524 34 C572 34,572 78,620 78"/>
+                      <path class="edge" style="--g:6" pathLength="1" d="M524 166 C572 166,572 210,620 210"/>
+                      <path class="edge" style="--g:6" pathLength="1" d="M524 298 C572 298,572 298,620 298"/>
+                      <!-- nodes -->
+                      <g class="node lin" style="--g:0"><circle cx="44" cy="166" r="9"/></g>
+                      <g class="node lin" style="--g:1"><circle cx="140" cy="166" r="9"/></g>
+                      <g class="node" style="--g:2"><circle cx="236" cy="78" r="9"/></g>
+                      <g class="node" style="--g:2"><circle cx="236" cy="122" r="9"/></g>
+                      <g class="node lin" style="--g:2"><circle cx="236" cy="210" r="9"/></g>
+                      <g class="node" style="--g:2"><circle cx="236" cy="298" r="9"/></g>
+                      <g class="node" style="--g:3"><circle cx="332" cy="34" r="9"/></g>
+                      <g class="node" style="--g:3"><circle cx="332" cy="122" r="9"/></g>
+                      <g class="node lin" style="--g:3"><circle cx="332" cy="166" r="9"/></g>
+                      <g class="node" style="--g:3"><circle cx="332" cy="254" r="9"/></g>
+                      <g class="node ret" style="--g:3"><circle cx="332" cy="298" r="9"/><path d="M328 294 L336 302 M336 294 L328 302"/></g>
+                      <g class="node win" style="--g:4"><circle class="halo" cx="428" cy="78" r="11"/><circle cx="428" cy="78" r="9"/></g>
+                      <g class="node ret" style="--g:4"><circle cx="428" cy="122" r="9"/><path d="M424 118 L432 126 M432 118 L424 126"/></g>
+                      <g class="node" style="--g:4"><circle cx="428" cy="210" r="9"/></g>
+                      <g class="node" style="--g:4"><circle cx="428" cy="298" r="9"/></g>
+                      <g class="node" style="--g:5"><circle cx="524" cy="34" r="9"/></g>
+                      <g class="node" style="--g:5"><circle cx="524" cy="166" r="9"/></g>
+                      <g class="node ret" style="--g:5"><circle cx="524" cy="254" r="9"/><path d="M520 250 L528 258 M528 250 L520 258"/></g>
+                      <g class="node" style="--g:5"><circle cx="524" cy="298" r="9"/></g>
+                      <g class="node" style="--g:6"><circle cx="620" cy="78" r="9"/></g>
+                      <g class="node" style="--g:6"><circle cx="620" cy="210" r="9"/></g>
+                      <g class="node" style="--g:6"><circle cx="620" cy="298" r="9"/></g>
+                      <!-- axis -->
+                      <text class="axis" x="44" y="346" text-anchor="middle">gen 0</text>
+                      <text class="axis" x="140" y="346" text-anchor="middle">gen 1</text>
+                      <text class="axis" x="236" y="346" text-anchor="middle">gen 2</text>
+                      <text class="axis" x="332" y="346" text-anchor="middle">gen 3</text>
+                      <text class="axis" x="428" y="346" text-anchor="middle">gen 4</text>
+                      <text class="axis" x="524" y="346" text-anchor="middle">gen 5</text>
+                      <text class="axis" x="620" y="346" text-anchor="middle">gen 6</text>
+                    </svg>
                   </div>
-                  <div class="progress"><i></i></div>
-                  <div class="stat-grid">
-                    <div class="stat"><div class="stat-v">21</div><div class="stat-l">active days</div></div>
-                    <div class="stat"><div class="stat-v">84,310</div><div class="stat-l">tool calls</div></div>
-                    <div class="stat"><div class="stat-v">29</div><div class="stat-l">repositories</div></div>
+                  <div class="legend">
+                    <span><i class="key candidate"></i>candidate</span>
+                    <span><i class="key retired"></i>retired</span>
+                    <span><i class="key lineage"></i>surviving lineage</span>
+                    <span><i class="key winner"></i>specialised agent</span>
                   </div>
+                  <div class="status"><span class="blip"></span><span data-status>specialised agent ready: <b>typecheck → fix → commit</b></span></div>
                 </section>
 
                 <div class="evo-grid">
-                  <section class="panel">
-                    <div class="ph">Lineage tree</div>
-                    <p class="intro">Every column is a generation of candidate agents. The highlighted path is the lineage that survives and specialises.</p>
-                    <div class="tree-frame">
-                      <svg class="tree" viewBox="0 0 664 358" role="presentation">
-                        <!-- edges: --g is the generation of the target node -->
-                        <path class="edge lin" style="--g:1" pathLength="1" d="M44 166 C92 166,92 166,140 166"/>
-                        <path class="edge" style="--g:2" pathLength="1" d="M140 166 C188 166,188 78,236 78"/>
-                        <path class="edge" style="--g:2" pathLength="1" d="M140 166 C188 166,188 122,236 122"/>
-                        <path class="edge lin" style="--g:2" pathLength="1" d="M140 166 C188 166,188 210,236 210"/>
-                        <path class="edge" style="--g:2" pathLength="1" d="M140 166 C188 166,188 298,236 298"/>
-                        <path class="edge" style="--g:3" pathLength="1" d="M236 78 C284 78,284 34,332 34"/>
-                        <path class="edge" style="--g:3" pathLength="1" d="M236 122 C284 122,284 122,332 122"/>
-                        <path class="edge lin" style="--g:3" pathLength="1" d="M236 210 C284 210,284 166,332 166"/>
-                        <path class="edge" style="--g:3" pathLength="1" d="M236 210 C284 210,284 254,332 254"/>
-                        <path class="edge toret" style="--g:3" pathLength="1" d="M236 298 C284 298,284 298,332 298"/>
-                        <path class="edge lin" style="--g:4" pathLength="1" d="M332 166 C380 166,380 78,428 78"/>
-                        <path class="edge toret" style="--g:4" pathLength="1" d="M332 122 C380 122,380 122,428 122"/>
-                        <path class="edge" style="--g:4" pathLength="1" d="M332 166 C380 166,380 210,428 210"/>
-                        <path class="edge" style="--g:4" pathLength="1" d="M332 254 C380 254,380 298,428 298"/>
-                        <path class="edge" style="--g:5" pathLength="1" d="M332 34 C428 34,428 34,524 34"/>
-                        <path class="edge" style="--g:5" pathLength="1" d="M428 210 C476 210,476 166,524 166"/>
-                        <path class="edge toret" style="--g:5" pathLength="1" d="M428 298 C476 298,476 254,524 254"/>
-                        <path class="edge" style="--g:5" pathLength="1" d="M428 298 C476 298,476 298,524 298"/>
-                        <path class="edge" style="--g:6" pathLength="1" d="M524 34 C572 34,572 78,620 78"/>
-                        <path class="edge" style="--g:6" pathLength="1" d="M524 166 C572 166,572 210,620 210"/>
-                        <path class="edge" style="--g:6" pathLength="1" d="M524 298 C572 298,572 298,620 298"/>
-                        <!-- nodes -->
-                        <g class="node lin" style="--g:0"><circle cx="44" cy="166" r="9"/></g>
-                        <g class="node lin" style="--g:1"><circle cx="140" cy="166" r="9"/></g>
-                        <g class="node" style="--g:2"><circle cx="236" cy="78" r="9"/></g>
-                        <g class="node" style="--g:2"><circle cx="236" cy="122" r="9"/></g>
-                        <g class="node lin" style="--g:2"><circle cx="236" cy="210" r="9"/></g>
-                        <g class="node" style="--g:2"><circle cx="236" cy="298" r="9"/></g>
-                        <g class="node" style="--g:3"><circle cx="332" cy="34" r="9"/></g>
-                        <g class="node" style="--g:3"><circle cx="332" cy="122" r="9"/></g>
-                        <g class="node lin" style="--g:3"><circle cx="332" cy="166" r="9"/></g>
-                        <g class="node" style="--g:3"><circle cx="332" cy="254" r="9"/></g>
-                        <g class="node ret" style="--g:3"><circle cx="332" cy="298" r="9"/><path d="M328 294 L336 302 M336 294 L328 302"/></g>
-                        <g class="node win" style="--g:4"><circle class="halo" cx="428" cy="78" r="11"/><circle cx="428" cy="78" r="9"/></g>
-                        <g class="node ret" style="--g:4"><circle cx="428" cy="122" r="9"/><path d="M424 118 L432 126 M432 118 L424 126"/></g>
-                        <g class="node" style="--g:4"><circle cx="428" cy="210" r="9"/></g>
-                        <g class="node" style="--g:4"><circle cx="428" cy="298" r="9"/></g>
-                        <g class="node" style="--g:5"><circle cx="524" cy="34" r="9"/></g>
-                        <g class="node" style="--g:5"><circle cx="524" cy="166" r="9"/></g>
-                        <g class="node ret" style="--g:5"><circle cx="524" cy="254" r="9"/><path d="M520 250 L528 258 M528 250 L520 258"/></g>
-                        <g class="node" style="--g:5"><circle cx="524" cy="298" r="9"/></g>
-                        <g class="node" style="--g:6"><circle cx="620" cy="78" r="9"/></g>
-                        <g class="node" style="--g:6"><circle cx="620" cy="210" r="9"/></g>
-                        <g class="node" style="--g:6"><circle cx="620" cy="298" r="9"/></g>
-                        <!-- axis -->
-                        <text class="axis" x="44" y="346" text-anchor="middle">gen 0</text>
-                        <text class="axis" x="140" y="346" text-anchor="middle">gen 1</text>
-                        <text class="axis" x="236" y="346" text-anchor="middle">gen 2</text>
-                        <text class="axis" x="332" y="346" text-anchor="middle">gen 3</text>
-                        <text class="axis" x="428" y="346" text-anchor="middle">gen 4</text>
-                        <text class="axis" x="524" y="346" text-anchor="middle">gen 5</text>
-                        <text class="axis" x="620" y="346" text-anchor="middle">gen 6</text>
-                      </svg>
+                  <section class="panel readiness">
+                    <div class="readiness-head">
+                      <div>
+                        <div class="readiness-title">Your data</div>
+                        <div class="readiness-hint">Sessions from the 29 repositories you registered, against the threshold that starts specialising.</div>
+                      </div>
+                      <span class="meter">21 of 14 days, threshold met</span>
                     </div>
-                    <div class="legend">
-                      <span><i class="key candidate"></i>candidate</span>
-                      <span><i class="key retired"></i>retired</span>
-                      <span><i class="key lineage"></i>surviving lineage</span>
-                      <span><i class="key winner"></i>specialised agent</span>
+                    <div class="progress"><i></i></div>
+                    <div class="stat-grid">
+                      <div class="stat"><div class="stat-v">21</div><div class="stat-l">active days</div></div>
+                      <div class="stat"><div class="stat-v">84,310</div><div class="stat-l">tool calls</div></div>
+                      <div class="stat"><div class="stat-v">29</div><div class="stat-l">repositories</div></div>
                     </div>
-                    <div class="status"><span class="blip"></span><span data-status>specialised agent ready: <b>typecheck → fix → commit</b></span></div>
-                    <div class="ph sub-ph">Generation 4, scored against captured outcomes</div>
-                    <table class="table score-table">
-                      <thead><tr><th>candidate</th><th>outcomes</th><th>pass</th><th>tokens</th><th>verdict</th></tr></thead>
-                      <tbody>
-                        <tr class="win-row"><td><code>k</code> from e, h</td><td>212</td><td>91%</td><td>−38%</td><td><span class="pill accent">specialised</span></td></tr>
-                        <tr><td><code>m</code> from h</td><td>212</td><td>83%</td><td>−12%</td><td><span class="pill">candidate</span></td></tr>
-                        <tr><td><code>n</code> from i</td><td>212</td><td>71%</td><td>−9%</td><td><span class="pill">candidate</span></td></tr>
-                        <tr class="ret-row"><td><code>l</code> from x</td><td>212</td><td>64%</td><td>+4%</td><td><span class="pill">retired</span></td></tr>
-                      </tbody>
-                    </table>
                   </section>
-
                   <section class="panel">
-                    <div class="ph">How it works</div>
-                    <p class="intro">Once two to three weeks of an organisation's sessions are in, the evolution pipeline starts automatically, scored against real captured outcomes, not hand-tuned benchmarks.</p>
-                    <ol class="steps-list">
-                      <li class="step-row"><span class="step-num">1</span><div><div class="step-title">Capture</div><div class="step-body">Sessions, prompts, and tool calls accumulate from the repositories you register.</div></div></li>
-                      <li class="step-row"><span class="step-num">2</span><div><div class="step-title">Generate</div><div class="step-body">Candidate agents spawn from the workflows your team actually repeats.</div></div></li>
-                      <li class="step-row"><span class="step-num">3</span><div><div class="step-title">Score</div><div class="step-body">Each candidate is measured against real captured outcomes, not benchmarks.</div></div></li>
-                      <li class="step-row on"><span class="step-num">4</span><div><div class="step-title">Retire</div><div class="step-body">Weak candidates are pruned every generation; only lineage that earns its place survives.</div></div></li>
-                      <li class="step-row"><span class="step-num">5</span><div><div class="step-title">Specialise</div><div class="step-body">What survives is kept and specialised further, adapting as your team's work changes.</div></div></li>
-                    </ol>
+                    <div class="ph">Generation 4, scored against captured outcomes</div>
+                  <table class="table score-table">
+                    <thead><tr><th>candidate</th><th>outcomes</th><th>pass</th><th>tokens</th><th>verdict</th></tr></thead>
+                    <tbody>
+                      <tr class="win-row"><td><code>k</code> from e, h</td><td>212</td><td>91%</td><td>−38%</td><td><span class="pill accent">specialised</span></td></tr>
+                      <tr><td><code>m</code> from h</td><td>212</td><td>83%</td><td>−12%</td><td><span class="pill">candidate</span></td></tr>
+                      <tr><td><code>n</code> from i</td><td>212</td><td>71%</td><td>−9%</td><td><span class="pill">candidate</span></td></tr>
+                      <tr class="ret-row"><td><code>l</code> from x</td><td>212</td><td>64%</td><td>+4%</td><td><span class="pill">retired</span></td></tr>
+                    </tbody>
+                  </table>
                   </section>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <p class="frame-hint">Swipe sideways to see the whole window.</p>
-        <p class="hero-note">Measured on our own two-person team first. Every number on this page carries its label.</p>
       </div>
+      <p class="frame-hint">Swipe sideways to see the whole window.</p>
+      <p class="hero-note">Measured on our own two-person team first. Every number on this page carries its label.</p>
     </div>
   </section>
 
@@ -222,7 +212,7 @@
               <div class="tl log">agent: exploring repo, 14 files read</div>
               <div class="tl log">agent: reproducing failure</div>
               <div class="tl log">agent: patching retry logic</div>
-              <div class="tl timer"><span class="clock">⏱</span>3:02:41</div>
+              <div class="tl timer"><span class="clock">⏱</span><span data-timer="10961">3:02:41</span></div>
             </div>
           </div>
           <div class="thread" aria-hidden="true"><span class="delta"><b>1h 04m faster</b><i class="sep"></i>the delta is the product</span></div>
@@ -232,7 +222,7 @@
               <div class="tl"><span class="p">$</span> <span class="cmd">task: deploy pipeline regression</span></div>
               <div class="tl recall">↺ recall: 40 earlier runs matched</div>
               <div class="tl log">agent: applying the known fix path</div>
-              <div class="tl timer"><span class="clock">⏱</span>1:58:07<span class="done">✓ done</span></div>
+              <div class="tl timer"><span class="clock">⏱</span><span data-timer="7087">1:58:07</span><span class="done">✓ done</span></div>
             </div>
           </div>
         </div>
@@ -242,19 +232,91 @@
   </section>
 
   <!-- ================= HOW IT WORKS ================= -->
-  <section class="section band" id="how" aria-labelledby="how-h">
+  <section class="section" id="how" aria-labelledby="how-h">
     <div class="wrap">
       <header class="sec-head">
         <h2 id="how-h">Selection, not evaluation.</h2>
-        <p class="lede">Once two to three weeks of a team's sessions are in, the pipeline runs on its own. Candidates are scored against real captured outcomes, never against a benchmark someone had to hand-tune.</p>
+        <p class="lede">Once two to three weeks of a team's sessions are in, the pipeline runs on its own. Candidates are scored against real captured outcomes, never against a benchmark someone had to hand-tune. Scroll, and watch one generation happen.</p>
       </header>
-      <ol class="steps">
-        <li class="step"><div class="n">1</div><h3>Capture</h3><p>Sessions, prompts, and tool calls accumulate from the repositories you register. Nothing outside them is read.</p></li>
-        <li class="step"><div class="n">2</div><h3>Generate</h3><p>Candidate agents spawn from the workflows your team actually repeats, not from a prompt someone guessed.</p></li>
-        <li class="step"><div class="n">3</div><h3>Score</h3><p>Each candidate is measured against the outcomes already captured for that workflow.</p></li>
-        <li class="step"><div class="n">4</div><h3>Retire</h3><p>Weak candidates are pruned every generation. Only lineage that earns its place survives.</p></li>
-        <li class="step"><div class="n">5</div><h3>Specialise</h3><p>What survives is kept and specialised further, adapting as your team's work changes.</p></li>
-      </ol>
+      <div class="evo">
+        <div class="evo-stage" data-s="0" aria-hidden="true">
+          <div class="evo-card">
+            <svg class="egraph" viewBox="0 0 664 358">
+          <path class="eg-edge eg-lin" data-g="1" pathLength="1" d="M44 166 C92 166,92 166,140 166"/>
+          <path class="eg-edge" data-g="2" pathLength="1" d="M140 166 C188 166,188 78,236 78"/>
+          <path class="eg-edge" data-g="2" pathLength="1" d="M140 166 C188 166,188 122,236 122"/>
+          <path class="eg-edge eg-lin" data-g="2" pathLength="1" d="M140 166 C188 166,188 210,236 210"/>
+          <path class="eg-edge" data-g="2" pathLength="1" d="M140 166 C188 166,188 298,236 298"/>
+          <path class="eg-edge" data-g="3" pathLength="1" d="M236 78 C284 78,284 34,332 34"/>
+          <path class="eg-edge" data-g="3" pathLength="1" d="M236 122 C284 122,284 122,332 122"/>
+          <path class="eg-edge eg-lin" data-g="3" pathLength="1" d="M236 210 C284 210,284 166,332 166"/>
+          <path class="eg-edge" data-g="3" pathLength="1" d="M236 210 C284 210,284 254,332 254"/>
+          <path class="eg-edge eg-toret" data-g="3" pathLength="1" d="M236 298 C284 298,284 298,332 298"/>
+          <path class="eg-edge eg-lin" data-g="4" pathLength="1" d="M332 166 C380 166,380 78,428 78"/>
+          <path class="eg-edge eg-toret" data-g="4" pathLength="1" d="M332 122 C380 122,380 122,428 122"/>
+          <path class="eg-edge" data-g="4" pathLength="1" d="M332 166 C380 166,380 210,428 210"/>
+          <path class="eg-edge" data-g="4" pathLength="1" d="M332 254 C380 254,380 298,428 298"/>
+          <path class="eg-edge" data-g="5" pathLength="1" d="M332 34 C428 34,428 34,524 34"/>
+          <path class="eg-edge" data-g="5" pathLength="1" d="M428 210 C476 210,476 166,524 166"/>
+          <path class="eg-edge eg-toret" data-g="5" pathLength="1" d="M428 298 C476 298,476 254,524 254"/>
+          <path class="eg-edge" data-g="5" pathLength="1" d="M428 298 C476 298,476 298,524 298"/>
+          <path class="eg-edge" data-g="6" pathLength="1" d="M524 34 C572 34,572 78,620 78"/>
+          <path class="eg-edge" data-g="6" pathLength="1" d="M524 166 C572 166,572 210,620 210"/>
+          <path class="eg-edge" data-g="6" pathLength="1" d="M524 298 C572 298,572 298,620 298"/>
+          <path class="eg-pulse" pathLength="100" d="M44 166 C92 166,92 166,140 166"/>
+          <path class="eg-winpath" pathLength="100" d="M44 166 C92 166,92 166,140 166 C188 166,188 210,236 210 C284 210,284 166,332 166 C380 166,380 78,428 78"/>
+          <circle class="eg-sess" style="--i:1" cx="60" cy="166" r="2.6"/>
+          <circle class="eg-sess" style="--i:2" cx="76" cy="166" r="2.6"/>
+          <circle class="eg-sess" style="--i:3" cx="92" cy="166" r="2.6"/>
+          <circle class="eg-sess" style="--i:4" cx="108" cy="166" r="2.6"/>
+          <circle class="eg-sess" style="--i:5" cx="124" cy="166" r="2.6"/>
+          <g class="eg-node eg-lin" data-g="0"><circle cx="44" cy="166" r="9"/></g>
+          <g class="eg-node eg-lin" data-g="1"><circle cx="140" cy="166" r="9"/></g>
+          <g class="eg-node" data-g="2"><circle cx="236" cy="78" r="9"/></g>
+          <g class="eg-node" data-g="2"><circle cx="236" cy="122" r="9"/></g>
+          <g class="eg-node eg-lin" data-g="2"><circle cx="236" cy="210" r="9"/></g>
+          <g class="eg-node" data-g="2"><circle cx="236" cy="298" r="9"/></g>
+          <g class="eg-node" data-g="3"><circle cx="332" cy="34" r="9"/></g>
+          <g class="eg-node" data-g="3"><circle cx="332" cy="122" r="9"/></g>
+          <g class="eg-node eg-lin" data-g="3"><circle cx="332" cy="166" r="9"/></g>
+          <g class="eg-node" data-g="3"><circle cx="332" cy="254" r="9"/></g>
+          <g class="eg-node eg-ret" data-g="3"><circle cx="332" cy="298" r="9"/><path class="eg-x" d="M328 294 L336 302 M336 294 L328 302"/></g>
+          <g class="eg-node eg-win" data-g="4"><circle class="eg-halo" cx="428" cy="78" r="11"/><circle cx="428" cy="78" r="9"/></g>
+          <g class="eg-node eg-ret" data-g="4"><circle cx="428" cy="122" r="9"/><path class="eg-x" d="M424 118 L432 126 M432 118 L424 126"/></g>
+          <g class="eg-node" data-g="4"><circle cx="428" cy="210" r="9"/></g>
+          <g class="eg-node" data-g="4"><circle cx="428" cy="298" r="9"/></g>
+          <g class="eg-node" data-g="5"><circle cx="524" cy="34" r="9"/></g>
+          <g class="eg-node" data-g="5"><circle cx="524" cy="166" r="9"/></g>
+          <g class="eg-node eg-ret" data-g="5"><circle cx="524" cy="254" r="9"/><path class="eg-x" d="M520 250 L528 258 M528 250 L520 258"/></g>
+          <g class="eg-node" data-g="5"><circle cx="524" cy="298" r="9"/></g>
+          <g class="eg-node" data-g="6"><circle cx="620" cy="78" r="9"/></g>
+          <g class="eg-node" data-g="6"><circle cx="620" cy="210" r="9"/></g>
+          <g class="eg-node" data-g="6"><circle cx="620" cy="298" r="9"/></g>
+          <text class="eg-score" x="348" y="38">88%</text>
+          <text class="eg-score eg-low" x="348" y="126">64%</text>
+          <text class="eg-score" x="348" y="170">91%</text>
+          <text class="eg-score" x="348" y="258">77%</text>
+          <text class="eg-score eg-low" x="348" y="302">58%</text>
+          <text class="eg-axis" x="44" y="346" text-anchor="middle">gen 0</text>
+          <text class="eg-axis" x="140" y="346" text-anchor="middle">gen 1</text>
+          <text class="eg-axis" x="236" y="346" text-anchor="middle">gen 2</text>
+          <text class="eg-axis" x="332" y="346" text-anchor="middle">gen 3</text>
+          <text class="eg-axis" x="428" y="346" text-anchor="middle">gen 4</text>
+          <text class="eg-axis" x="524" y="346" text-anchor="middle">gen 5</text>
+          <text class="eg-axis" x="620" y="346" text-anchor="middle">gen 6</text>
+            <text class="eg-tag" x="446" y="60">k, specialised</text>
+            </svg>
+            <div class="evo-cap"><i class="evo-blip"></i><span data-evo-cap>waiting for enough of your team's work</span></div>
+          </div>
+        </div>
+        <ol class="evo-steps">
+          <li class="evo-step" data-stage="1"><div class="n">1</div><h3>Capture</h3><p>Sessions, prompts, and tool calls accumulate from the repositories you register. Nothing outside them is read.</p></li>
+          <li class="evo-step" data-stage="2"><div class="n">2</div><h3>Generate</h3><p>Candidate agents spawn from the workflows your team actually repeats, not from a prompt someone guessed.</p></li>
+          <li class="evo-step" data-stage="3"><div class="n">3</div><h3>Score</h3><p>Each candidate is measured against the outcomes already captured for that workflow. Same tasks, same repos, real results.</p></li>
+          <li class="evo-step" data-stage="4"><div class="n">4</div><h3>Retire</h3><p>Weak candidates are pruned every generation. Only lineage that earns its place survives.</p></li>
+          <li class="evo-step" data-stage="5"><div class="n">5</div><h3>Specialise</h3><p>What survives is kept and specialised further, adapting as your team's work changes. The agent you end up with was selected by your own tasks.</p></li>
+        </ol>
+      </div>
     </div>
   </section>
 
@@ -469,11 +531,11 @@
         <p class="lede">Two people, June 20 to July 2, 2026. Every number below carries the label it earned, and every upper bound says "up to".</p>
       </header>
       <div class="nums">
-        <div class="num"><div class="v">116k<small>+</small></div><div class="l">messages captured</div><span class="chip">measured</span></div>
-        <div class="num"><div class="v">29</div><div class="l">repositories observed</div><span class="chip">measured</span></div>
-        <div class="num"><div class="v">200</div><div class="l">repeated procedures</div><span class="chip detected">detected</span></div>
-        <div class="num"><div class="v">123<small>h</small></div><div class="l">reclaimable, at most</div><span class="chip upper">upper bound</span></div>
-        <div class="num"><div class="v">$90.5k</div><div class="l">input served from cache</div><span class="chip">measured</span></div>
+        <div class="num"><div class="v"><span data-count="116" data-suffix="k">116k</span><small>+</small></div><div class="l">messages captured</div><span class="chip">measured</span></div>
+        <div class="num"><div class="v"><span data-count="29">29</span></div><div class="l">repositories observed</div><span class="chip">measured</span></div>
+        <div class="num"><div class="v"><span data-count="200">200</span></div><div class="l">repeated procedures</div><span class="chip detected">detected</span></div>
+        <div class="num"><div class="v"><span data-count="123">123</span><small>h</small></div><div class="l">reclaimable, at most</div><span class="chip upper">upper bound</span></div>
+        <div class="num"><div class="v"><span data-count="90.5" data-prefix="$" data-suffix="k" data-decimals="1">$90.5k</span></div><div class="l">input served from cache</div><span class="chip">measured</span></div>
       </div>
       <p class="foot-notes">$90.5k = 6.54B tokens served from cache × ~$13.8/MTok (fresh list price minus cached price).<br>123 h = 1,136 repeats × ~6.5 min each. Only the repeats count, never the first run.</p>
       <div class="labels">
@@ -520,11 +582,11 @@
       </header>
       <div class="founders">
         <a class="founder" href="https://shine-5705.github.io/" target="_blank" rel="noreferrer">
-          <div><b>Shine Gupta</b><span>CEO</span></div>
+          <div class="who"><span class="ini s" aria-hidden="true">SG</span><div><b>Shine Gupta</b><span>CEO</span></div></div>
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <a class="founder" href="https://akasxh.github.io" target="_blank" rel="noreferrer">
-          <div><b>S Akash</b><span>CTO</span></div>
+          <div class="who"><span class="ini" aria-hidden="true">SA</span><div><b>S Akash</b><span>CTO</span></div></div>
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -533,13 +595,15 @@
   </section>
 
   <!-- ================= FINAL CTA ================= -->
-  <section class="final" aria-labelledby="run-h">
+  <section class="final" id="join" aria-labelledby="run-h">
+    <canvas class="final-shader" aria-hidden="true"></canvas>
+    <svg class="lineage-graph final-graph" aria-hidden="true" focusable="false"></svg>
     <div class="wrap final-in">
       <h2 id="run-h">Give your agents something to evolve against.</h2>
-      <p class="sub">One email when we open access.</p>
+      <p class="sub">One email when we open access. Capture waits for a human to type yes, and one file turns it off.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="https://tally.so/r/lb4Rkp" target="_blank" rel="noreferrer">Join the waitlist</a>
-        <a class="btn btn-ghost" href="https://github.com/TheAdaply" target="_blank" rel="noreferrer">TheAdaply on GitHub</a>
+        <a class="btn btn-night" href="/CAPTURE-MANIFEST.json">Read the manifest</a>
       </div>
     </div>
   </section>
@@ -547,16 +611,39 @@
 </main>
 
 <footer class="foot">
-  <div class="wrap foot-in">
-    <a class="brand" href="#top"><img src="/static/reforge-mark.png" width="727" height="681" alt=""><span>re-forge</span></a>
-    <span>© 2026 TheAdaply</span>
-    <a href="https://github.com/TheAdaply" target="_blank" rel="noreferrer">GitHub</a>
-    <a href="/FOR-AGENTS.md">For agents</a>
-    <a href="/CAPTURE-MANIFEST.json">Capture manifest</a>
-    <a href="/llms.txt">llms.txt</a>
+  <div class="wrap">
+    <div class="foot-mark" aria-hidden="true">re-forge</div>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top"><img src="/static/reforge-mark.png" width="727" height="681" alt=""><span>re-forge</span></a>
+        <p>Coding agents that evolve against your team's real work. Built by <a href="https://shine-5705.github.io/" target="_blank" rel="noreferrer">Shine Gupta</a> and <a href="https://akasxh.github.io" target="_blank" rel="noreferrer">S Akash</a>.</p>
+      </div>
+      <nav class="foot-col" aria-label="Site">
+        <b>Site</b>
+        <a href="#how">How it works</a>
+        <a href="#product">Product</a>
+        <a href="#proof">Proof</a>
+        <a href="#trust">Trust</a>
+      </nav>
+      <nav class="foot-col" aria-label="Company">
+        <b>Company</b>
+        <a href="#founders">Founders</a>
+        <a href="https://github.com/TheAdaply" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://tally.so/r/lb4Rkp" target="_blank" rel="noreferrer">Waitlist</a>
+      </nav>
+      <nav class="foot-col" aria-label="For agents">
+        <b>For agents</b>
+        <a href="/FOR-AGENTS.md">How to audit us</a>
+        <a href="/CAPTURE-MANIFEST.json">Capture manifest</a>
+        <a href="/llms.txt">llms.txt</a>
+      </nav>
+    </div>
+    <div class="foot-line"><span>© 2026 TheAdaply</span><span>Every number on this page carries its label.</span></div>
   </div>
 </footer>
 
-<script src="/static/site.js?v=3" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="/static/site.js?v=4" defer></script>
 </body>
 </html>
