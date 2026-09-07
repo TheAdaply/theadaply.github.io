@@ -34,8 +34,27 @@
     wraps.forEach(function (w) { ro.observe(w); });
   }
 
-  /* ---- Hero: the lineage tree draws itself once, generation by generation,
-     and the status line narrates. Reduced motion shows the final state. ---- */
+  /* ---- Hero, phase one: lineage vines grow out of the window and bud.
+     Starts shortly after load; the tree inside waits for it to finish. ---- */
+  var heroSec = document.querySelector(".hero");
+  var vine = heroSec && heroSec.querySelector(".vine");
+  var VINES_MS = 2400;
+  var grownAt = 0;
+  if (vine) {
+    setTimeout(function () {
+      heroSec.classList.add("is-grown");
+      grownAt = Date.now();
+    }, 250);
+  }
+  function vinesRemaining() {
+    if (!vine || reduce.matches || getComputedStyle(vine).display === "none") return 0;
+    if (!grownAt) return VINES_MS + 250;
+    return Math.max(0, VINES_MS - (Date.now() - grownAt));
+  }
+
+  /* ---- Hero, phase two: the lineage tree draws itself once, generation by
+     generation, and the status line narrates. Reduced motion shows the final
+     state. ---- */
   var hero = document.querySelector("[data-evo]");
   var status = hero && hero.querySelector("[data-status]");
   var MSGS = [
@@ -57,8 +76,10 @@
     })();
   }
   function play() {
-    hero.classList.add("is-live");
-    narrate();
+    setTimeout(function () {
+      hero.classList.add("is-live");
+      narrate();
+    }, vinesRemaining());
   }
   if (hero) {
     if ("IntersectionObserver" in window) {

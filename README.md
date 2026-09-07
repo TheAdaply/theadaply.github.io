@@ -17,7 +17,7 @@ machine-readable trust artifacts. No backend, no build step.
 | `llms.txt` | orientation for language models |
 | `CNAME`, `.nojekyll` | Pages configuration |
 
-## Design notes (branch `redesign-fable`, 2026-09-06)
+## Design notes (branch `v2`, 2026-09-07)
 
 The product is the hero. Three views of the desktop app are rebuilt in HTML
 with the app's own tokens (`desktop/src/tokens.css` in `reforge-app`):
@@ -26,10 +26,17 @@ generation, and Patterns and Team in the product tour. Paper background, one
 indigo accent, amber only for upper bounds, green only for a winner or a clean
 merge. Fraunces for display, Inter for text, JetBrains Mono for data.
 
+The hero motion has two phases. On load, two lineage vines grow out of the
+top edge of the app window and climb the gutters either side of the headline,
+budding into candidate nodes: on each side one bud survives (filled, pulsing)
+and one is retired (faded). Only once they have finished does the tree inside
+the window draw itself. The vines are sized from the viewport so they never
+touch the copy, and are hidden below 1180px where there is no gutter.
+
 Frames are drawn at 1120px and scaled with `zoom`. Below 62% they keep their
 size and scroll inside their own wrapper, with an edge fade and a hint, so the
-page itself never scrolls sideways. Reduced motion shows the tree's final
-state without animating.
+page itself never scrolls sideways. Reduced motion shows the vines and the
+tree in their final state without animating.
 
 Every number in the proof strip is the same measured, detected, or
 upper-bound figure the previous page carried, with the same labels. The mock
@@ -50,5 +57,5 @@ GitHub Pages serves `main` at the repo root; push to `main` and it redeploys.
 To ship this branch:
 
 ```bash
-git switch main && git merge redesign-fable && git push origin main
+git switch main && git merge v2 && git push origin main
 ```

@@ -3,7 +3,8 @@
    Paper under a low dawn light. Indigo is the one voltage; amber is reserved
    for "upper bound" caveats; green for a winner or a clean merge; one dark
    terminal island. The product is the hero: the app is rebuilt in its own
-   chrome and its lineage tree is the page's single orchestrated motion.
+   chrome. One motion in two phases: lineage vines grow out of the window and
+   bud, then the tree inside the window draws itself.
    ========================================================================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -104,7 +105,7 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .hero{position:relative;padding-top:clamp(56px,8vw,104px);overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(60% 50% at 50% 0%,rgba(79,70,229,.10),transparent 70%)}
-.hero-copy{position:relative;text-align:center;max-width:860px;margin-inline:auto}
+.hero-copy{position:relative;z-index:1;text-align:center;max-width:860px;margin-inline:auto}
 .hero-copy .h1{margin-inline:auto;max-width:18ch}
 .hero-sub{margin:26px auto 34px;max-width:66ch;font-size:clamp(17px,1.3vw,20px);line-height:1.55;color:var(--soft)}
 .hero .cta-row{justify-content:center}
@@ -113,6 +114,29 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
 .hero-stage::before{content:"";position:absolute;left:50%;top:6%;width:min(1200px,110%);height:84%;transform:translateX(-50%);pointer-events:none;
   background:radial-gradient(50% 50% at 50% 50%,rgba(109,93,252,.24),rgba(242,169,59,.07) 58%,transparent 74%);filter:blur(28px)}
 .hero-stage .frame-wrap{position:relative}
+
+/* Lineage vines. Rooted on the window's top edge (the stage's top edge), they
+   climb the gutters either side of the headline. Sized so they never reach the
+   copy: the gutter is (100vw - 1032px)/2 plus the 103px inset of the root. */
+.vine{position:absolute;bottom:100%;z-index:0;pointer-events:none;overflow:visible;height:auto;
+  width:min(300px,calc((100vw - 1032px) / 2 + 95px))}
+.vine-l{right:calc(100% - 103px)}
+.vine-r{left:calc(100% - 103px)}
+.vine path{fill:none;stroke:var(--indigo);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.vine .d0{opacity:.78}
+.vine .d1{opacity:.62}
+.vine .d2{opacity:.5}
+.vine path.ret{opacity:.28}
+.vine .root{fill:var(--indigo);opacity:0;transform-box:fill-box;transform-origin:center}
+.vine .bud{fill:var(--paper);stroke:var(--indigo);stroke-width:2.2;opacity:0;transform-box:fill-box;transform-origin:center}
+.vine .bud.win{fill:var(--indigo);stroke:var(--indigo-2)}
+.vine .bud.ret{fill:var(--paper-2);stroke:var(--faint)}
+.vine .halo{fill:none;stroke:var(--indigo);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
+.is-grown .vine path{animation:draw var(--t,.8s) var(--ease) forwards;animation-delay:var(--d,0s)}
+.is-grown .vine .bud,.is-grown .vine .root{animation:nodeIn .5s var(--ease) forwards;animation-delay:var(--d,0s)}
+.is-grown .vine .bud.ret{animation-name:nodeInRet}
+.is-grown .vine .halo{animation:halo 1.6s ease-out 3;animation-delay:var(--d,0s)}
+@media (max-width:1180px){.vine{display:none}}
 
 /* ================= APP FRAMES ================= */
 .frame-wrap{--fw:1120px;position:relative;overflow:visible;border-radius:16px}
@@ -235,6 +259,10 @@ h3{font-size:22px;line-height:1.25;letter-spacing:-.012em}
   .is-live .tree .node{opacity:1}
   .is-live .tree .node.ret{opacity:.5}
   .is-live .tree .edge{stroke-dashoffset:0}
+  .is-grown .vine path,.is-grown .vine .bud,.is-grown .vine .root,.is-grown .vine .halo{animation:none!important}
+  .is-grown .vine path{stroke-dashoffset:0}
+  .is-grown .vine .bud,.is-grown .vine .root{opacity:1}
+  .is-grown .vine .bud.ret{opacity:.5}
 }
 
 /* Patterns view */
