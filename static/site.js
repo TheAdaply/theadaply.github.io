@@ -36,7 +36,16 @@
 
   /* ---- Nav: lifts into a floating pill once the page has scrolled. ---- */
   var navEl = document.querySelector(".nav");
-  function navState() { if (navEl) navEl.classList.toggle("is-floating", window.scrollY > 24); }
+  var navFloating = false;
+  /* Hysteresis: lift past 64px, settle back under 12px. Together with the
+     bar's fixed height this stops the state flickering around the threshold. */
+  function navState() {
+    if (!navEl) return;
+    var y = window.scrollY;
+    if (!navFloating && y > 64) navFloating = true;
+    else if (navFloating && y < 12) navFloating = false;
+    navEl.classList.toggle("is-floating", navFloating);
+  }
   navState();
   window.addEventListener("scroll", navState, { passive: true });
 
