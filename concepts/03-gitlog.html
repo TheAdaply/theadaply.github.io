@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 3: Git log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+.hero{padding:64px 0 24px;text-align:center}
+.hero h1{max-width:16ch;margin-inline:auto}
+.hero .sub{margin:22px auto 30px}
+.ctas{justify-content:center}
+.log{max-width:960px;margin:52px auto 0;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 30px 70px -40px rgba(18,20,31,.35);overflow:hidden;text-align:left}
+.log-bar{display:flex;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);font:500 12px/1 var(--f-mono);color:var(--faint);background:#F5F3EE}
+.log-bar i{width:10px;height:10px;border-radius:50%;background:rgba(18,20,31,.12);display:inline-block}
+.rows{position:relative;padding-left:120px;font:400 13px/1.5 var(--f-mono)}
+.rail{position:absolute;left:0;top:0;bottom:0;width:120px}
+.rail svg{width:100%;height:100%;overflow:visible}
+.rail path{fill:none;stroke-width:2.5;stroke-linecap:round;stroke:#C8C4BA}
+.rail path.l1{stroke:var(--indigo)}
+.rail path.l2{stroke:#8B5CF6}
+.rail path.l3{stroke:#F2A93B}
+.rail path.dead{stroke:#D9D4C8;stroke-dasharray:3 5}
+.rail circle{fill:#fff;stroke-width:2.5;stroke:#C8C4BA}
+.rail circle.l1{stroke:var(--indigo)}.rail circle.l2{stroke:#8B5CF6}.rail circle.l3{stroke:#F2A93B}
+.rail circle.merge{fill:var(--indigo);stroke:var(--indigo)}
+.rail circle.dead{stroke:#D9D4C8;fill:#F5F3EE}
+.row>div{height:46px;display:flex;align-items:center;padding:0 18px 0 0;border-bottom:1px solid rgba(18,20,31,.06);opacity:0;transform:translateY(6px);animation:in .5s var(--ease) forwards;animation-delay:var(--d)}
+.row .sha{color:var(--faint);margin-right:14px}
+.row .ref{display:inline-block;padding:1px 7px;border-radius:5px;font-size:11px;margin-right:8px;border:1px solid}
+.ref.main{color:var(--indigo);border-color:rgba(79,70,229,.4);background:rgba(79,70,229,.08)}
+.ref.cand{color:#7C3AED;border-color:rgba(139,92,246,.4)}
+.ref.ret{color:var(--faint);border-color:rgba(18,20,31,.2);text-decoration:line-through}
+.row .msg b{font-weight:600}
+.row .meta{color:var(--faint);font-size:12px;margin-left:10px}
+.row.merge .msg{color:var(--indigo)}
+.row.retired .msg{color:var(--faint)}
+@keyframes in{to{opacity:1;transform:none}}
+</style></head><body>
+<div class="wrap"><nav class="cnav"><a class="brand" href="/">re-forge</a><span class="tag">concept 3 of 10, git log</span><a class="back" href="./">All concepts</a></nav></div>
+<section class="hero"><div class="wrap">
+  <h1>Agents that evolve against your team's real work.</h1>
+  <p class="sub">Every candidate agent is a branch. Every score is a commit. The one that merges into main is the agent your team's own tasks selected. You already know how to read this.</p>
+  <div class="ctas"><a class="btn btn-primary" href="https://tally.so/r/lb4Rkp">Join the waitlist</a><a class="btn btn-ghost" href="#">See how it works</a></div>
+  <div class="log">
+    <div class="log-bar"><i></i><i></i><i></i><span>git log --graph agents/typecheck</span></div>
+    <div class="rows"><div class="rail" id="rail"></div><div id="rows"></div></div>
+  </div>
+</div></section>
+<div class="wrap"><p class="hyp"><b>Hypothesis.</b> Engineers already have a mental model for lineage: a git graph. Reuse it literally. Branches are candidates, commits are scores, a retired candidate is a dead branch, and the specialised agent is the merge into main.</p></div>
+<script>
+(function(){
+  var rows=[
+    {lane:0,sha:'a41c0e2',ref:'main',cls:'main',msg:'<b>capture</b> 21 active days, 84,310 tool calls from 29 repos',meta:'gen 0'},
+    {lane:0,sha:'b93d17f',msg:'<b>detect</b> repeated workflow: typecheck, fix, commit, seen in 23 sessions',meta:'gen 1'},
+    {lane:1,sha:'c7e0a9d',ref:'cand/m',cls:'cand',msg:'<b>spawn</b> candidate m from h',meta:'gen 2',fork:true},
+    {lane:2,sha:'d02f6b1',ref:'cand/k',cls:'cand',msg:'<b>spawn</b> candidate k from e, h',meta:'gen 2',fork:true},
+    {lane:3,sha:'e5a8c33',ref:'cand/l',cls:'cand',msg:'<b>spawn</b> candidate l from x',meta:'gen 2',fork:true},
+    {lane:1,sha:'f119d40',msg:'<b>score</b> m: 83% pass, tokens −12% on 212 outcomes',meta:'gen 3'},
+    {lane:2,sha:'0aa72e8',msg:'<b>score</b> k: 91% pass, tokens −38% on 212 outcomes',meta:'gen 3'},
+    {lane:3,sha:'1c3b9f0',msg:'<b>score</b> l: 64% pass, tokens +4% on 212 outcomes',meta:'gen 3'},
+    {lane:3,sha:'2d4e0a7',ref:'cand/l',cls:'ret',msg:'<b>retire</b> l, below the generation floor',meta:'gen 4',dead:true},
+    {lane:1,sha:'3e5f1b8',ref:'cand/m',cls:'ret',msg:'<b>retire</b> m, outscored on every repo',meta:'gen 5',dead:true},
+    {lane:0,sha:'4f6a2c9',ref:'main',cls:'main',msg:'<b>merge</b> cand/k into main: specialised agent, typecheck → fix → commit',meta:'gen 6',merge:true}
+  ];
+  var el=document.getElementById('rows'),H=46,LX=[22,48,74,100],out='',svg='';
+  rows.forEach(function(r,i){var y=i*H+H/2;out+='<div class="row'+(r.merge?' merge':'')+(r.dead?' retired':'')+'"><div style="--d:'+(i*.18).toFixed(2)+'s"><span class="sha">'+r.sha+'</span>'+(r.ref?'<span class="ref '+r.cls+'">'+r.ref+'</span>':'')+'<span class="msg">'+r.msg+'</span><span class="meta">'+r.meta+'</span></div></div>';});
+  el.innerHTML=out;
+  // draw the rail as one svg over the first cell, sized to all rows
+  var rail=document.getElementById('rail');
+  var lanesAlive={};var s='';
+  // main line
+  s+='<path class="l1" d="M'+LX[0]+' 0 V'+(rows.length*H)+'"/>';
+  var last={};
+  rows.forEach(function(r,i){var y=i*H+H/2;
+    if(r.fork){s+='<path class="l'+(r.lane)+'" d="M'+LX[0]+' '+(y-H)+' C'+LX[0]+' '+y+','+LX[r.lane]+' '+(y-H)+','+LX[r.lane]+' '+y+'"/>';last[r.lane]=y}
+    else if(r.lane>0){var cls=r.dead?'dead':'l'+r.lane;s+='<path class="'+cls+'" d="M'+LX[r.lane]+' '+last[r.lane]+' V'+y+'"/>';last[r.lane]=y}
+    if(r.merge){s+='<path class="l2" d="M'+LX[2]+' '+last[2]+' C'+LX[2]+' '+(y-8)+','+LX[0]+' '+(y-H)+','+LX[0]+' '+y+'"/>'}
+  });
+  rows.forEach(function(r,i){var y=i*H+H/2;var cls=r.merge?'merge':r.dead?'dead':'l'+r.lane;s+='<circle class="'+cls+'" cx="'+LX[r.lane]+'" cy="'+y+'" r="5"/>'});
+  rail.innerHTML='<svg viewBox="0 0 120 '+(rows.length*H)+'" preserveAspectRatio="none">'+s+'</svg>';
+})();
+</script></body></html>

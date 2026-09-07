@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 7: Departure board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+:root{--paper:#EDEAE2}
+.hero{padding:60px 0 20px;text-align:center}
+.hero h1{max-width:16ch;margin-inline:auto}
+.hero .sub{margin:22px auto 28px}
+.ctas{justify-content:center}
+.board{max-width:1040px;margin:48px auto 0;background:#15161A;border-radius:14px;padding:18px 18px 16px;box-shadow:0 40px 90px -40px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06);text-align:left;overflow-x:auto}
+.brow{display:grid;grid-template-columns:70px 130px 1fr 90px 150px;gap:10px;align-items:center;padding:6px 0;min-width:720px}
+.brow.h{font:500 11px/1 var(--f-mono);color:rgba(255,255,255,.45);padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;letter-spacing:.04em}
+.cell{display:flex;gap:2px}
+.fl{width:15px;height:26px;background:#26282E;border-radius:3px;position:relative;font:600 15px/26px var(--f-mono);color:#F0EDE4;text-align:center;box-shadow:inset 0 -1px 0 rgba(0,0,0,.6);overflow:hidden}
+.fl::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.7)}
+.fl.g{color:#5FE3A6}.fl.r{color:#FF7A5C}.fl.b{color:#A5B4FC}
+.fl.flip{animation:flip .12s linear}
+@keyframes flip{0%{transform:scaleY(1)}50%{transform:scaleY(.1)}100%{transform:scaleY(1)}}
+.clock{display:flex;justify-content:space-between;font:500 11px/1 var(--f-mono);color:rgba(255,255,255,.45);margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style></head><body>
+<div class="wrap"><nav class="cnav"><a class="brand" href="/">re-forge</a><span class="tag">concept 7 of 10, departure board</span><a class="back" href="./">All concepts</a></nav></div>
+<section class="hero"><div class="wrap">
+  <h1>Agents that evolve against your team's real work.</h1>
+  <p class="sub">Candidates come in, get scored on the sessions your team already ran, and leave with a verdict. The board never stops. The one marked specialised is the agent you keep.</p>
+  <div class="ctas"><a class="btn btn-primary" href="https://tally.so/r/lb4Rkp">Join the waitlist</a><a class="btn btn-ghost" href="#">See how it works</a></div>
+  <div class="board" id="board" aria-label="A split-flap board listing candidate agents with the task, pass rate, and verdict"></div>
+</div></section>
+<div class="wrap"><p class="hyp"><b>Hypothesis.</b> Treat the pipeline like a station: a split-flap board of candidates, tasks, and verdicts, flipping in as generations run. It feels operational and continuous, which is the point: this keeps happening while your team keeps working.</p></div>
+<script>
+(function(){
+  var ROWS=[['GEN','CAND','TASK','PASS','VERDICT']];
+  var DATA=[['G2','K','TYPECHECK FIX COMMIT','91%','CANDIDATE'],['G2','M','TYPECHECK FIX COMMIT','83%','CANDIDATE'],['G2','N','FLAKY TEST TRIAGE','71%','CANDIDATE'],['G2','L','DOCS SYNC AFTER API','64%','CANDIDATE'],['G3','X','REBASE RESOLVE RERUN','58%','CANDIDATE'],['G3','Q','RELEASE NOTES FROM PRS','66%','CANDIDATE']];
+  var FINAL=[['G6','K','TYPECHECK FIX COMMIT','91%','SPECIALISED'],['G5','M','TYPECHECK FIX COMMIT','80%','RETIRED'],['G5','N','FLAKY TEST TRIAGE','73%','CANDIDATE'],['G4','L','DOCS SYNC AFTER API','60%','RETIRED'],['G4','X','REBASE RESOLVE RERUN','55%','RETIRED'],['G5','Q','RELEASE NOTES FROM PRS','69%','CANDIDATE']];
+  var widths=[3,2,22,4,11],board=document.getElementById('board'),CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789% ';
+  var h='<div class="brow h"><span>gen</span><span>candidate</span><span>task</span><span>pass</span><span>verdict</span></div>';
+  DATA.forEach(function(r,ri){h+='<div class="brow" data-r="'+ri+'">'+r.map(function(c,ci){var s='<span class="cell">';for(var k=0;k<widths[ci];k++)s+='<span class="fl" data-i="'+k+'"> </span>';return s+'</span>'}).join('')+'</div>'});
+  h+='<div class="clock"><span>THEADAPLY · CAPTURE ON</span><span id="clk">00:00:00</span></div>';
+  board.innerHTML=h;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setCell(fl,target,cls){var cur=fl.textContent;if(reduce){fl.textContent=target;fl.className='fl '+(cls||'');return}
+    var i=0,steps=Math.max(1,Math.floor(Math.random()*6)+2);(function tick(){if(i++<steps){fl.textContent=CH[Math.floor(Math.random()*CH.length)];fl.classList.add('flip');setTimeout(function(){fl.classList.remove('flip');tick()},70)}else{fl.textContent=target;fl.className='fl '+(cls||'')}})()}
+  function show(rows,delay){rows.forEach(function(r,ri){var row=board.querySelector('[data-r="'+ri+'"]');r.forEach(function(txt,ci){var cells=row.children[ci].children;var cls=ci===4?(txt==='SPECIALISED'?'g':txt==='RETIRED'?'r':''):ci===3?'b':'';var padded=(txt+'                        ').slice(0,widths[ci]);for(var k=0;k<widths[ci];k++)(function(fl,ch){setTimeout(function(){setCell(fl,ch,cls)},delay+ri*160+k*28)})(cells[k],padded[k])})})}
+  show(DATA,400);if(!reduce){setTimeout(function(){show(FINAL,0)},5200)}else show(FINAL,0);
+  setInterval(function(){var d=new Date();document.getElementById('clk').textContent=d.toTimeString().slice(0,8)},1000);
+})();
+</script></body></html>

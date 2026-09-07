@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 1: Phylogeny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+:root{--paper:#F6F2E8;--ink:#1B1A17;--soft:#57534A;--faint:#8A857A;--line:rgba(27,26,23,.14)}
+body{background:var(--paper);background-image:repeating-linear-gradient(180deg,transparent 0 95px,rgba(27,26,23,.05) 95px 96px)}
+.hero{position:relative;padding:72px 0 40px}
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,72px);align-items:start}
+h1{font-style:italic;font-weight:400}
+h1 em{font-style:normal;font-weight:500}
+.plate{position:relative;padding:22px 0 0}
+.plate-cap{display:flex;justify-content:space-between;font:500 12px/1 var(--f-mono);color:var(--faint);margin-bottom:8px}
+.clado{width:100%;height:auto}
+.clado .rule{stroke:rgba(27,26,23,.18);stroke-width:1;stroke-dasharray:2 4}
+.clado .gen{fill:var(--faint);font:500 11px var(--f-mono)}
+.clado .br{fill:none;stroke:#3D3A33;stroke-width:1.4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .8s var(--ease) forwards;animation-delay:var(--d)}
+.clado .br.lin{stroke:var(--indigo);stroke-width:3}
+.clado .br.ext{stroke:rgba(27,26,23,.4)}
+.clado .leaf{opacity:0;animation:pop .4s var(--ease) forwards;animation-delay:var(--d)}
+.clado .leaf circle{fill:var(--paper);stroke:#3D3A33;stroke-width:1.4}
+.clado .leaf.ext text{fill:var(--faint)}
+.clado .leaf text{font:500 11.5px var(--f-mono);fill:var(--ink)}
+.clado .leaf.win circle{fill:var(--indigo);stroke:var(--indigo)}
+.clado .leaf.win text{fill:var(--indigo);font-weight:500}
+.clado .dag{fill:var(--faint);font:400 13px var(--f-display)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+.legend{display:flex;gap:18px;font:500 12px/1 var(--f-mono);color:var(--faint);margin-top:14px}
+.legend i{display:inline-block;width:18px;height:0;border-top:2px solid #3D3A33;vertical-align:middle;margin-right:6px}
+.legend .l i{border-color:var(--indigo);border-width:3px}
+.legend .e i{border-color:rgba(27,26,23,.4)}
+.copy{position:sticky;top:40px;display:flex;flex-direction:column;gap:22px;padding-top:26px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.copy{position:static}}
+</style></head><body>
+<div class="wrap"><nav class="cnav"><a class="brand" href="/">re-forge</a><span class="tag">concept 1 of 10, phylogeny</span><a class="back" href="./">All concepts</a></nav></div>
+<section class="hero"><div class="wrap grid">
+  <div class="copy">
+    <h1>Agents that <em>evolve</em> against your team's real work.</h1>
+    <p class="sub">re-forge captures every session your team runs, breeds candidate agents for the work you repeat, and keeps only the ones that win on your own tasks. Every branch that failed is still on the record.</p>
+    <div class="ctas"><a class="btn btn-primary" href="https://tally.so/r/lb4Rkp">Join the waitlist</a><a class="btn btn-ghost" href="#">See how it works</a></div>
+  </div>
+  <figure class="plate">
+    <div class="plate-cap"><span>Plate I. Lineage of the typecheck agent</span><span>June 20 to July 2, 2026</span></div>
+    <svg class="clado" viewBox="0 0 720 640" aria-label="A phylogenetic tree of candidate agents across six generations, most lines ending, one continuing to the specialised agent">
+      <g id="rules"></g><g id="tree"></g>
+    </svg>
+    <div class="legend"><span><i></i>candidate</span><span class="e"><i></i>retired</span><span class="l"><i></i>surviving lineage</span></div>
+  </figure>
+</div></section>
+<div class="wrap"><p class="hyp"><b>Hypothesis.</b> Evolution reads most honestly as natural history: a cladogram on ruled paper, time flowing down, every extinct branch kept with a dagger. The product looks like a record, not a demo.</p></div>
+<script>
+(function(){
+  var rules=document.getElementById('rules'),tree=document.getElementById('tree');
+  var G=7,top=40,step=88,X0=60,W=640;
+  var rs='';for(var g=0;g<G;g++){var y=top+g*step;rs+='<line class="rule" x1="'+X0+'" y1="'+y+'" x2="'+(X0+W)+'" y2="'+y+'"/><text class="gen" x="'+(X0-6)+'" y="'+(y+4)+'" text-anchor="end">gen '+g+'</text>';}
+  rules.innerHTML=rs;
+  // nodes: id,gen,x,parent,kind (ext=retired, win)
+  var N={a:[0,380,null],b:[1,380,'a'],c:[2,200,'b'],d:[2,380,'b'],e:[2,560,'b'],f:[3,140,'c','ext'],g2:[3,260,'c'],h:[3,380,'d'],i:[3,470,'e','ext'],j:[3,620,'e'],
+    k1:[4,240,'g2','ext'],l:[4,320,'h'],m:[4,420,'h','ext'],n:[4,620,'j'],o:[5,300,'l'],p:[5,360,'l','ext'],q:[5,600,'n','ext'],r:[6,300,'o','win'],s:[6,680,'n','ext']};
+  var lin=['a','b','d','h','l','o','r'];
+  var out='';
+  Object.keys(N).forEach(function(id){var n=N[id];if(!n[2])return;var p=N[n[2]];var y0=top+p[0]*step,y1=top+n[0]*step,x0=p[1],x1=n[1];
+    var isLin=lin.indexOf(id)>=0&&lin.indexOf(n[2])>=0;var cls='br'+(isLin?' lin':'')+(n[3]==='ext'?' ext':'');
+    out+='<path class="'+cls+'" pathLength="1" style="--d:'+(n[0]*.55).toFixed(2)+'s" d="M'+x0+' '+y0+' L'+x0+' '+(y0+step*.55)+' L'+x1+' '+(y0+step*.55)+' L'+x1+' '+y1+'"/>';});
+  Object.keys(N).forEach(function(id){var n=N[id];var y=top+n[0]*step,x=n[1];var kids=Object.keys(N).filter(function(k){return N[k][2]===id});
+    var cls='leaf'+(n[3]==='ext'?' ext':'')+(n[3]==='win'?' win':'');var d=(n[0]*.55+.45).toFixed(2);
+    var label='';if(n[3]==='ext')label='<text class="dag" x="'+(x+9)+'" y="'+(y+5)+'">†</text>';
+    if(n[3]==='win')label='<text x="'+(x+14)+'" y="'+(y+4)+'">k, specialised: typecheck, fix, commit. 91% pass</text>';
+    else if(!kids.length&&n[3]!=='ext')label='<text x="'+(x+12)+'" y="'+(y+4)+'">'+id.replace(/\d/,'')+'</text>';
+    out+='<g class="'+cls+'" style="--d:'+d+'s"><circle cx="'+x+'" cy="'+y+'" r="'+(n[3]==='win'?7:5)+'"/>'+label+'</g>';});
+  tree.innerHTML=out;
+})();
+</script></body></html>
