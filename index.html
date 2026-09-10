@@ -79,7 +79,7 @@
             <span class="d-select">Last 30 days<i></i></span>
           </div>
           <div class="d-cols">
-            <span>Gen 0<b>26 agents</b></span><span>Gen 1<b>22 agents</b></span><span>Gen 2<b>18 agents</b></span><span>Gen 3<b>12 agents</b></span><span>Gen 4<b>8 agents</b><i>winner</i></span><span>Gen 5<b>5 agents</b></span><span>Gen 6<b>3 agents</b></span>
+            <span>Gen 0<b>18 agents</b></span><span>Gen 1<b>18 agents</b></span><span>Gen 2<b>18 agents</b></span><span>Gen 3<b>18 agents</b></span><span>Gen 4<b>18 agents</b><i>winner</i></span><span>Gen 5<b>18 agents</b></span><span>Gen 6<b>18 agents</b></span>
           </div>
           <svg class="funnel" data-funnel="dash" viewBox="0 0 700 214"></svg>
         </div>
@@ -157,18 +157,18 @@
     <div class="wrap">
       <span class="eyebrow">Survival of the fittest</span>
       <h2 id="sel-h">The best agent is not always the child of the best.</h2>
-      <p class="sub">Every column is a generation, and every agent has a parent in the column before it. The elites breed most of the next generation, but low scorers breed too. This is not hill-climbing: the winning line ran through a low scorer, and the winner arrived in generation 4, two generations before the search stopped.</p>
+      <p class="sub">Every column is a generation, and every agent has a parent in the column before it. The elites breed most of the next generation, but low scorers breed too. This is not hill-climbing: the winning line ran through a low scorer, the winner arrived in generation 4, and two more generations of the same size never beat it.</p>
       <div class="viz-box">
         <div class="viz-scroll">
           <svg class="funnel viz" data-funnel="viz" viewBox="0 0 1120 360" role="img" aria-label="Hundreds of candidate agents on the left are scored on real tasks. Weak candidates fade out at each generation until one winning agent remains, marked green."></svg>
           <div class="viz-labels">
-            <div><span class="eyebrow">Generation 0</span><b>128 agents</b></div>
-            <div><span class="eyebrow">Generation 1</span><b>96 agents</b></div>
-            <div><span class="eyebrow">Generation 2</span><b>56 agents</b><i>a low scorer breeds</i></div>
-            <div><span class="eyebrow">Generation 3</span><b>28 agents</b><i>its child is an elite</i></div>
-            <div><span class="eyebrow">Generation 4</span><b>14 agents</b><i class="g">winner found</i></div>
-            <div><span class="eyebrow">Generation 5</span><b>8 agents</b></div>
-            <div><span class="eyebrow">Generation 6</span><b>4 agents</b><i>none better</i></div>
+            <div><span class="eyebrow">Generation 0</span><b>72 agents</b></div>
+            <div><span class="eyebrow">Generation 1</span><b>72 agents</b></div>
+            <div><span class="eyebrow">Generation 2</span><b>72 agents</b><i>a low scorer breeds</i></div>
+            <div><span class="eyebrow">Generation 3</span><b>72 agents</b><i>its child is an elite</i></div>
+            <div><span class="eyebrow">Generation 4</span><b>72 agents</b><i class="g">winner found</i></div>
+            <div><span class="eyebrow">Generation 5</span><b>72 agents</b><i>none better</i></div>
+            <div><span class="eyebrow">Generation 6</span><b>72 agents</b><i>still none better</i></div>
           </div>
           <ul class="legend" aria-label="Legend">
             <li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="2.4" fill="#B5B4B0"/></svg>candidate</li>
@@ -224,6 +224,6 @@
 </footer>
 
 <div class="grain" aria-hidden="true"></div>
-<script src="/static/v3.js?v=4" defer></script>
+<script src="/static/v3.js?v=5" defer></script>
 </body>
 </html>

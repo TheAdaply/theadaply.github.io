@@ -7,31 +7,31 @@
      from a parent in the column before it. The elites of a generation breed
      most of the next one, but a few low scorers breed too, and that is the
      point: the winning line runs through one of them, and the winner shows up
-     in generation 4 while the search runs on to generation 6 without beating
-     it. Not hill-climbing. Deterministic: the same picture on every load. ---- */
+     in generation 4. The population stays the same size every generation, the
+     winner's own children are not highlighted, and two more generations of
+     elites never beat it. Not hill-climbing. Deterministic on every load. ---- */
   var STAGES = 7, WIN_GEN = 4, WILD_GEN = 2;
   function rnd(seed) { return function () { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }; }
   function buildFunnel(svg, W, H, dense) {
     var R = rnd(11);
     var top = 18, bot = H - 18;
-    var gens = dense
-      ? [{ n: 128, cols: 2, e: 6, w: 2 }, { n: 96, cols: 2, e: 6, w: 2 }, { n: 56, cols: 1, e: 5, w: 2 }, { n: 28, cols: 1, e: 4, w: 1 }, { n: 14, cols: 1, e: 3, w: 1 }, { n: 8, cols: 1, e: 2, w: 1 }, { n: 4, cols: 1, e: 0, w: 0 }]
-      : [{ n: 26, cols: 1, e: 4, w: 1 }, { n: 22, cols: 1, e: 4, w: 1 }, { n: 18, cols: 1, e: 3, w: 1 }, { n: 12, cols: 1, e: 3, w: 1 }, { n: 8, cols: 1, e: 2, w: 1 }, { n: 5, cols: 1, e: 2, w: 0 }, { n: 3, cols: 1, e: 0, w: 0 }];
+    var gens = [];
+    for (var gi = 0; gi < STAGES; gi++) gens.push(dense ? { n: 72, cols: 2, e: 6, w: 2 } : { n: 18, cols: 1, e: 4, w: 1 });
     var G = gens.length;
     var colX = gens.map(function (_, k) { return ((k + 0.5) / G) * W; });
-    var gap = dense ? 5.5 : 8, rowMax = dense ? 5 : 8;
+    var gap = dense ? 5.5 : 8, rowMax = dense ? 9 : 10.5;
     function place(arr, g) {
       var cols = gens[g].cols, rows = Math.ceil(arr.length / cols);
-      var h = Math.min(bot - top, (rows - 1) * rowMax * (1 + 0.25 * g)), rowGap = rows > 1 ? h / (rows - 1) : 0, y0 = (top + bot) / 2 - h / 2;
+      var h = Math.min(bot - top, (rows - 1) * rowMax), rowGap = rows > 1 ? h / (rows - 1) : 0, y0 = (top + bot) / 2 - h / 2;
       arr.forEach(function (p, i) {
         var c = i % cols, r = Math.floor(i / cols);
         p.x = colX[g] + (c - (cols - 1) / 2) * gap; p.y = y0 + r * rowGap; p.g = g; p.id = i;
       });
     }
     /* spread picks evenly across the column, jittered, never near an already taken agent */
-    function pick(arr, count, taken, minGap) {
+    function pick(arr, count, taken, minGap, exclude) {
       var out = [], n = arr.length;
-      function clear(i) { return taken.concat(out).every(function (p) { return Math.abs(p.id - i) >= minGap; }); }
+      function clear(i) { return (!exclude || exclude.indexOf(arr[i]) < 0) && taken.concat(out).every(function (p) { return Math.abs(p.id - i) >= minGap; }); }
       for (var k = 0; k < count; k++) {
         var t = Math.round(((k + 0.5) / count) * (n - 1) + (R() - 0.5) * (n / (count * 2)));
         var i = -1;
@@ -41,14 +41,15 @@
       }
       return out;
     }
-    var pts = [], elites = [], wilds = [], lineage = [];
+    var pts = [], elites = [], wilds = [], lineage = [], winner = null;
     pts[0] = []; for (var i0 = 0; i0 < gens[0].n; i0++) pts[0].push({ parent: null });
     place(pts[0], 0);
     lineage[0] = pts[0][Math.floor(gens[0].n * 0.5)];
     elites[0] = [lineage[0]].concat(pick(pts[0], gens[0].e - 1, [lineage[0]], Math.max(2, Math.floor(gens[0].n / (gens[0].e * 2.2)))));
     wilds[0] = pick(pts[0], gens[0].w, elites[0], 2);
     for (var g = 1; g < G; g++) {
-      var par = elites[g - 1].map(function (p) { return { p: p, w: p === lineage[g - 1] ? 2.2 : 0.55 + R() * 0.9 }; })
+      /* the winner breeds one generation, lightly; its children are never highlighted and never breed */
+      var par = elites[g - 1].map(function (p) { return { p: p, w: p === winner ? 0.45 : p === lineage[g - 1] ? 2.2 : 0.55 + R() * 0.9 }; })
         .concat(wilds[g - 1].map(function (p) { return { p: p, w: p === lineage[g - 1] ? 2.2 : 0.35 }; }));
       par.sort(function (a, b) { return a.p.y - b.p.y; });
       var n = gens[g].n;
@@ -66,12 +67,13 @@
         /* the detour: in the wild generation the line runs through a low scorer at the edge of its family */
         lineage[g] = g === WILD_GEN ? kids[kids.length - 1] : kids[Math.floor(kids.length / 2)];
       }
+      if (g === WIN_GEN) winner = lineage[g];
       var lin = lineage[g], taken = lin ? [lin] : [];
+      var winKids = winner ? arr.filter(function (p) { return p.parent === winner; }) : [];
       var minGap = Math.max(2, Math.floor(n / (Math.max(1, gens[g].e) * 2.2)));
       if (g === WILD_GEN) { elites[g] = pick(arr, gens[g].e, taken, minGap); wilds[g] = [lin].concat(pick(arr, gens[g].w - 1, elites[g].concat(taken), 2)); }
-      else { elites[g] = (lin ? [lin] : []).concat(pick(arr, gens[g].e - (lin ? 1 : 0), taken, minGap)); wilds[g] = pick(arr, gens[g].w, elites[g], 2); }
+      else { elites[g] = (lin ? [lin] : []).concat(pick(arr, gens[g].e - (lin ? 1 : 0), taken, minGap, winKids)); wilds[g] = pick(arr, gens[g].w, elites[g], 2, winKids); }
     }
-    var winner = lineage[WIN_GEN];
     var out = [];
     for (var c = 0; c < G; c++) out.push('<line class="rule" x1="' + colX[c].toFixed(1) + '" y1="' + (top - 8) + '" x2="' + colX[c].toFixed(1) + '" y2="' + (bot + 8) + '"/>');
     for (var g2 = 1; g2 < G; g2++) {
@@ -83,7 +85,7 @@
       });
     }
     pts.forEach(function (arr, g3) {
-      var base = g3 >= 3 ? 2.6 : dense ? 1.5 : 1.8;
+      var base = dense ? 1.6 : 2.2;
       arr.forEach(function (p) {
         var isWin = p === winner, isLin = lineage.indexOf(p) >= 0, isEl = elites[g3].indexOf(p) >= 0, isWild = wilds[g3].indexOf(p) >= 0;
         var cls = "dot st" + g3 + (isWin ? " win" : isWild ? (isLin ? " wild lin" : " wild out") : isLin ? " lin" : isEl ? " elite" : " out");
