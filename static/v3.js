@@ -106,6 +106,59 @@
   var dashFunnel = document.querySelector('[data-funnel="dash"]');
   if (dashFunnel) setTimeout(function () { play(dashFunnel, true); }, 900);
 
+  /* ---- Product illustrations drawn in type. Each shape is painted on a small
+     canvas, then sampled cell by cell into characters by how much ink landed
+     there, with a little noise so the edges speckle. ---- */
+  function asciiArt(kind, cols, rows) {
+    var cw = 12, ch = 24, W = cols * cw, H = rows * ch;
+    var cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    var g = cv.getContext("2d"); if (!g) return "";
+    var Rn = rnd(kind.length * 31 + 5);
+    function X(t) { return t * W; } function Y(t) { return t * H; }
+    function glow(x, y, r, a) { var gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, "rgba(0,0,0," + a + ")"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+    g.lineCap = "round"; g.lineJoin = "round";
+    if (kind === "lineage") {
+      /* a bold fork: one trunk, two arms, each splitting again; the fuller node is the winner */
+      g.strokeStyle = "rgba(0,0,0,.95)";
+      function br(x1, y1, x2, y2, w) { var mx = (X(x1) + X(x2)) / 2; g.lineWidth = w; g.beginPath(); g.moveTo(X(x1), Y(y1)); g.bezierCurveTo(mx, Y(y1), mx, Y(y2), X(x2), Y(y2)); g.stroke(); }
+      br(0.06, 0.5, 0.4, 0.5, 64);
+      br(0.4, 0.5, 0.68, 0.24, 52); br(0.4, 0.5, 0.68, 0.76, 52);
+      br(0.68, 0.24, 0.92, 0.1, 36); br(0.68, 0.24, 0.92, 0.4, 36); br(0.68, 0.76, 0.92, 0.6, 36); br(0.68, 0.76, 0.92, 0.9, 36);
+      [[0.4, 0.5], [0.68, 0.24], [0.68, 0.76]].forEach(function (p) { glow(X(p[0]), Y(p[1]), 58, 1); });
+      glow(X(0.92), Y(0.4), 88, 1);
+    } else if (kind === "brain") {
+      /* two lobes with grooves cut out, a stem below */
+      function lobe(cx, cy, rx, ry) { g.save(); g.translate(X(cx), Y(cy)); g.scale(rx * W, ry * H); var gr = g.createRadialGradient(0, 0, 0, 0, 0, 1); gr.addColorStop(0, "rgba(0,0,0,.95)"); gr.addColorStop(0.75, "rgba(0,0,0,.7)"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, 7); g.fill(); g.restore(); }
+      lobe(0.4, 0.46, 0.24, 0.33); lobe(0.62, 0.46, 0.24, 0.33); lobe(0.51, 0.34, 0.2, 0.22);
+      g.globalCompositeOperation = "destination-out"; g.strokeStyle = "rgba(0,0,0,1)"; g.lineWidth = 6;
+      [[0.3, 0.3, 0.45, 0.42, 0.36, 0.6], [0.5, 0.22, 0.55, 0.45, 0.5, 0.7], [0.66, 0.28, 0.6, 0.45, 0.72, 0.62], [0.38, 0.66, 0.5, 0.58, 0.64, 0.7]].forEach(function (q) {
+        g.beginPath(); g.moveTo(X(q[0]), Y(q[1])); g.quadraticCurveTo(X(q[2]), Y(q[3]), X(q[4]), Y(q[5])); g.stroke();
+      });
+      g.globalCompositeOperation = "source-over";
+      g.fillStyle = "rgba(0,0,0,.8)"; g.beginPath(); g.moveTo(X(0.47), Y(0.74)); g.lineTo(X(0.55), Y(0.74)); g.lineTo(X(0.57), Y(0.9)); g.lineTo(X(0.45), Y(0.9)); g.closePath(); g.fill();
+    } else {
+      /* three agents, overlapping, joined */
+      g.strokeStyle = "rgba(0,0,0,.45)"; g.lineWidth = 7;
+      g.beginPath(); g.moveTo(X(0.3), Y(0.36)); g.lineTo(X(0.7), Y(0.36)); g.lineTo(X(0.5), Y(0.72)); g.closePath(); g.stroke();
+      [[0.3, 0.36], [0.7, 0.36], [0.5, 0.72]].forEach(function (p) { g.save(); g.translate(X(p[0]), Y(p[1])); g.scale(0.19 * W, 0.19 * H * (W / H)); var gr = g.createRadialGradient(0, 0, 0, 0, 0, 1); gr.addColorStop(0, "rgba(0,0,0,.95)"); gr.addColorStop(0.7, "rgba(0,0,0,.6)"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, 7); g.fill(); g.restore(); });
+    }
+    var d = g.getImageData(0, 0, W, H).data, ramp = " .:-=+*#%@", lines = [];
+    for (var r = 0; r < rows; r++) {
+      var line = "";
+      for (var c = 0; c < cols; c++) {
+        var sum = 0;
+        for (var y = 0; y < ch; y += 3) for (var x = 0; x < cw; x += 3) sum += d[((r * ch + y) * W + c * cw + x) * 4 + 3];
+        var v = sum / (Math.ceil(ch / 3) * Math.ceil(cw / 3) * 255) + (Rn() - 0.5) * 0.22;
+        line += v < 0.1 ? " " : ramp[Math.min(ramp.length - 1, Math.floor(v * (ramp.length - 1)))];
+      }
+      lines.push(line.replace(/\s+$/, ""));
+    }
+    return lines.join("\n").replace(/^\n+|\n+$/g, "");
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".prod[data-art]"), function (card) {
+    var pre = card.querySelector(".ascii"); if (pre) pre.textContent = asciiArt(card.getAttribute("data-art"), 38, 20);
+  });
+
   var viz = document.querySelector('[data-funnel="viz"]');
   var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
   if ("IntersectionObserver" in window) {

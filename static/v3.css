@@ -174,14 +174,42 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .viz-labels .eyebrow{margin-bottom:8px}
 .viz-labels b{font:400 14px/1.4 var(--f);color:var(--body)}
 
-.metrics{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr)}
-.metric{padding:6px 28px 6px 0;border-left:1px solid var(--hair);padding-left:28px;display:flex;flex-direction:column;gap:8px}
-.metric:first-child{border-left:0;padding-left:0}
-.metric b{font:500 40px/1 var(--f);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.metric b span{font-size:.5em;letter-spacing:0;color:var(--body);font-weight:400}
-.metric .ml{font-size:15px;color:var(--body)}
-.metric .md{font-size:13px;color:var(--body)}
-.metric .md.ok{color:var(--green);font-weight:500}
+/* products: three cards in a row, a title, an illustration drawn in type, a line
+   of copy. At rest they are quiet; on hover a card fills with a soft coloured
+   wash under grain and its type turns light. */
+.products .wrap{margin-bottom:48px}
+.prod-row{width:min(1120px,100% - 48px);margin-inline:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prod{position:relative;overflow:hidden;isolation:isolate;background:#F6F6F4;border:1px solid var(--hair);padding:34px 32px 32px;min-height:560px;
+  display:flex;flex-direction:column;color:var(--ink);outline:none;transition:color .6s var(--ease),border-color .6s var(--ease)}
+.prod h3{margin:0;font:500 20px/1.2 var(--f);letter-spacing:-.015em}
+.prod h3 span{display:block;margin-top:6px;font:400 14px/1.4 var(--f);color:var(--body);transition:color .6s var(--ease)}
+.prod .ascii{margin:auto 0;padding:22px 0;font:400 11.5px/1.18 "Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.02em;
+  color:#57565A;white-space:pre;text-align:center;overflow:hidden;transition:color .6s var(--ease)}
+.prod p{margin:0;font-size:15.5px;line-height:1.55;color:var(--body);transition:color .6s var(--ease)}
+.prod-tag{margin-top:18px;font-size:12.5px;color:var(--body);transition:color .6s var(--ease)}
+.prod::before{content:"";position:absolute;inset:-35%;z-index:-2;opacity:0;transition:opacity .75s var(--ease);filter:blur(46px);
+  background:
+    radial-gradient(38% 42% at 28% 30%,var(--t2) 0%,transparent 72%),
+    radial-gradient(44% 48% at 76% 72%,var(--t3) 0%,transparent 72%),
+    radial-gradient(52% 56% at 62% 18%,var(--t1) 0%,transparent 76%),
+    var(--t0)}
+.prod::after{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .75s var(--ease);mix-blend-mode:overlay;background-size:180px 180px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.prod:focus-visible{color:#fff;border-color:transparent}
+.prod:focus-visible::before{opacity:1}
+.prod:focus-visible::after{opacity:.55}
+.prod:focus-visible h3 span,.prod:focus-visible p,.prod:focus-visible .prod-tag{color:rgba(255,255,255,.8)}
+.prod:focus-visible .ascii{color:rgba(255,255,255,.88)}
+@media (hover:hover){
+  .prod:hover{color:#fff;border-color:transparent}
+  .prod:hover::before{opacity:1}
+  .prod:hover::after{opacity:.55}
+  .prod:hover h3 span,.prod:hover p,.prod:hover .prod-tag{color:rgba(255,255,255,.8)}
+  .prod:hover .ascii{color:rgba(255,255,255,.88)}
+}
+.prod[data-tone="copper"]{--t0:#5C3B2E;--t1:#F0C6AB;--t2:#CD8F70;--t3:#8A5744}
+.prod[data-tone="slate"]{--t0:#2E3F49;--t1:#ADC6CF;--t2:#6F8D98;--t3:#435A65}
+.prod[data-tone="mauve"]{--t0:#563B46;--t1:#E6C3CE;--t2:#B78E9D;--t3:#7B5868}
 
 /* reveals: a small rise, once */
 .reveal{opacity:0;transform:translateY(10px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
@@ -215,8 +243,8 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 }
 @media (max-width:900px){
   .cards{grid-template-columns:1fr}
-  .metrics{grid-template-columns:1fr 1fr;row-gap:36px}
-  .metric:nth-child(3){border-left:0;padding-left:0}
+  .prod-row{grid-template-columns:1fr;width:min(1120px,100% - 32px)}
+  .prod{min-height:440px}
   .foot-in{grid-template-columns:1fr 1fr}
   .foot .brand{grid-column:1/-1}
   .viz-box{padding:20px 0 20px 20px;overflow:hidden}
@@ -235,8 +263,6 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
   .metric b{font-size:34px}
 }
 @media (max-width:480px){
-  .metrics{grid-template-columns:1fr}
-  .metric{border-left:0;padding-left:0}
   .foot-in{grid-template-columns:1fr}
   .card{padding:24px}
 }
@@ -244,5 +270,6 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
   .dash{animation:none;transform:none;opacity:1}
   .reveal{opacity:1;transform:none;transition:none}
   .funnel .dot,.funnel .ring,.funnel .ln{transition:none}
+  .prod,.prod *,.prod::before,.prod::after{transition:none}
   html{scroll-behavior:auto}
 }
