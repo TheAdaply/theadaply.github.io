@@ -107,56 +107,123 @@
   if (dashFunnel) setTimeout(function () { play(dashFunnel, true); }, 900);
 
   /* ---- Product illustrations drawn in type. Each shape is painted on a small
-     canvas, then sampled cell by cell into characters by how much ink landed
-     there, with a little noise so the edges speckle. ---- */
-  function asciiArt(kind, cols, rows) {
+     canvas, then sampled cell by cell into a coverage grid. At rest a small
+     seeded jitter speckles the edges (same every load); on hover/focus the
+     sampled coverage shimmers glyph-by-glyph while the silhouette itself
+     stays put. ---- */
+  var ramp = " .:-=+*#%@";
+  function hash01(n) { var s = Math.sin(n) * 43758.5453123; return s - Math.floor(s); }
+  function sampleAscii(kind, cols, rows) {
     var cw = 12, ch = 24, W = cols * cw, H = rows * ch;
     var cv = document.createElement("canvas"); cv.width = W; cv.height = H;
-    var g = cv.getContext("2d"); if (!g) return "";
-    var Rn = rnd(kind.length * 31 + 5);
+    var g = cv.getContext("2d"); if (!g) return null;
     function X(t) { return t * W; } function Y(t) { return t * H; }
-    function glow(x, y, r, a) { var gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, "rgba(0,0,0," + a + ")"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+    function disc(x, y, r, a) { var gr = g.createRadialGradient(X(x), Y(y), 0, X(x), Y(y), r); gr.addColorStop(0, "rgba(0,0,0," + a + ")"); gr.addColorStop(0.86, "rgba(0,0,0," + a + ")"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(X(x), Y(y), r, 0, 7); g.fill(); }
     g.lineCap = "round"; g.lineJoin = "round";
     if (kind === "lineage") {
-      /* a bold fork: one trunk, two arms, each splitting again; the fuller node is the winner */
-      g.strokeStyle = "rgba(0,0,0,.95)";
-      function br(x1, y1, x2, y2, w) { var mx = (X(x1) + X(x2)) / 2; g.lineWidth = w; g.beginPath(); g.moveTo(X(x1), Y(y1)); g.bezierCurveTo(mx, Y(y1), mx, Y(y2), X(x2), Y(y2)); g.stroke(); }
-      br(0.06, 0.5, 0.4, 0.5, 64);
-      br(0.4, 0.5, 0.68, 0.24, 52); br(0.4, 0.5, 0.68, 0.76, 52);
-      br(0.68, 0.24, 0.92, 0.1, 36); br(0.68, 0.24, 0.92, 0.4, 36); br(0.68, 0.76, 0.92, 0.6, 36); br(0.68, 0.76, 0.92, 0.9, 36);
-      [[0.4, 0.5], [0.68, 0.24], [0.68, 0.76]].forEach(function (p) { glow(X(p[0]), Y(p[1]), 58, 1); });
-      glow(X(0.92), Y(0.4), 88, 1);
+      /* DNA double helix: two sine strands phase-offset by pi, running top to
+         bottom. A quarter-turn phase offset keeps both ends visibly split
+         into two strands instead of pinching to a point; rungs land wherever
+         the strands are far apart. */
+      var yTop = 0.1, yBot = 0.9, turns = 1.4, amp = 0.34, midX = 0.5, phase0 = Math.PI / 2;
+      function sx(t, phase) { return midX + amp * Math.sin(t * turns * Math.PI * 2 + phase0 + phase); }
+      function sy(t) { return yTop + t * (yBot - yTop); }
+      function strand(phase) {
+        g.beginPath();
+        for (var i = 0; i <= 60; i++) { var t = i / 60, px = X(sx(t, phase)), py = Y(sy(t)); if (i === 0) g.moveTo(px, py); else g.lineTo(px, py); }
+        g.stroke();
+      }
+      g.strokeStyle = "rgba(0,0,0,.96)"; g.lineWidth = 36;
+      strand(0); strand(Math.PI);
+      g.lineWidth = 16;
+      var sepThresh = 0.85 * (2 * amp), stepT = 36 / H;
+      for (var t = 0; t <= 1; t += stepT) {
+        var xA = sx(t, 0), xB = sx(t, Math.PI);
+        if (Math.abs(xA - xB) >= sepThresh) { var y = Y(sy(t)); g.beginPath(); g.moveTo(X(xA), y); g.lineTo(X(xB), y); g.stroke(); }
+      }
     } else if (kind === "brain") {
-      /* two lobes with grooves cut out, a stem below */
-      function lobe(cx, cy, rx, ry) { g.save(); g.translate(X(cx), Y(cy)); g.scale(rx * W, ry * H); var gr = g.createRadialGradient(0, 0, 0, 0, 0, 1); gr.addColorStop(0, "rgba(0,0,0,.95)"); gr.addColorStop(0.75, "rgba(0,0,0,.7)"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, 7); g.fill(); g.restore(); }
-      lobe(0.4, 0.46, 0.24, 0.33); lobe(0.62, 0.46, 0.24, 0.33); lobe(0.51, 0.34, 0.2, 0.22);
-      g.globalCompositeOperation = "destination-out"; g.strokeStyle = "rgba(0,0,0,1)"; g.lineWidth = 6;
-      [[0.3, 0.3, 0.45, 0.42, 0.36, 0.6], [0.5, 0.22, 0.55, 0.45, 0.5, 0.7], [0.66, 0.28, 0.6, 0.45, 0.72, 0.62], [0.38, 0.66, 0.5, 0.58, 0.64, 0.7]].forEach(function (q) {
+      /* one solid, elongated cerebral mass with a scalloped top edge (built
+         from overlapping bumps), a cerebellum bulge fused to its lower back,
+         and a short stem; the fissure and grooves are then cut in as thin
+         creases so they read as surface detail rather than splitting the
+         mass apart. */
+      function ellipse(cx, cy, rx, ry, a) { g.save(); g.translate(X(cx), Y(cy)); g.scale(rx * W, ry * H); g.fillStyle = "rgba(0,0,0," + a + ")"; g.beginPath(); g.arc(0, 0, 1, 0, 7); g.fill(); g.restore(); }
+      ellipse(0.5, 0.42, 0.34, 0.25, 1);
+      [[0.3, 0.19, 46], [0.42, 0.16, 48], [0.58, 0.16, 48], [0.7, 0.19, 46]].forEach(function (q) { disc(q[0], q[1], q[2], 1); });
+      disc(0.15, 0.42, 44, 1); disc(0.85, 0.42, 44, 1);
+      ellipse(0.5, 0.72, 0.17, 0.1, 1);
+      g.fillStyle = "rgba(0,0,0,.95)";
+      g.beginPath(); g.moveTo(X(0.46), Y(0.78)); g.lineTo(X(0.54), Y(0.78)); g.lineTo(X(0.56), Y(0.9)); g.lineTo(X(0.44), Y(0.9)); g.closePath(); g.fill();
+      g.globalCompositeOperation = "destination-out"; g.strokeStyle = "rgba(0,0,0,1)";
+      g.lineWidth = 20; g.beginPath(); g.moveTo(X(0.5), Y(0.22)); g.lineTo(X(0.5), Y(0.56)); g.stroke();
+      g.lineWidth = 13;
+      [[0.28, 0.28, 0.36, 0.36, 0.3, 0.46], [0.72, 0.28, 0.64, 0.36, 0.7, 0.46],
+        [0.66, 0.5, 0.58, 0.55, 0.64, 0.6]].forEach(function (q) {
         g.beginPath(); g.moveTo(X(q[0]), Y(q[1])); g.quadraticCurveTo(X(q[2]), Y(q[3]), X(q[4]), Y(q[5])); g.stroke();
       });
       g.globalCompositeOperation = "source-over";
-      g.fillStyle = "rgba(0,0,0,.8)"; g.beginPath(); g.moveTo(X(0.47), Y(0.74)); g.lineTo(X(0.55), Y(0.74)); g.lineTo(X(0.57), Y(0.9)); g.lineTo(X(0.45), Y(0.9)); g.closePath(); g.fill();
     } else {
-      /* three agents, overlapping, joined */
-      g.strokeStyle = "rgba(0,0,0,.45)"; g.lineWidth = 7;
-      g.beginPath(); g.moveTo(X(0.3), Y(0.36)); g.lineTo(X(0.7), Y(0.36)); g.lineTo(X(0.5), Y(0.72)); g.closePath(); g.stroke();
-      [[0.3, 0.36], [0.7, 0.36], [0.5, 0.72]].forEach(function (p) { g.save(); g.translate(X(p[0]), Y(p[1])); g.scale(0.19 * W, 0.19 * H * (W / H)); var gr = g.createRadialGradient(0, 0, 0, 0, 0, 1); gr.addColorStop(0, "rgba(0,0,0,.95)"); gr.addColorStop(0.7, "rgba(0,0,0,.6)"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, 7); g.fill(); g.restore(); });
+      /* four agents around a shared, slightly larger hub, joined by thick links */
+      var pos = { top: [0.5, 0.17], right: [0.82, 0.5], bottom: [0.5, 0.83], left: [0.18, 0.5], center: [0.5, 0.5] };
+      g.strokeStyle = "rgba(0,0,0,.95)"; g.lineWidth = 36;
+      ["top", "right", "bottom", "left"].forEach(function (k) { g.beginPath(); g.moveTo(X(pos.center[0]), Y(pos.center[1])); g.lineTo(X(pos[k][0]), Y(pos[k][1])); g.stroke(); });
+      ["top", "right", "bottom", "left"].forEach(function (k) { disc(pos[k][0], pos[k][1], 62, .97); });
+      disc(pos.center[0], pos.center[1], 82, .98);
     }
-    var d = g.getImageData(0, 0, W, H).data, ramp = " .:-=+*#%@", lines = [];
+    var d = g.getImageData(0, 0, W, H).data, grid = new Float32Array(cols * rows);
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var sum = 0, n = 0;
+        for (var yy = 0; yy < ch; yy += 3) for (var xx = 0; xx < cw; xx += 3) { sum += d[((r * ch + yy) * W + c * cw + xx) * 4 + 3]; n++; }
+        grid[r * cols + c] = sum / (n * 255);
+      }
+    }
+    return { grid: grid, cols: cols, rows: rows };
+  }
+  /* renders the sampled grid to text; every line is exactly `cols` chars so
+     the CSS text-align:center never shifts one row relative to another */
+  function renderAscii(data, noiseFn) {
+    var cols = data.cols, rows = data.rows, grid = data.grid, lines = [];
     for (var r = 0; r < rows; r++) {
       var line = "";
       for (var c = 0; c < cols; c++) {
-        var sum = 0;
-        for (var y = 0; y < ch; y += 3) for (var x = 0; x < cw; x += 3) sum += d[((r * ch + y) * W + c * cw + x) * 4 + 3];
-        var v = sum / (Math.ceil(ch / 3) * Math.ceil(cw / 3) * 255) + (Rn() - 0.5) * 0.22;
-        line += v < 0.1 ? " " : ramp[Math.min(ramp.length - 1, Math.floor(v * (ramp.length - 1)))];
+        var v = grid[r * cols + c];
+        if (v <= 0.02) { line += " "; continue; }
+        var vv = v + noiseFn(c, r); vv = vv < 0 ? 0 : vv > 1 ? 1 : vv;
+        line += vv < 0.1 ? " " : ramp[Math.min(ramp.length - 1, Math.floor(vv * (ramp.length - 1)))];
       }
-      lines.push(line.replace(/\s+$/, ""));
+      lines.push(line);
     }
-    return lines.join("\n").replace(/^\n+|\n+$/g, "");
+    while (lines.length && !/\S/.test(lines[0])) lines.shift();
+    while (lines.length && !/\S/.test(lines[lines.length - 1])) lines.pop();
+    return lines.join("\n");
   }
   Array.prototype.forEach.call(document.querySelectorAll(".prod[data-art]"), function (card) {
-    var pre = card.querySelector(".ascii"); if (pre) pre.textContent = asciiArt(card.getAttribute("data-art"), 38, 20);
+    var pre = card.querySelector(".ascii"); if (!pre) return;
+    var kind = card.getAttribute("data-art");
+    var data = sampleAscii(kind, 56, 30); if (!data) return;
+    var Rn = rnd(kind.length * 31 + 5);
+    var staticText = renderAscii(data, function () { return (Rn() - 0.5) * 0.22; });
+    pre.textContent = staticText;
+    if (reduce.matches) return; /* reduced-motion: static only, never shimmer */
+    var rafId = null, lastFrame = 0;
+    function shimmerNoise(c, r, t) {
+      var band = 0.12 * Math.sin(c * 0.35 + r * 0.5 - t * 0.004);
+      var jitter = (hash01(c * 12.9898 + r * 78.233 + Math.floor(t / 70) * 0.6180339) - 0.5) * 0.16;
+      return band + jitter;
+    }
+    function frame(ts) {
+      if (ts - lastFrame < 71) { rafId = requestAnimationFrame(frame); return; }
+      lastFrame = ts;
+      pre.textContent = renderAscii(data, function (c, r) { return shimmerNoise(c, r, ts); });
+      rafId = requestAnimationFrame(frame);
+    }
+    function start() { if (!rafId) rafId = requestAnimationFrame(frame); }
+    function stop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } pre.textContent = staticText; }
+    card.addEventListener("mouseenter", start);
+    card.addEventListener("mouseleave", stop);
+    card.addEventListener("focus", start);
+    card.addEventListener("blur", stop);
   });
 
   var viz = document.querySelector('[data-funnel="viz"]');
