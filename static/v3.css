@@ -103,6 +103,7 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .d-select i{width:6px;height:6px;border-right:1.3px solid #2A2A28;border-bottom:1.3px solid #2A2A28;transform:translateY(-2px) rotate(45deg)}
 .d-cols{display:grid;grid-template-columns:repeat(6,1fr);font:400 11.5px/1.4 var(--f);color:#2A2A28;text-align:center}
 .d-cols b{display:block;font-weight:400;color:var(--body)}
+.d-cols i{display:block;font-style:normal;color:var(--green)}
 .funnel{width:100%;height:auto}
 .d-right{border-left:1px solid var(--hair);padding:16px 22px 0}
 .d-pill{display:inline-block;padding:4px 9px;border-radius:999px;background:#EFEFED;font:500 10.5px/1 var(--f);letter-spacing:.08em;text-transform:uppercase;color:#2A2A28}
@@ -127,13 +128,14 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
    A generation appears, then its edges to the next one draw, and only then are
    its elites ringed and the rest faded: selection is shown after the fact. */
 .funnel .dot{fill:#0A0A0A;opacity:0;transition:opacity .5s var(--ease),fill .6s}
-.funnel .dot.out{fill:#B5B4B0}
+.funnel .dot.out{fill:#BDBCB8}
+.funnel .dot.elite{fill:#9A9995}
 .funnel .dot.win{fill:var(--green)}
 .funnel .ring{fill:none;stroke:#0A0A0A;stroke-width:.9;opacity:0;transition:opacity .5s var(--ease)}
 .funnel .ring.win{stroke:var(--green);stroke-width:1.2}
 .funnel .ln{fill:none;stroke:#0A0A0A;stroke-width:.7;opacity:0;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s var(--ease),opacity .6s,stroke .6s}
-.funnel .ln.weak{stroke:#DDDCD8}
-.funnel .ln.mid{stroke:#A3A29E;stroke-width:.85}
+.funnel .ln.weak{stroke:#E2E1DE}
+.funnel .ln.mid{stroke:#CFCECA;stroke-width:.8}
 .funnel .ln.lin{stroke:#0A0A0A;stroke-width:1.15}
 .funnel .ln.final{stroke:var(--green);stroke-width:1.3}
 .funnel .rule{stroke:var(--hair);stroke-width:1}
@@ -173,6 +175,8 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .viz-labels{display:grid;grid-template-columns:repeat(6,1fr);text-align:center;gap:16px;margin-top:22px;padding-top:20px;border-top:1px solid var(--hair)}
 .viz-labels .eyebrow{margin-bottom:8px}
 .viz-labels b{font:400 14px/1.4 var(--f);color:var(--body)}
+.viz-labels i{display:block;margin-top:4px;font:400 12.5px/1.4 var(--f);font-style:normal;color:var(--ink)}
+.viz-labels i.g{color:var(--green)}
 
 .metrics{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr)}
 .metric{padding:6px 28px 6px 0;border-left:1px solid var(--hair);padding-left:28px;display:flex;flex-direction:column;gap:8px}
