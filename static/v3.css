@@ -63,7 +63,9 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 
 /* ---- hero ---- */
 .hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;
-  background:#EDEDED url(/static/moon.jpg) 50% 0/cover no-repeat}
+  background:#EDEDED url(/static/moon.jpg) 50% 0/cover no-repeat;
+  background-image:-webkit-image-set(url(/static/moon.jpg) 1x,url(/static/moon@2x.jpg) 2x);
+  background-image:image-set(url(/static/moon.jpg) 1x,url(/static/moon@2x.jpg) 2x)}
 .hero-copy{position:relative;z-index:2;text-align:center;padding-top:clamp(120px,17vh,168px);display:flex;flex-direction:column;align-items:center;gap:22px}
 .hero-copy h1{max-width:none}
 .hero-sub{font-size:clamp(16px,1.25vw,19px);line-height:1.5;color:#2A2A28;max-width:58ch}
