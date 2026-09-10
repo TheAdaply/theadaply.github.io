@@ -129,7 +129,8 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 
 /* ---- problem ---- */
 .problem{padding:clamp(120px,15vw,200px) 0;text-align:center}
-.statement{font:500 clamp(28px,3.2vw,40px)/1.25 var(--f);letter-spacing:-.025em;max-width:24ch;margin-inline:auto}
+.statement{font:500 clamp(28px,3.2vw,40px)/1.25 var(--f);letter-spacing:-.025em;margin-inline:auto}
+@media (max-width:820px){.statement br{display:none}}
 .expl{margin:26px auto 0;font-size:17px;line-height:1.6;color:var(--body);max-width:56ch}
 
 /* ---- sections ---- */
@@ -151,7 +152,7 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .viz-box{margin-top:56px;border:1px solid var(--hair);border-radius:12px;padding:32px 32px 28px;background:#fff}
 .viz-scroll{min-width:0}
 .viz{width:100%;height:auto}
-.viz-labels{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:22px;padding-top:20px;border-top:1px solid var(--hair)}
+.viz-labels{display:grid;grid-template-columns:27fr 27fr 23fr 19fr 12fr;gap:16px;margin-top:22px;padding-top:20px;border-top:1px solid var(--hair)}
 .viz-labels .eyebrow{margin-bottom:8px}
 .viz-labels b{font:400 14px/1.4 var(--f);color:var(--body)}
 
