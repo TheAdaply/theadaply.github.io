@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="/static/moon.jpg" imagesrcset="/static/moon.jpg 1920w, /static/moon@2x.jpg 3840w" imagesizes="100vw">
-<link rel="stylesheet" href="/static/v3.css?v=8">
+<link rel="stylesheet" href="/static/v3.css?v=9">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -74,11 +74,14 @@
           <div class="d-head">
             <div>
               <div class="d-title"><i class="ic ic-tree big"></i>Survival of the fittest</div>
-              <div class="d-sub">Every agent descends from one before it. The bold line is the winner’s ancestry.</div>
+              <div class="d-sub">Agents compete on your real work. The best of each generation breed the next.</div>
             </div>
             <span class="d-select">Last 30 days<i></i></span>
           </div>
-          <svg class="funnel" data-funnel="dash" viewBox="0 0 700 250"></svg>
+          <div class="d-cols">
+            <span>Gen 0<b>26 agents</b></span><span>Gen 1<b>22 agents</b></span><span>Gen 2<b>18 agents</b></span><span>Gen 3<b>12 agents</b></span><span>Gen 4<b>7 agents</b></span><span>Winner<b>1 agent</b></span>
+          </div>
+          <svg class="funnel" data-funnel="dash" viewBox="0 0 700 214"></svg>
         </div>
         <aside class="d-right">
           <span class="d-pill">Winner</span>
@@ -153,27 +156,19 @@
   <section class="sec" id="selection" aria-labelledby="sel-h">
     <div class="wrap">
       <span class="eyebrow">Survival of the fittest</span>
-      <h2 id="sel-h">The best agent is not always the child of the best.</h2>
-      <p class="sub">Every column is a generation, and every agent has a parent in the column before it. This is not hill-climbing: the winning line dips through a low scorer in generation 2, the winner arrives in generation 4, and the other lines carry on for two more generations without beating it.</p>
+      <h2 id="sel-h">From many candidates to one better agent.</h2>
+      <p class="sub">Every agent descends from one of the previous generation’s best. Ringed agents are the elites of their generation; the black line is the winner’s ancestry.</p>
       <div class="viz-box">
         <div class="viz-scroll">
-          <svg class="funnel viz" data-funnel="viz" viewBox="0 0 1120 360" role="img" aria-label="A lineage tree of candidate agents across six generations. One bold line runs from the start, dips through a low scorer in generation 2, and reaches the winning agent in generation 4, marked green. Other lines continue to generation 6, some retired with a cross, none better."></svg>
+          <svg class="funnel viz" data-funnel="viz" viewBox="0 0 1120 360" role="img" aria-label="Hundreds of candidate agents on the left are scored on real tasks. Weak candidates fade out at each generation until one winning agent remains, marked green."></svg>
           <div class="viz-labels">
-            <div><span class="eyebrow">Start</span><b>one agent</b></div>
-            <div><span class="eyebrow">Generation 1</span><b>one child</b></div>
-            <div><span class="eyebrow">Generation 2</span><b>four children</b><i>dips through a low scorer</i></div>
-            <div><span class="eyebrow">Generation 3</span><b>five children</b><i>its child scores well</i></div>
-            <div><span class="eyebrow">Generation 4</span><b>five children</b><i class="g">winner found</i></div>
-            <div><span class="eyebrow">Generation 5</span><b>four children</b><i>others keep going</i></div>
-            <div><span class="eyebrow">Generation 6</span><b>three children</b><i>still none better</i></div>
+            <div><span class="eyebrow">Generation 0</span><b>128 agents</b></div>
+            <div><span class="eyebrow">Generation 1</span><b>96 agents</b></div>
+            <div><span class="eyebrow">Generation 2</span><b>56 agents</b></div>
+            <div><span class="eyebrow">Generation 3</span><b>28 agents</b></div>
+            <div><span class="eyebrow">Generation 4</span><b>12 agents</b></div>
+            <div><span class="eyebrow">Winner</span><b>1 agent</b></div>
           </div>
-          <ul class="legend" aria-label="Legend">
-            <li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="#fff" stroke="#B5B4B0" stroke-width="1.4"/></svg>candidate</li>
-            <li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="#fff" stroke="#D5D4D0" stroke-width="1.4"/><path d="M6.5 6.5l5 5M11.5 6.5l-5 5" stroke="#A3A29E" stroke-width="1.2" stroke-linecap="round"/></svg>retired</li>
-            <li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="#F2F2F0" stroke="#0A0A0A" stroke-width="1.7"/></svg>the winner’s ancestry</li>
-            <li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="#fff" stroke="#0A0A0A" stroke-width="1.7" stroke-dasharray="2.4 2"/></svg>a low scorer on that line</li>
-            <li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="#17864E" stroke="#17864E" stroke-width="1.7"/></svg>winning agent</li>
-          </ul>
         </div>
       </div>
       <p class="note">Population and counts are illustrative. The measured numbers are in the results below.</p>
@@ -221,6 +216,6 @@
 </footer>
 
 <div class="grain" aria-hidden="true"></div>
-<script src="/static/v3.js?v=6" defer></script>
+<script src="/static/v3.js?v=7" defer></script>
 </body>
 </html>
