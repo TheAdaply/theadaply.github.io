@@ -3,96 +3,43 @@
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  /* ---- Lineage. Columns are generations, left to right. Every agent descends
-     from a parent in the column before it. The elites of a generation breed
-     most of the next one, but a few low scorers breed too, and that is the
-     point: the winning line runs through one of them, and the winner shows up
-     in generation 4. The population stays the same size every generation, the
-     winner's own children are not highlighted, and two more generations of
-     elites never beat it. Not hill-climbing. Deterministic on every load. ---- */
-  var STAGES = 7, WIN_GEN = 4, WILD_GEN = 2;
-  function rnd(seed) { return function () { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }; }
+  /* ---- Lineage tree. Seven columns, a couple of dozen agents, laid by hand so
+     the picture stays legible: one start, branches, retirements marked with a
+     cross, one bold ancestry that dips through a low scorer in generation 2
+     and reaches the winner in generation 4. The winner has no children; the
+     other lines carry on to generation 6 and never beat it. ---- */
+  var STAGES = 7;
+  var TREE = [
+    /* [column, row 0..1, parent index, kind] */
+    [0, 0.50, -1, "lin"],
+    [1, 0.50, 0, "lin"],
+    [2, 0.20, 1, ""], [2, 0.36, 1, ""], [2, 0.66, 1, "lin low"], [2, 0.92, 1, ""],
+    [3, 0.08, 2, ""], [3, 0.36, 3, ""], [3, 0.50, 4, "lin"], [3, 0.78, 5, ""], [3, 0.92, 5, "ret"],
+    [4, 0.08, 6, ""], [4, 0.22, 8, "win"], [4, 0.36, 7, "ret"], [4, 0.64, 8, ""], [4, 0.92, 9, ""],
+    [5, 0.08, 11, ""], [5, 0.50, 14, ""], [5, 0.78, 15, "ret"], [5, 0.92, 15, ""],
+    [6, 0.22, 16, ""], [6, 0.64, 17, ""], [6, 0.92, 19, ""]
+  ];
+  var CAPS = ["start", "gen 1", "gen 2", "gen 3", "gen 4", "gen 5", "gen 6"];
   function buildFunnel(svg, W, H, dense) {
-    var R = rnd(11);
-    var top = 18, bot = H - 18;
-    var gens = [];
-    for (var gi = 0; gi < STAGES; gi++) gens.push(dense ? { n: 72, cols: 2, e: 6, w: 2 } : { n: 18, cols: 1, e: 4, w: 1 });
-    var G = gens.length;
-    var colX = gens.map(function (_, k) { return ((k + 0.5) / G) * W; });
-    var gap = dense ? 5.5 : 8, rowMax = dense ? 9 : 10.5;
-    function place(arr, g) {
-      var cols = gens[g].cols, rows = Math.ceil(arr.length / cols);
-      var h = Math.min(bot - top, (rows - 1) * rowMax), rowGap = rows > 1 ? h / (rows - 1) : 0, y0 = (top + bot) / 2 - h / 2;
-      arr.forEach(function (p, i) {
-        var c = i % cols, r = Math.floor(i / cols);
-        p.x = colX[g] + (c - (cols - 1) / 2) * gap; p.y = y0 + r * rowGap; p.g = g; p.id = i;
-      });
-    }
-    /* spread picks evenly across the column, jittered, never near an already taken agent */
-    function pick(arr, count, taken, minGap, exclude) {
-      var out = [], n = arr.length;
-      function clear(i) { return (!exclude || exclude.indexOf(arr[i]) < 0) && taken.concat(out).every(function (p) { return Math.abs(p.id - i) >= minGap; }); }
-      for (var k = 0; k < count; k++) {
-        var t = Math.round(((k + 0.5) / count) * (n - 1) + (R() - 0.5) * (n / (count * 2)));
-        var i = -1;
-        for (var d = 0; d < n && i < 0; d++) { if (t + d < n && clear(t + d)) i = t + d; else if (t - d >= 0 && clear(t - d)) i = t - d; }
-        if (i < 0) break;
-        out.push(arr[i]);
-      }
-      return out;
-    }
-    var pts = [], elites = [], wilds = [], lineage = [], winner = null;
-    pts[0] = []; for (var i0 = 0; i0 < gens[0].n; i0++) pts[0].push({ parent: null });
-    place(pts[0], 0);
-    lineage[0] = pts[0][Math.floor(gens[0].n * 0.5)];
-    elites[0] = [lineage[0]].concat(pick(pts[0], gens[0].e - 1, [lineage[0]], Math.max(2, Math.floor(gens[0].n / (gens[0].e * 2.2)))));
-    wilds[0] = pick(pts[0], gens[0].w, elites[0], 2);
-    for (var g = 1; g < G; g++) {
-      /* the winner breeds one generation, lightly; its children are never highlighted and never breed */
-      var par = elites[g - 1].map(function (p) { return { p: p, w: p === winner ? 0.45 : p === lineage[g - 1] ? 2.2 : 0.55 + R() * 0.9 }; })
-        .concat(wilds[g - 1].map(function (p) { return { p: p, w: p === lineage[g - 1] ? 2.2 : 0.35 }; }));
-      par.sort(function (a, b) { return a.p.y - b.p.y; });
-      var n = gens[g].n;
-      while (par.length > n) { var minI = 0; par.forEach(function (x, i) { if (x.w < par[minI].w) minI = i; }); par.splice(minI, 1); }
-      var sum = par.reduce(function (a, x) { return a + x.w; }, 0);
-      var counts = par.map(function (x) { return Math.max(1, Math.floor(x.w / sum * n)); });
-      var left = n - counts.reduce(function (a, b) { return a + b; }, 0);
-      while (left > 0) { var maxI = 0; par.forEach(function (x, i) { if (x.w > par[maxI].w) maxI = i; }); counts[maxI] += 1; left -= 1; }
-      for (var guard = 0; left < 0 && guard < 50; guard++) { for (var q = 0; q < counts.length && left < 0; q++) if (counts[q] > 1) { counts[q] -= 1; left += 1; } }
-      var arr = [];
-      par.forEach(function (x, k) { for (var c = 0; c < counts[k]; c++) arr.push({ parent: x.p }); });
-      place(arr, g); pts[g] = arr;
-      if (g <= WIN_GEN) {
-        var kids = arr.filter(function (p) { return p.parent === lineage[g - 1]; });
-        /* the detour: in the wild generation the line runs through a low scorer at the edge of its family */
-        lineage[g] = g === WILD_GEN ? kids[kids.length - 1] : kids[Math.floor(kids.length / 2)];
-      }
-      if (g === WIN_GEN) winner = lineage[g];
-      var lin = lineage[g], taken = lin ? [lin] : [];
-      var winKids = winner ? arr.filter(function (p) { return p.parent === winner; }) : [];
-      var minGap = Math.max(2, Math.floor(n / (Math.max(1, gens[g].e) * 2.2)));
-      if (g === WILD_GEN) { elites[g] = pick(arr, gens[g].e, taken, minGap); wilds[g] = [lin].concat(pick(arr, gens[g].w - 1, elites[g].concat(taken), 2)); }
-      else { elites[g] = (lin ? [lin] : []).concat(pick(arr, gens[g].e - (lin ? 1 : 0), taken, minGap, winKids)); wilds[g] = pick(arr, gens[g].w, elites[g], 2, winKids); }
-    }
+    var r = dense ? 8 : 5.5, labels = !dense;
+    var padX = dense ? 60 : 40, top = r + 6, bot = H - (labels ? 30 : r + 6);
+    var colX = CAPS.map(function (_, k) { return padX + (k / (CAPS.length - 1)) * (W - padX * 2); });
+    var nodes = TREE.map(function (t) { return { c: t[0], x: colX[t[0]], y: top + t[1] * (bot - top), parent: t[2], kind: t[3] }; });
     var out = [];
-    for (var c = 0; c < G; c++) out.push('<line class="rule" x1="' + colX[c].toFixed(1) + '" y1="' + (top - 8) + '" x2="' + colX[c].toFixed(1) + '" y2="' + (bot + 8) + '"/>');
-    for (var g2 = 1; g2 < G; g2++) {
-      pts[g2].forEach(function (p) {
-        var q = p.parent, onLin = lineage.indexOf(p) >= 0 && lineage.indexOf(q) >= 0;
-        var cls = "ln g" + (g2 - 1) + (onLin ? (p === winner ? " final" : " lin") : elites[g2].indexOf(p) >= 0 ? " mid" : " weak");
-        var x1 = q.x + 3, x2 = p.x - 3, mx = (x1 + x2) / 2;
-        out.push('<path class="' + cls + '" pathLength="1" d="M' + x1.toFixed(1) + ' ' + q.y.toFixed(1) + ' C' + mx.toFixed(1) + ' ' + q.y.toFixed(1) + ' ' + mx.toFixed(1) + ' ' + p.y.toFixed(1) + ' ' + x2.toFixed(1) + ' ' + p.y.toFixed(1) + '"/>');
-      });
-    }
-    pts.forEach(function (arr, g3) {
-      var base = dense ? 1.6 : 2.2;
-      arr.forEach(function (p) {
-        var isWin = p === winner, isLin = lineage.indexOf(p) >= 0, isEl = elites[g3].indexOf(p) >= 0, isWild = wilds[g3].indexOf(p) >= 0;
-        var cls = "dot st" + g3 + (isWin ? " win" : isWild ? (isLin ? " wild lin" : " wild out") : isLin ? " lin" : isEl ? " elite" : " out");
-        var r = isWin ? 4.6 : isEl || isWild ? base * 1.45 : base;
-        out.push('<circle class="' + cls + '" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r + '"/>');
-        if (isEl || isWild) out.push('<circle class="ring st' + g3 + (isWin ? ' win' : isWild ? ' wild' : '') + '" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + (r + (isWin ? 3.4 : 2.6)) + '"/>');
-      });
+    if (labels) CAPS.forEach(function (cap, k) { out.push('<text class="cap" x="' + colX[k].toFixed(1) + '" y="' + (H - 9) + '" text-anchor="middle">' + cap + '</text>'); });
+    nodes.forEach(function (n) {
+      if (n.parent < 0) return;
+      var q = nodes[n.parent];
+      var isLin = /lin|win/.test(n.kind) && /lin/.test(q.kind);
+      var cls = "ln g" + q.c + (isLin ? (/win/.test(n.kind) ? " final" : " lin") : /ret/.test(n.kind) ? " ret" : "");
+      var x1 = q.x + r, x2 = n.x - r, mx = (x1 + x2) / 2;
+      out.push('<path class="' + cls + '" pathLength="1" d="M' + x1.toFixed(1) + ' ' + q.y.toFixed(1) + ' C' + mx.toFixed(1) + ' ' + q.y.toFixed(1) + ' ' + mx.toFixed(1) + ' ' + n.y.toFixed(1) + ' ' + x2.toFixed(1) + ' ' + n.y.toFixed(1) + '"/>');
+    });
+    nodes.forEach(function (n) {
+      var k = n.kind;
+      if (/win/.test(k)) out.push('<circle class="halo c' + n.c + '" cx="' + n.x.toFixed(1) + '" cy="' + n.y.toFixed(1) + '" r="' + (r + 4.5) + '"/>');
+      out.push('<circle class="nd c' + n.c + (k ? " " + k : "") + '" cx="' + n.x.toFixed(1) + '" cy="' + n.y.toFixed(1) + '" r="' + r + '"/>');
+      if (/ret/.test(k)) { var d = r * 0.42; out.push('<path class="x c' + n.c + '" d="M' + (n.x - d).toFixed(1) + ' ' + (n.y - d).toFixed(1) + 'l' + (2 * d).toFixed(1) + ' ' + (2 * d).toFixed(1) + 'M' + (n.x + d).toFixed(1) + ' ' + (n.y - d).toFixed(1) + 'l' + (-2 * d).toFixed(1) + ' ' + (2 * d).toFixed(1) + '"/>'); }
     });
     svg.innerHTML = out.join("");
   }
@@ -107,7 +54,7 @@
   function play(svg, fast) {
     if (svg.__played) return;
     svg.__played = true;
-    var step = fast ? 300 : 800;
+    var step = fast ? 340 : 720;
     if (reduce.matches) { for (var i = 1; i <= STAGES; i++) svg.classList.add("s" + i); svg.classList.add("done"); return; }
     var i = 1;
     (function next() {

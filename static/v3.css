@@ -101,9 +101,6 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .d-sub{margin-top:5px;font-size:11.5px;color:var(--body)}
 .d-select{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border:1px solid var(--hair);border-radius:8px;font:400 12.5px/1 var(--f);white-space:nowrap}
 .d-select i{width:6px;height:6px;border-right:1.3px solid #2A2A28;border-bottom:1.3px solid #2A2A28;transform:translateY(-2px) rotate(45deg)}
-.d-cols{display:grid;grid-template-columns:repeat(7,1fr);font:400 11.5px/1.4 var(--f);color:#2A2A28;text-align:center}
-.d-cols b{display:block;font-weight:400;color:var(--body)}
-.d-cols i{display:block;font-style:normal;color:var(--green)}
 .funnel{width:100%;height:auto}
 .d-right{border-left:1px solid var(--hair);padding:16px 22px 0}
 .d-pill{display:inline-block;padding:4px 9px;border-radius:999px;background:#EFEFED;font:500 10.5px/1 var(--f);letter-spacing:.08em;text-transform:uppercase;color:#2A2A28}
@@ -124,29 +121,26 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .d-list b{font-weight:500;color:var(--green)}
 .d-list time{color:var(--body);font-size:11px}
 
-/* lineage: shared by the dashboard and the centrepiece; generations reveal in order.
-   A generation appears, then its edges to the next one draw, and only then are
-   its elites ringed and the rest faded: selection is shown after the fact. */
-.funnel .dot{fill:#0A0A0A;opacity:0;transition:opacity .5s var(--ease),fill .6s}
-.funnel .dot.out{fill:#B5B4B0}
-.funnel .dot.wild{fill:#fff;stroke:#0A0A0A;stroke-width:1}
-.funnel .dot.wild.out{stroke:#8F8E8A}
-.funnel .dot.win{fill:var(--green)}
-.funnel .ring{fill:none;stroke:#0A0A0A;stroke-width:.9;opacity:0;transition:opacity .5s var(--ease)}
-.funnel .ring.wild{stroke-dasharray:2 1.7;stroke:#6B6B68}
-.funnel .ring.win{stroke:var(--green);stroke-width:1.2}
-.funnel .ln{fill:none;stroke:#0A0A0A;stroke-width:.7;opacity:0;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s var(--ease),opacity .6s,stroke .6s}
-.funnel .ln.weak{stroke:#DDDCD8}
-.funnel .ln.mid{stroke:#A3A29E;stroke-width:.85}
-.funnel .ln.lin{stroke:#0A0A0A;stroke-width:1.15}
-.funnel .ln.final{stroke:var(--green);stroke-width:1.3}
-.funnel .rule{stroke:var(--hair);stroke-width:1}
-.funnel.s1 .st0,.funnel.s2 .st1,.funnel.s3 .st2,.funnel.s4 .st3,.funnel.s5 .st4,.funnel.s6 .st5,.funnel.s7 .st6{opacity:1}
+/* lineage tree: shared by the dashboard and the centrepiece. A column reveals
+   by drawing the edges into it, then its agents; a retirement cross appears one
+   column later, when the next generation has shown it went nowhere. */
+.funnel .nd{fill:#fff;stroke:#B5B4B0;stroke-width:1.4;opacity:0;transition:opacity .45s var(--ease)}
+.funnel .nd.lin{fill:#F2F2F0;stroke:#0A0A0A;stroke-width:1.7}
+.funnel .nd.low{fill:#fff;stroke-dasharray:2.4 2}
+.funnel .nd.win{fill:var(--green);stroke:var(--green);stroke-width:1.7}
+.funnel .nd.ret{stroke:#D5D4D0}
+.funnel .x{fill:none;stroke:#A3A29E;stroke-width:1.2;stroke-linecap:round;opacity:0;transition:opacity .4s var(--ease)}
+.funnel .halo{fill:none;stroke:var(--green);stroke-width:1;opacity:0;transition:opacity .6s var(--ease) .5s}
+.funnel .ln{fill:none;stroke:#DDDCD8;stroke-width:1.2;opacity:0;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s var(--ease),opacity .3s}
+.funnel .ln.ret{stroke:#E8E7E4}
+.funnel .ln.lin{stroke:#0A0A0A;stroke-width:2}
+.funnel .ln.final{stroke:var(--green);stroke-width:2}
+.funnel .cap{font:400 10.5px var(--f);fill:var(--body);letter-spacing:.06em}
+.funnel.s1 .nd.c0,.funnel.s2 .nd.c1,.funnel.s3 .nd.c2,.funnel.s4 .nd.c3,.funnel.s5 .nd.c4,.funnel.s6 .nd.c5,.funnel.s7 .nd.c6{opacity:1;transition-delay:.4s}
 .funnel.s2 .ln.g0,.funnel.s3 .ln.g1,.funnel.s4 .ln.g2,.funnel.s5 .ln.g3,.funnel.s6 .ln.g4,.funnel.s7 .ln.g5{opacity:1;stroke-dashoffset:0}
-.funnel.s2 .ln.g0.weak,.funnel.s3 .ln.g1.weak,.funnel.s4 .ln.g2.weak,.funnel.s5 .ln.g3.weak,.funnel.s6 .ln.g4.weak,.funnel.s7 .ln.g5.weak{opacity:.9}
-.funnel.s2 .st0.out,.funnel.s3 .st1.out,.funnel.s4 .st2.out,.funnel.s5 .st3.out,.funnel.s6 .st4.out,.funnel.s7 .st5.out{opacity:.7}
-.funnel.s2 .ring.st0,.funnel.s3 .ring.st1,.funnel.s4 .ring.st2,.funnel.s5 .ring.st3,.funnel.s6 .ring.st4,.funnel.s7 .ring.st5,.funnel.s7 .ring.st6{opacity:1}
-.funnel.done .dot,.funnel.done .ring{transition:none}
+.funnel.s2 .x.c0,.funnel.s3 .x.c1,.funnel.s4 .x.c2,.funnel.s5 .x.c3,.funnel.s6 .x.c4,.funnel.s7 .x.c5{opacity:1}
+.funnel.s5 .halo{opacity:1}
+.funnel.done .nd,.funnel.done .x,.funnel.done .halo{transition:none}
 .funnel.done .ln{transition:none}
 
 /* ---- problem ---- */
