@@ -87,6 +87,17 @@
     svg.innerHTML = out.join("");
   }
 
+  /* ---- Nav: lifts into a narrower pill after the first scroll. Hysteresis
+     (lift past 64px, settle under 12px) so it never flickers at the edge. ---- */
+  var navEl = document.querySelector(".nav"), navFloating = false;
+  function navState() {
+    var y = window.scrollY;
+    if (!navFloating && y > 64) navFloating = true;
+    else if (navFloating && y < 12) navFloating = false;
+    navEl.classList.toggle("is-floating", navFloating);
+  }
+  if (navEl) { navState(); window.addEventListener("scroll", navState, { passive: true }); }
+
   var funnels = Array.prototype.slice.call(document.querySelectorAll("[data-funnel]"));
   funnels.forEach(function (svg) {
     var vb = svg.getAttribute("viewBox").split(" ");

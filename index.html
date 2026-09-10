@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="/static/moon.jpg">
-<link rel="stylesheet" href="/static/v3.css?v=1">
+<link rel="stylesheet" href="/static/v3.css?v=2">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -30,13 +30,15 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top" aria-label="re-forge, back to top"><img src="/static/reforge-mark.png" width="727" height="681" alt="">re-forge</a>
-    <nav class="nav-c" aria-label="Sections">
-      <a href="#how">How it works</a>
-      <a href="#selection">Selection</a>
-      <a href="#results">Results</a>
-      <a href="/FOR-AGENTS.md">For agents</a>
-    </nav>
-    <a class="btn btn-dark btn-sm" href="https://tally.so/r/lb4Rkp" target="_blank" rel="noreferrer">Get early access<span class="arr" aria-hidden="true">→</span></a>
+    <div class="nav-r">
+      <nav class="nav-c" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#selection">Selection</a>
+        <a href="#results">Results</a>
+        <a href="/FOR-AGENTS.md">For agents</a>
+      </nav>
+      <a class="btn btn-dark btn-sm" href="https://tally.so/r/lb4Rkp" target="_blank" rel="noreferrer">Get early access<span class="arr" aria-hidden="true">→</span></a>
+    </div>
   </div>
 </header>
 
@@ -107,7 +109,7 @@
   <!-- ================= PROBLEM ================= -->
   <section class="problem" aria-label="The problem">
     <div class="wrap">
-      <p class="statement">Your team runs a thousand agent sessions a week,<br>and the thousand-and-first starts from zero.</p>
+      <p class="statement">Your team runs a thousand agent sessions a week, <br>and the thousand-and-first starts from zero.</p>
       <p class="expl">Every run teaches something, and today that knowledge disappears when the session ends. The same ten-tool path gets walked again, as if for the first time.</p>
     </div>
   </section>
@@ -213,6 +215,6 @@
 </footer>
 
 <div class="grain" aria-hidden="true"></div>
-<script src="/static/v3.js?v=1" defer></script>
+<script src="/static/v3.js?v=2" defer></script>
 </body>
 </html>

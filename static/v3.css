@@ -44,11 +44,19 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 
 /* ---- nav ---- */
-.nav{position:absolute;top:0;left:0;right:0;z-index:20}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+/* a pill from the first pixel; after the first scroll it lifts and narrows */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;padding:10px clamp(12px,3vw,32px) 0;pointer-events:none}
+.nav-in{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;height:60px;padding:0 8px 0 20px;
+  background:rgba(255,255,255,.82);border:1px solid rgba(10,10,10,.1);border-radius:999px;
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);
+  box-shadow:0 1px 2px rgba(10,10,10,.04),0 16px 40px -24px rgba(10,10,10,.35);
+  transition:max-width .45s var(--ease),height .45s var(--ease),margin .45s var(--ease),background-color .45s var(--ease),box-shadow .45s var(--ease)}
+.nav.is-floating .nav-in{max-width:880px;height:54px;background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(10,10,10,.05),0 18px 44px -22px rgba(10,10,10,.4)}
+.nav.is-floating .btn-sm{min-height:36px}
+.nav-r{display:flex;align-items:center;gap:30px}
 .brand{display:inline-flex;align-items:center;gap:9px;font:500 19px/1 var(--f);letter-spacing:-.02em;color:var(--ink)}
 .brand img{width:20px;height:auto}
-.nav-c{display:flex;gap:30px;font:400 14px/1 var(--f);color:var(--ink)}
+.nav-c{display:flex;gap:26px;font:400 15px/1 var(--f);color:#2A2A28}
 .nav-c a{padding:8px 0;border-bottom:1px solid transparent;transition:border-color .2s}
 .nav-c a:hover{border-bottom-color:rgba(10,10,10,.5)}
 @media (max-width:820px){.nav-c{display:none}}
@@ -60,8 +68,12 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .hero-copy h1{max-width:none}
 .hero-sub{font-size:clamp(16px,1.25vw,19px);line-height:1.5;color:#2A2A28;max-width:58ch}
 .hero .ctas{margin-top:6px}
+/* the sky and the product both dissolve into the page, no hard edge */
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:36%;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,.6) 50%,#fff 100%)}
 /* the product rises from below the fold; only its top is meant to show */
-.dash-wrap{position:absolute;left:0;right:0;top:63%;z-index:3;padding-inline:clamp(12px,4vw,40px)}
+.dash-wrap{position:absolute;left:0;right:0;top:63%;bottom:0;z-index:3;padding-inline:clamp(12px,4vw,40px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent 100%);mask-image:linear-gradient(to bottom,#000 58%,transparent 100%)}
 .dash{width:min(1180px,100%);margin-inline:auto;height:640px;display:grid;grid-template-columns:220px minmax(0,1fr) 300px;
   background:rgba(255,255,255,.96);border:1px solid rgba(10,10,10,.14);border-radius:14px;overflow:hidden;
   box-shadow:0 30px 80px -30px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.08);
@@ -208,7 +220,9 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 }
 @media (max-width:820px){
   .hero{background-position:50% 0}
-  .hero-copy{padding-top:110px;gap:18px}
+  .hero-copy{padding-top:104px;gap:18px}
+  .nav{padding-top:8px}
+  .nav-in{height:54px;padding-left:16px}
   .hero-copy h1{font-size:clamp(34px,9vw,44px)}
   .dash-wrap{top:60%;padding-inline:16px}
   .dash{width:900px;margin-inline:0;grid-template-columns:180px minmax(0,1fr)}
