@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="/static/moon.jpg" imagesrcset="/static/moon.jpg 1920w, /static/moon@2x.jpg 3840w" imagesizes="100vw">
-<link rel="stylesheet" href="/static/v3.css?v=13">
+<link rel="stylesheet" href="/static/v3.css?v=16">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -53,6 +53,12 @@
 
   <!-- ================= HERO ================= -->
   <section class="hero" id="top" aria-labelledby="hero-h">
+    <div class="meteor-field" aria-hidden="true">
+      <i class="meteor meteor-1"></i>
+      <i class="meteor meteor-2"></i>
+      <i class="meteor meteor-3"></i>
+      <i class="meteor meteor-4"></i>
+    </div>
     <div class="wrap hero-copy">
       <h1 id="hero-h">Agents that evolve<br>against your team’s real work.</h1>
       <p class="hero-sub">re-forge captures every session your team runs, breeds candidate agents for the work you repeat, and keeps the ones that win on your own tasks.</p>
@@ -111,6 +117,74 @@
       </div>
     </div>
   </section>
+
+  <div class="circuit-stage">
+    <svg class="circuit-field" viewBox="0 0 1440 3000" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <pattern id="circuit-dot-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1"/>
+        </pattern>
+      </defs>
+      <rect class="circuit-grid" width="1440" height="3000" fill="url(#circuit-dot-grid)"/>
+      <g class="circuit-static">
+        <path d="M0 150H180V285H340V390H520"/>
+        <path d="M1440 190H1265V330H1115V430H930"/>
+        <path d="M0 610H155V510H315V735H500"/>
+        <path d="M1440 650H1280V810H1095V690H910"/>
+        <path d="M0 1070H215V930H405V1220H615"/>
+        <path d="M1440 1120H1230V970H1025V1270H820"/>
+        <path d="M0 1540H145V1430H355V1710H565"/>
+        <path d="M1440 1600H1260V1470H1060V1750H850"/>
+        <path d="M0 2050H205V1890H390V2200H600"/>
+        <path d="M1440 2110H1245V1920H1040V2240H830"/>
+        <path d="M0 2530H165V2400H345V2690H560"/>
+        <path d="M1440 2580H1270V2420H1080V2710H875"/>
+        <path d="M235 0V115H410V245H610"/>
+        <path d="M1190 0V125H1035V255H825"/>
+        <path d="M280 3000V2840H470V2750H650"/>
+        <path d="M1160 3000V2855H980V2765H790"/>
+      </g>
+      <g class="circuit-mesh">
+        <path d="M0 375H92V460H245V535H390"/><path d="M1440 455H1350V530H1205V600H1050"/>
+        <path d="M120 835H265V790H455V865H690"/><path d="M1320 900H1170V845H980V920H750"/>
+        <path d="M0 1325H110V1390H285V1310H460"/><path d="M1440 1375H1325V1440H1150V1360H970"/>
+        <path d="M90 1810H250V1870H430V1790H650"/><path d="M1350 1850H1190V1910H1005V1820H790"/>
+        <path d="M0 2300H125V2365H305V2280H505"/><path d="M1440 2350H1305V2415H1125V2325H925"/>
+        <path d="M135 2780H300V2840H485"/><path d="M1300 2810H1135V2870H945"/>
+        <path d="M555 660V585H650V505H760"/><path d="M890 1510V1425H785V1350H680"/>
+        <path d="M570 2460V2375H670V2295H780"/><path d="M875 2660V2575H775V2500H665"/>
+      </g>
+      <g class="circuit-modules">
+        <g transform="translate(72 760)"><rect width="92" height="58" rx="4"/><path d="M18 0V-18M38 0V-18M58 0V-18M78 0V-18M18 58V76M38 58V76M58 58V76M78 58V76"/><circle cx="24" cy="29" r="4"/><circle cx="46" cy="29" r="4"/><circle cx="68" cy="29" r="4"/></g>
+        <g transform="translate(1270 1190)"><rect width="98" height="62" rx="4"/><path d="M0 16H-20M0 31H-20M0 46H-20M98 16H118M98 31H118M98 46H118"/><circle cx="26" cy="31" r="4"/><circle cx="49" cy="31" r="4"/><circle cx="72" cy="31" r="4"/></g>
+        <g transform="translate(94 1740)"><rect width="108" height="66" rx="4"/><path d="M22 0V-18M44 0V-18M66 0V-18M88 0V-18M22 66V84M44 66V84M66 66V84M88 66V84"/><circle cx="30" cy="33" r="4"/><circle cx="54" cy="33" r="4"/><circle cx="78" cy="33" r="4"/></g>
+        <g transform="translate(1235 2180)"><rect width="110" height="68" rx="4"/><path d="M0 17H-20M0 34H-20M0 51H-20M110 17H130M110 34H130M110 51H130"/><circle cx="31" cy="34" r="4"/><circle cx="55" cy="34" r="4"/><circle cx="79" cy="34" r="4"/></g>
+      </g>
+      <g class="circuit-nodes">
+        <circle cx="180" cy="150" r="4"/><circle cx="340" cy="285" r="4"/><circle cx="520" cy="390" r="5"/>
+        <circle cx="1265" cy="190" r="4"/><circle cx="1115" cy="330" r="4"/><circle cx="930" cy="430" r="5"/>
+        <circle cx="315" cy="510" r="4"/><circle cx="500" cy="735" r="5"/><circle cx="1095" cy="810" r="4"/>
+        <circle cx="215" cy="1070" r="4"/><circle cx="405" cy="930" r="4"/><circle cx="615" cy="1220" r="5"/>
+        <circle cx="1230" cy="1120" r="4"/><circle cx="1025" cy="970" r="4"/><circle cx="820" cy="1270" r="5"/>
+        <circle cx="355" cy="1430" r="4"/><circle cx="565" cy="1710" r="5"/><circle cx="1060" cy="1470" r="4"/>
+        <circle cx="205" cy="2050" r="4"/><circle cx="600" cy="2200" r="5"/><circle cx="1040" cy="1920" r="4"/>
+        <circle cx="345" cy="2400" r="4"/><circle cx="560" cy="2690" r="5"/><circle cx="1080" cy="2420" r="4"/>
+      </g>
+      <g class="circuit-flow">
+        <path d="M0 150H180V285H340V390H520"/>
+        <path d="M1440 650H1280V810H1095V690H910"/>
+        <path d="M0 1070H215V930H405V1220H615"/>
+        <path d="M1440 1600H1260V1470H1060V1750H850"/>
+        <path d="M0 2050H205V1890H390V2200H600"/>
+        <path d="M1440 2580H1270V2420H1080V2710H875"/>
+      </g>
+      <g class="circuit-flow circuit-flow-soft">
+        <path d="M0 375H92V460H245V535H390"/><path d="M1440 455H1350V530H1205V600H1050"/>
+        <path d="M120 835H265V790H455V865H690"/><path d="M1320 900H1170V845H980V920H750"/>
+        <path d="M90 1810H250V1870H430V1790H650"/><path d="M1350 1850H1190V1910H1005V1820H790"/>
+        <path d="M0 2300H125V2365H305V2280H505"/><path d="M1440 2350H1305V2415H1125V2325H925"/>
+      </g>
+    </svg>
 
   <!-- ================= PROBLEM ================= -->
   <section class="problem" aria-label="The problem">
@@ -209,6 +283,7 @@
       </article>
     </div>
   </section>
+  </div>
 
   <!-- ================= CLOSING CTA ================= -->
   <section class="cta" aria-labelledby="cta-h">
