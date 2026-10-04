@@ -1,32 +1,49 @@
-# From a failed task to a better agent
+# When the brief is only 80% finished
 
-How the work a team does can improve the instructions, skills and workflows its agents use.
+Helping an agent work through the UI details a customer does not have time to specify.
 
-Illustrative API scenario. The bundle is a proposed change; no improvement has been measured.
+> i spec it out 80% and then fire it off and pray
+>
+> — Customer conversation
 
-## Find the recurring failure
+Their question was whether a skill would help at all. The bottleneck was specifying the task and getting an agent to resolve the remaining UI details consistently.
 
-A developer asks an agent to fix an API endpoint. The agent repairs the happy path, runs a test with valid credentials and reports success. During review, the developer tries an expired credential. The endpoint still accepts the expired credential, and there is no test for that case. The developer sends the work back.
+The quote is from a customer conversation. The walkthrough and bundle below are illustrative; this candidate has not been evaluated.
 
-On another endpoint, the same omission happens again. The individual fixes may ship, but the team keeps spending time on the same correction. The problem is specific enough to act on: authentication changes need failure-case tests before the agent considers them complete.
+## The missing work happens before the code
 
-re-forge starts with evidence from that work: the request, tool calls, review intervention and checks actually run. Captured sessions can be organized into task episodes and compared to find recurring failures. A transcript alone does not establish success; the outcome needs supporting evidence.
+The customer wanted an end-to-end design system that could account for product permutations. They would specify everything if they had time. A useful response has to address that workload: turning a partly finished brief into a coherent interface, including the states nobody remembered to mention.
 
-## Change the harness
+Imagine the next request is: “Add a team members page with invitations.” The agent can build a table and an invite button. But the brief leaves open what happens before members load, when an invitation fails, when someone lacks permission, or when the page is used on a narrow screen. Those omissions become review work for the customer.
 
-The candidate below changes the environment around the agent: its instructions, skills, review agent and completion reminder. The API skill asks for regression tests. The reviewer checks untested failure paths. The hook asks the agent to separate checks it ran from checks it only recommends.
+## Work through the remaining decisions
 
-These parts need to be considered together. An instruction can contradict a skill, and a reviewer can lack a needed tool. A versioned bundle makes the complete change inspectable and keeps a parent version available for rollback. The model and tool permissions in this example remain the same.
+re-forge’s proposed workflow starts with evidence from captured work: earlier requests, review corrections and design patterns the team accepted. At task time, the coding agent inspects the repository’s components and design documentation. Together, these can inform a short specification before implementation.
 
-This is the breed step: produce a small, testable candidate from the captured pattern. Adding more instructions is not the goal. A useful candidate might simplify or remove a rule.
+For the members page, that specification would map loading, empty, error and permission states, plus narrow layouts and keyboard behavior. Each detail should point to an existing convention or remain an explicit proposal. If the repository already defines how form errors appear, reuse it. If no precedent exists, surface the gap.
 
-## Test before adopting
+Some gaps are product decisions. “Can a member invite people, or only an admin?” needs an answer from the customer unless an authoritative rule already settles it. The agent should gather these unresolved choices into a short list, while filling in supported details and turning missing states into acceptance cases.
 
-Run representative tasks with both the current and candidate bundles in isolated environments. Repeat the runs, compare against a generic improvement, and check correctness, unwanted behavior, time and cost. Keep the tasks used to choose the candidate separate from the final test.
+Once those choices are resolved, the agent implements with the existing design system. Tests check the relevant behavior; browser review checks the rendered states and interactions. A reviewer compares the result with the specification, and the final report distinguishes checks actually run from checks still outstanding.
 
-This select step must distinguish a dependable improvement from ordinary variation. A candidate that passes can move to a controlled rollout and be watched on fresh work. If it fails, retain the current bundle.
+## A reviewable specification before implementation
 
-For the customer, the value is less time repeating corrections and more dependable delegation. Each accepted bundle preserves something the team learned, so that knowledge can travel to the next task instead of staying in a single conversation.
+Illustrative draft. Confirm proposed behaviors against the project’s design system.
+
+| Missing state | Open decision | Proposed behavior | Checks |
+| --- | --- | --- | --- |
+| Invite permission | Can a member invite people, or only an admin? | Ask the customer unless an authoritative rule settles it. | Test allowed and denied roles once resolved. |
+| Empty list | Which existing empty-state pattern applies? | Reuse that component; show the invite action only to an allowed role. | Render an empty result for each relevant role. |
+| Failed or duplicate invite | What should a duplicate invitation do? | Propose keeping the email input and reusing the form-error pattern, if established. | Exercise request failure and the agreed duplicate behavior. |
+| Narrow layout and keyboard | Which responsive and dialog conventions apply? | Reuse established conventions; propose visible focus, focus return and no horizontal overflow. | Review a narrow viewport and complete the flow by keyboard. |
+
+## Make the learning reusable, then test it
+
+A skill could encode the specification procedure. Instructions could make it the default for UI tasks, a review agent could look for omitted states, and a lightweight hook could remind the agent to use it. re-forge packages these as one inspectable candidate, with a parent version available for rollback. The model, permissions and MCP configuration stay fixed.
+
+The test is whether this setup reduces the customer’s work. Run repeated UI tasks against the current setup and a generic improvement, then evaluate on held-out tasks. Compare missed states, consistency with established patterns, correctness, review effort, time and cost. A longer specification is not evidence of a better result.
+
+The intended payoff is fewer forgotten states and fewer repeated explanations. The customer spends their attention on the choices only they can make, while the agent carries forward the details the team has already worked out.
 
 ## Current capabilities
 

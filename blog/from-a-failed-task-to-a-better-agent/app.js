@@ -53,13 +53,21 @@ if (typeof document !== 'undefined') {
   function setView(only) {changesOnly=only;$('all-lines').setAttribute('aria-pressed',String(!only));$('changes-only').setAttribute('aria-pressed',String(only));selectFile(selected);}
   function initialize(content) {
     data=content; document.title=`${data.title} | re-forge`;
+    document.querySelector('meta[name=description]').content=data.description || data.subtitle;
     $('page-title').textContent=data.title; $('page-subtitle').textContent=data.subtitle;
     document.querySelector('.hero .eyebrow').textContent=data.eyebrow || 'The Reforge thesis';
-    const wordCount=data.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length;
+    const wordCount=[data.quote?.text || '',...data.sections.flatMap(s=>s.paragraphs)].join(' ').split(/\s+/).length;
     $('reading-time').textContent=`${Math.max(2,Math.ceil(wordCount/220))} min read`;
+    if(data.quote){const quote=node('figure',undefined,'customer-quote');const block=node('blockquote');block.append(node('p',data.quote.text));quote.append(block,node('figcaption',data.quote.attribution));if(data.quote.context)quote.append(node('p',data.quote.context,'quote-context'));$('customer-quote').append(quote);}
+    function renderSpecPreview(preview) {
+      const element=node('section',undefined,'spec-preview');const title=node('h3',preview.title);title.id='spec-preview-title';element.setAttribute('aria-labelledby',title.id);element.append(title,node('p',preview.description));
+      const scroll=node('div',undefined,'spec-table-scroll');scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',`${preview.title}. Scroll horizontally to read all columns.`);
+      const table=node('table');const head=node('thead'),header=node('tr');preview.columns.forEach(label=>{const cell=node('th',label);cell.scope='col';header.append(cell);});head.append(header);table.append(head);
+      const body=node('tbody');preview.rows.forEach(row=>{const line=node('tr');['state','decision','behavior','checks'].forEach((key,index)=>{const cell=node(index===0?'th':'td',row[key]);if(index===0)cell.scope='row';line.append(cell);});body.append(line);});table.append(body);scroll.append(table);element.append(scroll);return element;
+    }
     data.sections.forEach((section,index)=>{
       const element=node('section'); element.append(node('h2',section.heading)); section.paragraphs.forEach(p=>element.append(node('p',p))); $('article-sections').append(element);
-
+      if(data.specPreview && index===data.specPreview.afterSection) $('article-sections').append(renderSpecPreview(data.specPreview));
     });
     if(data.status){const aside=node('aside',undefined,'status-note');aside.append(node('h3',data.status.label),node('p',data.status.text));$('article-sections').append(aside);}
     $('explorer-title').textContent=data.explorerTitle;
