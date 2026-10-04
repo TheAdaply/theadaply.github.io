@@ -1,0 +1,122 @@
+{
+  "brand": "re-forge",
+  "eyebrow": "Product thesis",
+  "title": "From a failed task to a better agent",
+  "subtitle": "How the work a team does can improve the instructions, skills and workflows its agents use.",
+  "sections": [
+    {
+      "heading": "Find the recurring failure",
+      "paragraphs": [
+        "A developer asks an agent to fix an API endpoint. The agent repairs the happy path, runs a test with valid credentials and reports success. During review, the developer tries an expired credential. The endpoint still accepts the expired credential, and there is no test for that case. The developer sends the work back.",
+        "On another endpoint, the same omission happens again. The individual fixes may ship, but the team keeps spending time on the same correction. The problem is specific enough to act on: authentication changes need failure-case tests before the agent considers them complete.",
+        "re-forge starts with evidence from that work: the request, tool calls, review intervention and checks actually run. Captured sessions can be organized into task episodes and compared to find recurring failures. A transcript alone does not establish success; the outcome needs supporting evidence."
+      ]
+    },
+    {
+      "heading": "Change the harness",
+      "paragraphs": [
+        "The candidate below changes the environment around the agent: its instructions, skills, review agent and completion reminder. The API skill asks for regression tests. The reviewer checks untested failure paths. The hook asks the agent to separate checks it ran from checks it only recommends.",
+        "These parts need to be considered together. An instruction can contradict a skill, and a reviewer can lack a needed tool. A versioned bundle makes the complete change inspectable and keeps a parent version available for rollback. The model and tool permissions in this example remain the same.",
+        "This is the breed step: produce a small, testable candidate from the captured pattern. Adding more instructions is not the goal. A useful candidate might simplify or remove a rule."
+      ]
+    },
+    {
+      "heading": "Test before adopting",
+      "paragraphs": [
+        "Run representative tasks with both the current and candidate bundles in isolated environments. Repeat the runs, compare against a generic improvement, and check correctness, unwanted behavior, time and cost. Keep the tasks used to choose the candidate separate from the final test.",
+        "This select step must distinguish a dependable improvement from ordinary variation. A candidate that passes can move to a controlled rollout and be watched on fresh work. If it fails, retain the current bundle.",
+        "For the customer, the value is less time repeating corrections and more dependable delegation. Each accepted bundle preserves something the team learned, so that knowledge can travel to the next task instead of staying in a single conversation."
+      ]
+    }
+  ],
+  "caseNote": "Illustrative API scenario. The bundle is a proposed change; no improvement has been measured.",
+  "files": [
+    {
+      "path": "global/CLAUDE.md",
+      "category": "Instructions",
+      "why": "Make completion depend on observed checks, not confidence.",
+      "before": "# Working agreement\nUse the existing project conventions.\nKeep changes focused on the requested task.\nSummarize the change and its tests when finished.\n",
+      "after": "# Working agreement\nUse the existing project conventions.\nKeep changes focused on the requested task.\nFor API fixes, follow the api-regression skill.\nReport each check you actually ran and its result.\nIf a check could not run, name it and explain why.\n"
+    },
+    {
+      "path": "global/skills/api-regression/SKILL.md",
+      "category": "Skill",
+      "why": "Teach the recurring task its missing step: a failing regression case.",
+      "before": "---\nname: api-regression\ndescription: Fix a bug in an existing API endpoint.\n---\nRead the endpoint and its existing tests.\nReuse existing helpers. Make the smallest fix.\nRun the relevant tests and summarize the result.\n",
+      "after": "---\nname: api-regression\ndescription: Fix a bug in an existing API endpoint.\n---\nRead the endpoint and its existing tests.\nWrite a regression case and observe it fail before the fix.\nFor auth changes, cover valid, missing and expired credentials.\nReuse existing helpers. Make the smallest fix.\nRun the affected test file after the fix.\nRecord the command, exit status and any cases left unchecked.\n"
+    },
+    {
+      "path": "global/agents/api-reviewer.md",
+      "category": "Agent",
+      "why": "Give the reviewer an explicit failure-path review, using the existing read-only tools.",
+      "before": "---\nname: api-reviewer\ndescription: Review API changes and their tests.\ntools: Read, Grep, Glob\nmodel: inherit\n---\nRead the changed code and its tests.\nReport correctness problems with file references.\n",
+      "after": "---\nname: api-reviewer\ndescription: Review API changes and their tests.\ntools: Read, Grep, Glob\nmodel: inherit\n---\nRead the changed code and its tests.\nFor auth changes, inspect valid, missing and expired credentials.\nReport missing regression cases with file references.\nReviewing test code does not establish that the tests ran.\n"
+    },
+    {
+      "path": "global/settings.json",
+      "category": "Configuration",
+      "why": "Keep the model and hook wiring fixed so the candidate changes the working procedure.",
+      "before": "{\n  \"model\": \"sonnet\",\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 \\\"$HOME/.claude/hooks/context.py\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}\n",
+      "after": "{\n  \"model\": \"sonnet\",\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 \\\"$HOME/.claude/hooks/context.py\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}\n"
+    },
+    {
+      "path": "repo/.claude/settings.json",
+      "category": "Tool permissions",
+      "why": "Preserve the same test permissions and publishing restrictions in both versions.",
+      "before": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read\",\n      \"Grep\",\n      \"Glob\",\n      \"Bash(node --test *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Bash(npm publish *)\"\n    ]\n  }\n}\n",
+      "after": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read\",\n      \"Grep\",\n      \"Glob\",\n      \"Bash(node --test *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Bash(npm publish *)\"\n    ]\n  }\n}\n"
+    },
+    {
+      "path": "hooks/context.py",
+      "category": "Hook",
+      "why": "Add a short reminder when a session starts; this is context, not an enforcement gate.",
+      "before": "#!/usr/bin/env python3\nprint(\"Use the project conventions and keep the change focused.\")\n",
+      "after": "#!/usr/bin/env python3\nprint(\"Use the project conventions and keep the change focused.\")\nprint(\"For API fixes: follow api-regression; report only checks you ran.\")\n"
+    },
+    {
+      "path": "global/mcp.json",
+      "category": "MCP",
+      "why": "Keep external MCP servers absent in this example; local code and tests provide the evidence.",
+      "before": "{}\n",
+      "after": "{}\n"
+    },
+    {
+      "path": "manifest.yaml",
+      "category": "Bundle manifest",
+      "why": "Record the whole setup by content hash and link the candidate to its parent.",
+      "before": "id: \"baseline-e0207786922f\"\nparent: null\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"settings\", \"hook\", \"mcp\"]\nwhy: \"Illustrative starting setup.\"\nevidence_tasks: []\ncreated_at: \"2026-10-04T00:00:00Z\"\ncontent_sha256: \"e0207786922f986d9d3fd95bbb13d978b34fe866260ec93c60d97fc27ba8a587\"\nsource: {\"kind\": \"illustrative\", \"note\": \"Fictional API project; not an evaluated product result. Requires Python 3, Node and project tests. All files mode 644.\"}\n",
+      "after": "id: \"candidate-1fc8b34e87ce\"\nparent: \"baseline-e0207786922f\"\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"hook\"]\nwhy: \"Test whether explicit failure cases reduce repeated correction.\"\nevidence_tasks: []\ncreated_at: \"2026-10-04T00:00:00Z\"\ncontent_sha256: \"1fc8b34e87ce1b759c4a27b3a1251cd3c200f79938e6cea14d9e08e2b85e3a64\"\nsource: {\"kind\": \"illustrative\", \"note\": \"Fictional API project; not an evaluated product result. Requires Python 3, Node and project tests. All files mode 644.\"}\n"
+    }
+  ],
+  "explorerTitle": "Inspect the proposed harness",
+  "explorerDescription": "Eight files, shown in full. Five change; the model, tool permissions and MCP configuration stay fixed.",
+  "closing": "The useful result is a setup the team can trust with its next task.",
+  "status": {
+    "label": "Current capabilities",
+    "text": "Repository-scoped capture, harness bundles and an experimental evaluation pipeline exist. Controlled live rollout is the next step. This example shows a candidate awaiting evaluation."
+  },
+  "evaluation": {
+    "title": "Before this candidate is adopted",
+    "checks": [
+      "Pass the regression cases without weakening existing checks.",
+      "Beat repeated baseline runs and a generic alternative.",
+      "Keep correctness, behavior and budget guardrails intact.",
+      "Pass a separate final test before a controlled rollout."
+    ],
+    "verdict": "Candidate · awaiting evaluation"
+  },
+  "loop": [
+    {
+      "label": "Evidence",
+      "detail": "Sessions → tasks and outcomes"
+    },
+    {
+      "label": "Change",
+      "detail": "Repeated failures → candidate bundle"
+    },
+    {
+      "label": "Test",
+      "detail": "Controlled runs → adopt or reject"
+    }
+  ]
+}
