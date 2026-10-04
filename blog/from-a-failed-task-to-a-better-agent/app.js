@@ -52,13 +52,10 @@ if (typeof document !== 'undefined') {
   }
   function setView(only) {changesOnly=only;$('all-lines').setAttribute('aria-pressed',String(!only));$('changes-only').setAttribute('aria-pressed',String(only));selectFile(selected);}
   function initialize(content) {
-    data=content; document.title=`${data.title} | re-forge`;
+    data=content; document.title=data.title;
     document.querySelector('meta[name=description]').content=data.description || data.subtitle;
     $('page-title').textContent=data.title; $('page-subtitle').textContent=data.subtitle;
-    document.querySelector('.hero .eyebrow').textContent=data.eyebrow || 'The Reforge thesis';
-    const wordCount=[data.quote?.text || '',...data.sections.flatMap(s=>s.paragraphs)].join(' ').split(/\s+/).length;
-    $('reading-time').textContent=`${Math.max(2,Math.ceil(wordCount/220))} min read`;
-    if(data.quote){const quote=node('figure',undefined,'customer-quote');const block=node('blockquote');block.append(node('p',data.quote.text));quote.append(block,node('figcaption',data.quote.attribution));if(data.quote.context)quote.append(node('p',data.quote.context,'quote-context'));$('customer-quote').append(quote);}
+    if(data.quote){const quote=node('figure',undefined,'customer-quote');const block=node('blockquote');const paragraph=node('p');paragraph.append(node('mark',data.quote.text));block.append(paragraph);quote.append(block,node('figcaption',data.quote.attribution));if(data.quote.context)quote.append(node('p',data.quote.context,'quote-context'));$('customer-quote').append(quote);}
     function renderSpecPreview(preview) {
       const element=node('section',undefined,'spec-preview');const title=node('h3',preview.title);title.id='spec-preview-title';element.setAttribute('aria-labelledby',title.id);element.append(title,node('p',preview.description));
       const scroll=node('div',undefined,'spec-table-scroll');scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',`${preview.title}. Scroll horizontally to read all columns.`);
@@ -81,5 +78,5 @@ if (typeof document !== 'undefined') {
     $('all-lines').addEventListener('click',()=>setView(false));$('changes-only').addEventListener('click',()=>setView(true));selectFile(0,false);
     document.documentElement.dataset.ready='true';
   }
-  fetch('content.json').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='The Reforge thesis';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
+  fetch('content.json?v=reforge-editorial-1').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
 }

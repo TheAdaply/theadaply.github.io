@@ -1,8 +1,8 @@
 {
   "brand": "re-forge",
-  "eyebrow": "Product thesis",
-  "title": "When the brief is only 80% finished",
-  "subtitle": "Helping an agent work through the UI details a customer does not have time to specify.",
+  "title": "re-forge: improving agents from real work",
+  "subtitle": "A proposed workflow for helping coding agents turn incomplete UI briefs into reviewable specifications.",
+  "description": "A proposed workflow for helping coding agents turn incomplete UI briefs into reviewable specifications.",
   "sections": [
     {
       "heading": "The missing work happens before the code",

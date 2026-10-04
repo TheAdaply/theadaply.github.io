@@ -1,6 +1,6 @@
-# When the brief is only 80% finished
+# re-forge: improving agents from real work
 
-Helping an agent work through the UI details a customer does not have time to specify.
+A proposed workflow for helping coding agents turn incomplete UI briefs into reviewable specifications.
 
 > i spec it out 80% and then fire it off and pray
 >
