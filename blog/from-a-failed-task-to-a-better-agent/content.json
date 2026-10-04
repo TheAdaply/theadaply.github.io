@@ -90,22 +90,21 @@
       "path": "manifest.yaml",
       "category": "Bundle manifest",
       "why": "Record the whole setup by content hash and link the candidate to its parent.",
-      "before": "id: \"baseline-ac058e0c060f\"\nparent: null\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"settings\", \"hook\", \"mcp\"]\nwhy: \"Illustrative starting setup.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"ac058e0c060fa28f463ed2e5a8edb4f95b1a193d559b598dfd0f2639ecc1481e\"\nsource: {\"kind\": \"illustrative\", \"note\": \"Fictional members/invitations task informed by a real customer problem; not an evaluated result. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n",
-      "after": "id: \"candidate-8049017db1c0\"\nparent: \"baseline-ac058e0c060f\"\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"hook\"]\nwhy: \"Test whether explicit UI states and supported precedents reduce repeated specification work.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"8049017db1c0b46d4ee337e36ed0febf54512cdc72b199b9878929ce43f24047\"\nsource: {\"kind\": \"illustrative\", \"note\": \"Fictional members/invitations task informed by a real customer problem; not an evaluated result. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n"
+      "before": "id: \"baseline-ac058e0c060f\"\nparent: null\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"settings\", \"hook\", \"mcp\"]\nwhy: \"Starting setup.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"ac058e0c060fa28f463ed2e5a8edb4f95b1a193d559b598dfd0f2639ecc1481e\"\nsource: {\"kind\": \"example\", \"note\": \"Members/invitations example based on a customer conversation. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n",
+      "after": "id: \"candidate-8049017db1c0\"\nparent: \"baseline-ac058e0c060f\"\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"hook\"]\nwhy: \"Test whether explicit UI states and supported precedents reduce repeated specification work.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"8049017db1c0b46d4ee337e36ed0febf54512cdc72b199b9878929ce43f24047\"\nsource: {\"kind\": \"example\", \"note\": \"Members/invitations example based on a customer conversation. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n"
     }
   ],
-  "explorerTitle": "Inspect the proposed UI workflow",
+  "explorerTitle": "Inspect the UI workflow",
   "explorerDescription": "Eight complete files. Five change; the model, tool permissions and MCP configuration stay fixed.",
   "closing": "Use real work to find what needs to improve. Test the change before carrying it forward.",
   "evaluation": {
-    "title": "Before this candidate is adopted",
+    "title": "Evaluation checks",
     "checks": [
       "Cover the agreed UI states and preserve existing behavior.",
       "Compare repeated baseline runs with a generic alternative.",
       "Measure review effort, correctness, time and cost.",
       "Pass held-out tasks before a controlled rollout."
-    ],
-    "verdict": "Candidate · awaiting evaluation"
+    ]
   },
   "loop": [
     {
@@ -114,7 +113,7 @@
     },
     {
       "label": "Change",
-      "detail": "Candidate specification and review workflow"
+      "detail": "Specification and review workflow"
     },
     {
       "label": "Test",
@@ -130,7 +129,7 @@
   "specPreview": {
     "afterSection": 2,
     "title": "A reviewable specification before implementation",
-    "description": "Illustrative draft. Confirm proposed behaviors against the project’s design system.",
+    "description": "UI states, product decisions and checks for the team members page.",
     "columns": [
       "Missing state",
       "Open decision",

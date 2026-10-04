@@ -13,8 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=thesis-first-1">
-  <script src="app.js?v=thesis-copy-3" defer></script>
+  <link rel="stylesheet" href="styles.css?v=label-cleanup-1">
+  <script src="app.js?v=label-cleanup-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#article">Skip to article</a>
@@ -33,15 +33,15 @@
       <div id="article-sections" class="article-body"></div>
     </article>
     <section id="explorer" class="explorer-section wrap" aria-labelledby="explorer-title">
-      <div class="explorer-heading"><h2 id="explorer-title">Inspect the proposed harness</h2><p id="case-note"></p></div>
-      <div class="explorer-toolbar"><div><strong id="bundle-count"></strong><span class="toolbar-separator" aria-hidden="true">/</span><span>Before → candidate after</span></div><div class="view-toggle" role="group" aria-label="Lines shown"><button type="button" id="all-lines" aria-pressed="true">All lines</button><button type="button" id="changes-only" aria-pressed="false">Changes only</button></div></div>
+      <div class="explorer-heading"><h2 id="explorer-title">Inspect the UI workflow</h2><p id="case-note"></p></div>
+      <div class="explorer-toolbar"><div><strong id="bundle-count"></strong><span class="toolbar-separator" aria-hidden="true">/</span><span>Before → after</span></div><div class="view-toggle" role="group" aria-label="Lines shown"><button type="button" id="all-lines" aria-pressed="true">All lines</button><button type="button" id="changes-only" aria-pressed="false">Changes only</button></div></div>
       <div class="bundle-explorer">
         <nav id="file-tree" class="file-tree" aria-label="Bundle files"></nav>
-        <div class="file-view"><div class="file-heading"><div><h3 id="selected-file"></h3><p id="file-purpose"></p></div><div id="diff-stats" class="diff-stats"></div></div><div class="code-columns"><section class="code-pane" aria-labelledby="before-title"><h4 id="before-title">Before</h4><div id="before-code" class="code-content"></div></section><section class="code-pane" aria-labelledby="after-title"><h4 id="after-title">Candidate after <span class="candidate-tag">Proposed</span></h4><div id="after-code" class="code-content"></div></section></div></div>
+        <div class="file-view"><div class="file-heading"><div><h3 id="selected-file"></h3><p id="file-purpose"></p></div><div id="diff-stats" class="diff-stats"></div></div><div class="code-columns"><section class="code-pane" aria-labelledby="before-title"><h4 id="before-title">Before</h4><div id="before-code" class="code-content"></div></section><section class="code-pane" aria-labelledby="after-title"><h4 id="after-title">After</h4><div id="after-code" class="code-content"></div></section></div></div>
       </div>
       <p id="selection-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
       <aside id="evaluation" class="evaluation"></aside>
-      <div class="bundle-downloads"><p>Download the complete example.</p><div><a class="download-link" href="before-bundle.zip" download>Before bundle <span aria-hidden="true">↓</span></a><a class="download-link primary" href="after-bundle.zip" download>Candidate bundle <span aria-hidden="true">↓</span></a></div></div>
+      <div class="bundle-downloads"><p>Download the complete example.</p><div><a class="download-link" href="before-bundle.zip" download>Before bundle <span aria-hidden="true">↓</span></a><a class="download-link primary" href="after-bundle.zip" download>After bundle <span aria-hidden="true">↓</span></a></div></div>
     </section>
     <div class="closing wrap"><p id="closing-text"></p><a href="#top">Back to article <span aria-hidden="true">↑</span></a></div>
   </main>

@@ -74,10 +74,10 @@ if (typeof document !== 'undefined') {
     const changedFiles=data.files.filter(file=>file.before!==file.after).length;
     $('bundle-count').textContent=`${data.files.length} files · ${changedFiles} changed`;
     data.files.forEach((file,index)=>{const button=node('button',file.path);button.type='button';button.id=`file-${index}`;button.setAttribute('aria-pressed',String(index===0));button.append(node('span',file.category,'file-category'));button.addEventListener('click',()=>selectFile(index));button.addEventListener('keydown',event=>{let next;if(event.key==='ArrowDown'||event.key==='ArrowRight')next=(index+1)%data.files.length;else if(event.key==='ArrowUp'||event.key==='ArrowLeft')next=(index+data.files.length-1)%data.files.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=data.files.length-1;if(next!==undefined){event.preventDefault();selectFile(next);$(`file-${next}`).focus();}});$('file-tree').append(button);});
-    if(data.evaluation){const evaluation=data.evaluation;$('evaluation').append(node('h3',evaluation.title));const body=node('div');const checks=node('ul');evaluation.checks.forEach(check=>checks.append(node('li',check)));body.append(checks,node('p',evaluation.verdict));$('evaluation').append(body);}
+    if(data.evaluation){const evaluation=data.evaluation;$('evaluation').append(node('h3',evaluation.title));const body=node('div');const checks=node('ul');evaluation.checks.forEach(check=>checks.append(node('li',check)));body.append(checks);$('evaluation').append(body);}
     $('closing-text').textContent=data.closing;
     $('all-lines').addEventListener('click',()=>setView(false));$('changes-only').addEventListener('click',()=>setView(true));selectFile(0,false);
     document.documentElement.dataset.ready='true';
   }
-  fetch('content.json?v=thesis-copy-3').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
+  fetch('content.json?v=label-cleanup-1').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
 }

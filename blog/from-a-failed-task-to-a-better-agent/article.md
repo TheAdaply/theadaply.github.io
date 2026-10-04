@@ -30,7 +30,7 @@ Product decisions still need an authoritative answer. “Can a member invite peo
 
 ### A reviewable specification before implementation
 
-Illustrative draft. Confirm proposed behaviors against the project’s design system.
+UI states, product decisions and checks for the team members page.
 
 | Missing state | Open decision | Proposed behavior | Checks |
 | --- | --- | --- | --- |
@@ -47,19 +47,17 @@ Evaluation would compare this candidate with the current setup and a generic imp
 
 This is one application of the broader thesis. Real work identifies a recurring problem; a change to the agent’s setup offers a possible remedy; evaluation decides whether that change deserves to carry forward. The intended result is less repeated correction and more reliable work.
 
-## Inspect the proposed UI workflow
+## Inspect the UI workflow
 
 Eight complete files. Five change; the model, tool permissions and MCP configuration stay fixed.
 
-## Before this candidate is adopted
+## Evaluation checks
 
 - Cover the agreed UI states and preserve existing behavior.
 - Compare repeated baseline runs with a generic alternative.
 - Measure review effort, correctness, time and cost.
 - Pass held-out tasks before a controlled rollout.
 
-Candidate · awaiting evaluation
-
-Download the complete example: [Before bundle](before-bundle.zip) · [Candidate bundle](after-bundle.zip)
+Download the complete example: [Before bundle](before-bundle.zip) · [After bundle](after-bundle.zip)
 
 Use real work to find what needs to improve. Test the change before carrying it forward.
