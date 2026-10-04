@@ -8,7 +8,7 @@ Agents should improve from the work people already do with them. Every task cont
 
 The proposed loop turns captured prompts, tool calls and outcomes into structured task data and benchmarks grounded in real work. It generates multiple candidate setups by varying instructions, skills, specialist agents, hooks, tools, MCP configuration or the order of work—the harness around the model. The strongest candidates would become the starting point for the next round of improvement. Each round should address failures the evidence reveals.
 
-Each candidate should be compared with the existing setup and a generic improvement across repeated runs, then checked on held-out tasks. Correctness, human review effort, time and cost determine whether it helps. The goal is to adopt improvements as inspectable versions, with a parent version available for rollback. Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline; controlled live rollout is the next step.
+Each candidate should be compared with the existing setup and a generic improvement across repeated runs, then checked on held-out tasks. Correctness, human review effort, time and cost determine whether it helps. The goal is to adopt improvements as inspectable versions, with a parent version available for rollback. Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline.
 
 ## A customer example: completing a UI brief
 
@@ -18,7 +18,7 @@ One customer wanted an end-to-end design system that could account for product p
 >
 > — Customer conversation
 
-The quote is from a customer conversation. The walkthrough and bundle below are illustrative; this candidate has not been evaluated.
+The quote is from a customer conversation.
 
 ## From missing details to a reviewable specification
 
