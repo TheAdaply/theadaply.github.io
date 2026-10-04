@@ -26,7 +26,7 @@ Imagine the next request is: “Add a team members page with invitations.” An 
 
 The proposed candidate would turn accepted design patterns and earlier review corrections into a specification procedure. At task time, the agent would inspect the repository’s components and design documentation, then map the relevant states and acceptance checks before implementation. Supported details would cite an existing convention; unsupported details would remain proposals.
 
-Product decisions still need an authoritative answer. “Can a member invite people, or only an admin?” belongs in a short list of unresolved choices unless the project already settles it. Once those choices are resolved, the agent would implement with existing components, run targeted tests and check rendered behavior in the browser. Its report would distinguish checks actually run from checks still outstanding.
+Product decisions still need an authoritative answer. “Can a member invite people, or only an admin?” belongs in a short list of unresolved choices unless the project already settles it. Once those choices are resolved, the agent would implement with existing components, run targeted tests and check rendered behavior in the browser.
 
 ### A reviewable specification before implementation
 

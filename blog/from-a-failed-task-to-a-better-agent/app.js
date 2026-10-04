@@ -79,5 +79,5 @@ if (typeof document !== 'undefined') {
     $('all-lines').addEventListener('click',()=>setView(false));$('changes-only').addEventListener('click',()=>setView(true));selectFile(0,false);
     document.documentElement.dataset.ready='true';
   }
-  fetch('content.json?v=thesis-copy-2').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
+  fetch('content.json?v=thesis-copy-3').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
 }
