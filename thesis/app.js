@@ -64,7 +64,9 @@ if (typeof document !== 'undefined') {
       const body=node('tbody');preview.rows.forEach(row=>{const line=node('tr');['state','decision','behavior','checks'].forEach((key,index)=>{const cell=node(index===0?'th':'td',row[key]);if(index===0)cell.scope='row';line.append(cell);});body.append(line);});table.append(body);scroll.append(table);element.append(scroll);return element;
     }
     data.sections.forEach((section,index)=>{
-      const element=node('section'), heading=node(index<2?'h2':'h3',section.heading); if(index===1) heading.id='customer-case-title'; element.append(heading); section.paragraphs.forEach(p=>element.append(node('p',p)));
+      const element=node('section');
+      if(index!==0 || section.heading!==''){const heading=node(index<2?'h2':'h3',section.heading);if(index===1)heading.id='customer-case-title';element.append(heading);}
+      section.paragraphs.forEach(p=>element.append(node('p',p)));
       if(customerQuote && index===data.quote.afterSection) element.append(customerQuote,node('p',data.caseNote));
       $(index===0?'article-sections':'case-sections').append(element);
       if(data.specPreview && index===data.specPreview.afterSection) element.append(renderSpecPreview(data.specPreview));
@@ -80,5 +82,5 @@ if (typeof document !== 'undefined') {
     $('all-lines').addEventListener('click',()=>setView(false));$('changes-only').addEventListener('click',()=>setView(true));selectFile(0,false);
     document.documentElement.dataset.ready='true';
   }
-  fetch('content.json?v=case-continuity-1').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
+  fetch('content.json?v=thesis-v2-1').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
 }

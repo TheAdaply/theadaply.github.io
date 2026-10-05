@@ -1,0 +1,167 @@
+{
+  "brand": "re-forge",
+  "title": "re-forge: improve the coding agents your team already uses",
+  "subtitle": "Reforge learns from your team’s coding-agent sessions and review feedback, then tests better instructions, skills and workflows on tasks from your own repositories.",
+  "description": "Reforge learns from your team’s coding-agent sessions and review feedback, then tests better instructions, skills and workflows on tasks from your own repositories.",
+  "sections": [
+    {
+      "heading": "",
+      "paragraphs": [
+        "We’re building it for engineering teams that spend too much time repeating instructions, catching omissions and correcting familiar mistakes. That effort should produce improvements the whole team can reuse.",
+        "Every task provides evidence: what the agent tried, what worked, and what an engineer had to fix. Reforge uses that evidence to build test tasks, try different agent setups and compare their results with the team’s current setup. The versions that perform best become the starting point for the next round.",
+        "Our thesis is that the work spent guiding an agent should keep improving future work. Each round should help the team get more reliable results with less correction."
+      ]
+    },
+    {
+      "heading": "Customer case: completing a UI brief",
+      "paragraphs": [
+        "One customer wanted an end-to-end design system that could account for product permutations. They would specify every detail if they had time. Their question was whether a skill could help an agent consistently resolve the remaining UI work. They described the current process this way:"
+      ]
+    },
+    {
+      "heading": "Make the remaining UI decisions visible",
+      "paragraphs": [
+        "To make the customer’s problem concrete, take a possible next request: “Add a team members page with invitations.” An agent can build a table and an invite button while overlooking loading, failed invitations, permissions or narrow screens. Each omission leaves the customer with another decision or correction.",
+        "Reforge would turn accepted design patterns and earlier review corrections into a specification procedure. For this request, the agent would inspect the repository’s components and design documentation, then map the relevant states and acceptance checks before implementation. Supported details would cite an existing convention; unsupported details would remain proposals.",
+        "The customer would still settle product decisions that the project leaves open. “Can a member invite people, or only an admin?” belongs in a short list of unresolved choices unless an authoritative rule already answers it. The table below shows how those choices, proposed behaviors and checks could become a reviewable specification for the same request."
+      ]
+    },
+    {
+      "heading": "Check whether this reduces the customer’s work",
+      "paragraphs": [
+        "Once those choices are resolved, the agent would implement the page with existing components, run targeted tests and check rendered behavior in the browser. A review agent would check the implementation against the agreed states and accepted patterns. For this customer, the point is to catch omissions before they become another round of corrections.",
+        "To test whether this workflow helps, evaluation would compare the candidate with the current setup and a generic improvement across repeated UI tasks, then check held-out tasks. The measures include missed states, consistency with accepted patterns, correctness, review effort, time and cost. A longer specification alone would not justify adoption.",
+        "Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline. The goal is to adopt improvements as inspectable versions, with a parent version available for rollback."
+      ]
+    }
+  ],
+  "caseNote": "Reforge would use the customer’s specifications and corrections to identify recurring omissions. Those lessons would shape how the agent handles its next UI request, from preparing the specification to reviewing the result.",
+  "files": [
+    {
+      "path": "global/CLAUDE.md",
+      "category": "Instructions",
+      "why": "Make UI specification and observed validation part of the working agreement.",
+      "before": "# Working agreement\nUse the existing project conventions.\nKeep changes focused on the requested task.\nSummarize the change and its tests when finished.\n",
+      "after": "# Working agreement\nUse the existing project conventions.\nKeep changes focused on the requested task.\nFor UI tasks, follow the ui-spec skill before implementation.\nResolve product decisions with the user; cite precedent for inferred details.\nReport checks actually run, results and anything left unchecked.\n"
+    },
+    {
+      "path": "global/skills/ui-spec/SKILL.md",
+      "category": "Skill",
+      "why": "Turn a partial brief into explicit states and a small list of unresolved product decisions.",
+      "before": "---\nname: ui-spec\ndescription: Specify and implement a UI change.\n---\nRead the brief and existing components.\nReuse the design system. Keep changes focused.\nRun relevant checks and summarize the result.\n",
+      "after": "---\nname: ui-spec\ndescription: Specify and implement a UI change.\n---\nRead the brief, repository design documentation and relevant components.\nUse available captured review corrections as evidence, not automatic authority.\nDraft a state matrix: state, expected behavior, precedent, acceptance check.\nConsider loading, empty, error, permission, narrow-layout and keyboard states.\nInclude only relevant states; explain exclusions.\nCite repository rules or accepted patterns for supported details.\nLabel unsupported details as proposals. Ask the user about unresolved product choices.\nFor invitations, resolve who may invite before implementing that permission.\nAfter resolving choices, implement with existing components and targeted tests.\nRequest ui-reviewer review of the changed files and acceptance cases.\nUse existing authorized browser tooling for rendered-state and keyboard checks.\nIf unavailable, report browser review as outstanding; request manual review.\nReport commands, results and unchecked cases.\n"
+    },
+    {
+      "path": "global/agents/ui-reviewer.md",
+      "category": "Agent",
+      "why": "Check the implementation against the agreed states and design precedents.",
+      "before": "---\nname: ui-reviewer\ndescription: Review UI changes and their tests.\ntools: Read, Grep, Glob\nmodel: inherit\n---\nRead the changed code and its tests.\nReport correctness problems with file references.\n",
+      "after": "---\nname: ui-reviewer\ndescription: Review UI changes against their specification and design system.\ntools: Read, Grep, Glob\nmodel: inherit\n---\nRead the agreed state matrix, cited conventions, changed code and tests.\nFlag missing acceptance cases and inconsistencies with existing components.\nCheck permission behavior against the resolved product decision.\nReport findings with file references; do not invent product rules.\nCode review cannot prove rendered behavior or that tests ran.\nList browser and keyboard checks that still need execution.\n"
+    },
+    {
+      "path": "global/settings.json",
+      "category": "Configuration",
+      "why": "Keep the model and hook wiring fixed so the candidate changes the working procedure.",
+      "before": "{\n  \"model\": \"sonnet\",\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 \\\"$HOME/.claude/hooks/context.py\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}\n",
+      "after": "{\n  \"model\": \"sonnet\",\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 \\\"$HOME/.claude/hooks/context.py\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}\n"
+    },
+    {
+      "path": "repo/.claude/settings.json",
+      "category": "Tool permissions",
+      "why": "Preserve the same test permissions and publishing restrictions in both versions.",
+      "before": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read\",\n      \"Grep\",\n      \"Glob\",\n      \"Bash(node --test *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Bash(npm publish *)\"\n    ]\n  }\n}\n",
+      "after": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read\",\n      \"Grep\",\n      \"Glob\",\n      \"Bash(node --test *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Bash(npm publish *)\"\n    ]\n  }\n}\n"
+    },
+    {
+      "path": "hooks/context.py",
+      "category": "Hook",
+      "why": "Remind the agent at session start; the hook does not enforce completion.",
+      "before": "#!/usr/bin/env python3\nprint(\"Use the project conventions and keep the change focused.\")\n",
+      "after": "#!/usr/bin/env python3\nprint(\"Use the project conventions and keep the change focused.\")\nprint(\"For UI tasks: follow ui-spec; resolve product choices; report checks actually run.\")\n"
+    },
+    {
+      "path": "global/mcp.json",
+      "category": "MCP",
+      "why": "Keep MCP configuration fixed; browser review needs existing authorized tooling or a manual check.",
+      "before": "{}\n",
+      "after": "{}\n"
+    },
+    {
+      "path": "manifest.yaml",
+      "category": "Bundle manifest",
+      "why": "Record the whole setup by content hash and link the candidate to its parent.",
+      "before": "id: \"baseline-ac058e0c060f\"\nparent: null\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"settings\", \"hook\", \"mcp\"]\nwhy: \"Starting setup.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"ac058e0c060fa28f463ed2e5a8edb4f95b1a193d559b598dfd0f2639ecc1481e\"\nsource: {\"kind\": \"example\", \"note\": \"Members/invitations example based on a customer conversation. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n",
+      "after": "id: \"candidate-8049017db1c0\"\nparent: \"baseline-ac058e0c060f\"\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"hook\"]\nwhy: \"Test whether explicit UI states and supported precedents reduce repeated specification work.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"8049017db1c0b46d4ee337e36ed0febf54512cdc72b199b9878929ce43f24047\"\nsource: {\"kind\": \"example\", \"note\": \"Members/invitations example based on a customer conversation. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n"
+    }
+  ],
+  "explorerTitle": "Inspect the setup for this customer case",
+  "explorerDescription": "The before-and-after bundle below shows how this workflow would become part of the agent’s setup. A skill describes the procedure, instructions make it the default for UI tasks, a review agent checks for omitted states, and a hook provides a reminder. Eight complete files are included; five change. The model, tool permissions and MCP configuration stay fixed.",
+  "closing": "Use real work to find what needs to improve. Test the change before carrying it forward.",
+  "evaluation": {
+    "title": "Checks for this candidate",
+    "checks": [
+      "Cover the agreed UI states and preserve existing behavior.",
+      "Compare the candidate, current setup and a generic improvement across repeated UI tasks.",
+      "Measure missed states, pattern consistency, correctness, review effort, time and cost.",
+      "Check held-out tasks before deciding whether to adopt the candidate."
+    ]
+  },
+  "loop": [
+    {
+      "label": "Evidence",
+      "detail": "Accepted patterns and review corrections"
+    },
+    {
+      "label": "Change",
+      "detail": "Specification and review workflow"
+    },
+    {
+      "label": "Test",
+      "detail": "Repeated UI tasks → adopt or reject"
+    }
+  ],
+  "quote": {
+    "afterSection": 1,
+    "text": "i spec it out 80% and then fire it off and pray",
+    "attribution": "Customer conversation",
+    "context": ""
+  },
+  "specPreview": {
+    "afterSection": 2,
+    "title": "A reviewable specification before implementation",
+    "description": "For the same team members page, separate decisions the customer needs to make from details the agent can support with existing conventions.",
+    "columns": [
+      "Missing state",
+      "Open decision",
+      "Proposed behavior",
+      "Checks"
+    ],
+    "rows": [
+      {
+        "state": "Invite permission",
+        "decision": "Can a member invite people, or only an admin?",
+        "behavior": "Ask the customer unless an authoritative rule settles it.",
+        "checks": "Test allowed and denied roles once resolved."
+      },
+      {
+        "state": "Empty list",
+        "decision": "Which existing empty-state pattern applies?",
+        "behavior": "Reuse that component; show the invite action only to an allowed role.",
+        "checks": "Render an empty result for each relevant role."
+      },
+      {
+        "state": "Failed or duplicate invite",
+        "decision": "What should a duplicate invitation do?",
+        "behavior": "Propose keeping the email input and reusing the form-error pattern, if established.",
+        "checks": "Exercise request failure and the agreed duplicate behavior."
+      },
+      {
+        "state": "Narrow layout and keyboard",
+        "decision": "Which responsive and dialog conventions apply?",
+        "behavior": "Reuse established conventions; propose visible focus, focus return and no horizontal overflow.",
+        "checks": "Review a narrow viewport and complete the flow by keyboard."
+      }
+    ]
+  },
+  "conclusion": "This is one application of the broader thesis. Real work identifies a recurring problem; a change to the agent’s setup offers a possible remedy; evaluation decides whether that change deserves to carry forward. The intended result is less repeated correction and more reliable work."
+}
