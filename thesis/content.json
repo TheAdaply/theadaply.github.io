@@ -7,8 +7,8 @@
     {
       "heading": "The Reforge thesis",
       "paragraphs": [
-        "Agents should improve from the work people already do with them. Every task contains evidence: what the person asked for, what the agent tried, where it failed, and what a reviewer had to correct. Reforge’s thesis is that this evidence can become a practical improvement loop, so teams spend less time correcting the same mistakes across tasks.",
-        "The proposed loop turns captured prompts, tool calls and outcomes into structured task data and benchmarks grounded in real work. It generates multiple candidate setups by varying instructions, skills, specialist agents, hooks, tools, MCP configuration or the order of work—the harness around the model. The strongest candidates would become the starting point for the next round of improvement. Each round should address failures the evidence reveals.",
+        "Every task your team completes should make its agents better at the next one. Reforge’s thesis is to turn the lessons in everyday work, from successful approaches to repeated corrections, into improvements the whole team can reuse.",
+        "Reforge’s approach is to create and test different ways for an agent to do the same job. One version might follow clearer instructions; another might bring in a specialist reviewer or use tools in a different order. These versions would run on the same tasks so their results can be compared. The versions that perform best would become the starting point for the next round: keep what works, then test ways to fix what still goes wrong.",
         "Each candidate should be compared with the existing setup and a generic improvement across repeated runs, then checked on held-out tasks. Correctness, human review effort, time and cost determine whether it helps. The goal is to adopt improvements as inspectable versions, with a parent version available for rollback. Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline."
       ]
     },
