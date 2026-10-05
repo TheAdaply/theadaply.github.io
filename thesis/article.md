@@ -10,6 +10,8 @@ Reforge’s approach is to create and test different ways for an agent to do the
 
 Each candidate should be compared with the existing setup and a generic improvement across repeated runs, then checked on held-out tasks. Correctness, human review effort, time and cost determine whether it helps. The goal is to adopt improvements as inspectable versions, with a parent version available for rollback. Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline.
 
+We’re building Reforge for engineering teams that spend too much time repeating instructions, catching omissions and correcting familiar mistakes. The goal is to turn that effort into tested improvements the whole team can reuse on future tasks, with more reliable results and less repeated correction.
+
 ## Customer case: completing a UI brief
 
 One customer wanted an end-to-end design system that could account for product permutations. They would specify every detail if they had time. Their question was whether a skill could help an agent consistently resolve the remaining UI work. They described the current process this way:
