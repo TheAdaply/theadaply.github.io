@@ -58,26 +58,27 @@ if (typeof document !== 'undefined') {
     let customerQuote;
     if(data.quote){const quote=node('figure',undefined,'customer-quote');const block=node('blockquote');const paragraph=node('p');paragraph.append(node('mark',data.quote.text));block.append(paragraph);quote.append(block,node('figcaption',data.quote.attribution));if(data.quote.context)quote.append(node('p',data.quote.context,'quote-context'));customerQuote=quote;}
     function renderSpecPreview(preview) {
-      const element=node('section',undefined,'spec-preview');const title=node('h3',preview.title);title.id='spec-preview-title';element.setAttribute('aria-labelledby',title.id);element.append(title,node('p',preview.description));
+      const element=node('section',undefined,'spec-preview');const title=node('h4',preview.title);title.id='spec-preview-title';element.setAttribute('aria-labelledby',title.id);element.append(title,node('p',preview.description));
       const scroll=node('div',undefined,'spec-table-scroll');scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',`${preview.title}. Scroll horizontally to read all columns.`);
       const table=node('table');const head=node('thead'),header=node('tr');preview.columns.forEach(label=>{const cell=node('th',label);cell.scope='col';header.append(cell);});head.append(header);table.append(head);
       const body=node('tbody');preview.rows.forEach(row=>{const line=node('tr');['state','decision','behavior','checks'].forEach((key,index)=>{const cell=node(index===0?'th':'td',row[key]);if(index===0)cell.scope='row';line.append(cell);});body.append(line);});table.append(body);scroll.append(table);element.append(scroll);return element;
     }
     data.sections.forEach((section,index)=>{
-      const element=node('section'); element.append(node('h2',section.heading)); section.paragraphs.forEach(p=>element.append(node('p',p)));
-      if(customerQuote && index===data.quote.afterSection) element.append(customerQuote,node('p',data.caseNote,'case-note'));
-      $('article-sections').append(element);
-      if(data.specPreview && index===data.specPreview.afterSection) $('article-sections').append(renderSpecPreview(data.specPreview));
+      const element=node('section'), heading=node(index<2?'h2':'h3',section.heading); if(index===1) heading.id='customer-case-title'; element.append(heading); section.paragraphs.forEach(p=>element.append(node('p',p)));
+      if(customerQuote && index===data.quote.afterSection) element.append(customerQuote,node('p',data.caseNote));
+      $(index===0?'article-sections':'case-sections').append(element);
+      if(data.specPreview && index===data.specPreview.afterSection) element.append(renderSpecPreview(data.specPreview));
     });
     $('explorer-title').textContent=data.explorerTitle;
     $('case-note').textContent=data.explorerDescription;
     const changedFiles=data.files.filter(file=>file.before!==file.after).length;
     $('bundle-count').textContent=`${data.files.length} files · ${changedFiles} changed`;
     data.files.forEach((file,index)=>{const button=node('button',file.path);button.type='button';button.id=`file-${index}`;button.setAttribute('aria-pressed',String(index===0));button.append(node('span',file.category,'file-category'));button.addEventListener('click',()=>selectFile(index));button.addEventListener('keydown',event=>{let next;if(event.key==='ArrowDown'||event.key==='ArrowRight')next=(index+1)%data.files.length;else if(event.key==='ArrowUp'||event.key==='ArrowLeft')next=(index+data.files.length-1)%data.files.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=data.files.length-1;if(next!==undefined){event.preventDefault();selectFile(next);$(`file-${next}`).focus();}});$('file-tree').append(button);});
-    if(data.evaluation){const evaluation=data.evaluation;$('evaluation').append(node('h3',evaluation.title));const body=node('div');const checks=node('ul');evaluation.checks.forEach(check=>checks.append(node('li',check)));body.append(checks);$('evaluation').append(body);}
+    if(data.evaluation){const evaluation=data.evaluation;$('evaluation').append(node('h4',evaluation.title));const body=node('div');const checks=node('ul');evaluation.checks.forEach(check=>checks.append(node('li',check)));body.append(checks);$('evaluation').append(body);}
+    $('conclusion-text').textContent=data.conclusion;
     $('closing-text').textContent=data.closing;
     $('all-lines').addEventListener('click',()=>setView(false));$('changes-only').addEventListener('click',()=>setView(true));selectFile(0,false);
     document.documentElement.dataset.ready='true';
   }
-  fetch('content.json?v=clear-opening-1').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
+  fetch('content.json?v=case-continuity-1').then(response=>{if(!response.ok)throw new Error('Content unavailable');return response.json();}).then(initialize).catch(()=>{$('page-title').textContent='re-forge: improving agents from real work';$('page-subtitle').textContent='The article could not load. Read the offline article below, or refresh the page.';});
 }
