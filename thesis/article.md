@@ -4,7 +4,7 @@ Turning evidence from everyday work into tested improvements for coding agents.
 
 ## The Reforge thesis
 
-Every task your team finishes should make its agents a little better at the next one. That’s the bet behind Reforge. We think a coding agent should learn how its team actually works, the way a new engineer does after a few months on the job, and keep getting better with every session instead of starting over.
+Every task your team finishes should make its agents better at the next one. Reforge’s thesis is that a coding agent should learn how its team actually works, the way a new engineer does after a few months on the job, and get better with every session instead of starting from scratch.
 
 Right now, it starts over. Open a new session and the agent has no idea how your codebase is laid out, which tools your team trusts or what your reviewers always push back on. So you explain it again. Meanwhile the agent spends tokens rediscovering something it already worked out last week, in a session nobody will look at again. The corrections are the part you notice. The bigger loss is that none of that experience sticks.
 
