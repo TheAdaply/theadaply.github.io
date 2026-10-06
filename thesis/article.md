@@ -24,7 +24,7 @@ One customer wanted an end-to-end design system that could account for product p
 >
 > — Customer conversation
 
-Reforge would use the customer’s specifications and corrections to identify recurring omissions. Those lessons would shape how the agent handles its next UI request, from preparing the specification to reviewing the result.
+Reforge would use the customer’s specifications, accepted designs and review feedback to learn what good UI work looks like for this team. Those lessons would shape how the agent handles its next UI request, from preparing the specification to reviewing the result.
 
 ### Make the remaining UI decisions visible
 
@@ -66,6 +66,6 @@ Download the complete example: [Before bundle](before-bundle.zip) · [After bund
 
 ## What this case shows
 
-This is one application of the broader thesis. Real work identifies a recurring problem; a change to the agent’s setup offers a possible remedy; evaluation decides whether that change deserves to carry forward. The intended result is less repeated correction and more reliable work.
+This is one application of the broader thesis. Real work shows where an agent could do a task better; a change to its setup offers a way to improve; evaluation decides whether that change deserves to carry forward. The aim is an agent that becomes better at the team’s tasks as it learns from their work.
 
 Use real work to find what needs to improve. Test the change before carrying it forward.
