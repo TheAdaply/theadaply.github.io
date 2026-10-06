@@ -12,6 +12,8 @@ Each candidate should be compared with the existing setup and a generic improvem
 
 We’re building Reforge for engineering teams that spend too much time repeating instructions, catching omissions and correcting familiar mistakes. The goal is to turn that effort into tested improvements the whole team can reuse on future tasks, with more reliable results and less repeated correction.
 
+[Watch: How Reforge works](https://www.youtube.com/watch?v=ndyH_JjmwLo)
+
 ## Customer case: completing a UI brief
 
 One customer wanted an end-to-end design system that could account for product permutations. They would specify every detail if they had time. Their question was whether a skill could help an agent consistently resolve the remaining UI work. They described the current process this way:
