@@ -4,13 +4,13 @@ Turning evidence from everyday work into tested improvements for coding agents.
 
 ## The Reforge thesis
 
-Every task your team completes should make its agents better at the next one. Reforge’s thesis is to turn the lessons in everyday work, from successful approaches to repeated corrections, into improvements the whole team can reuse.
+Coding agents are capable, but every session starts them as strangers. They don’t know how this team structures its code, which tools it reaches for, what its reviewers expect or what the product is trying to become. Engineers fill that gap by hand, session after session, and what they explain disappears when the session ends.
 
-Reforge’s approach is to create and test different ways for an agent to do the same job. One version might follow clearer instructions; another might bring in a specialist reviewer or use tools in a different order. These versions would run on the same tasks so their results can be compared. The versions that perform best would become the starting point for the next round: keep what works, then test ways to fix what still goes wrong.
+Reforge’s thesis is that an agent should learn how its team works and get better at that work with every session. Real sessions show the paths that succeed, the steps engineers always add and the context they keep supplying. Reforge turns those patterns into changes to the agent’s setup, such as clearer instructions, a specialist reviewer or a different order of tools, so the next session starts from what the team has already taught it.
 
-Each candidate should be compared with the existing setup and a generic improvement across repeated runs, then checked on held-out tasks. Correctness, human review effort, time and cost determine whether it helps. The goal is to adopt improvements as inspectable versions, with a parent version available for rollback. Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline.
+Each change is a candidate, not an assumption. Candidates would run on the same tasks as the current setup and a generic improvement, across repeated runs, then on held-out tasks. Correctness, human review effort, time and cost decide whether one is kept. The winners become the starting point for the next round, and every adopted version stays inspectable, with its parent available for rollback. Reforge already has repository-scoped capture, harness bundles and an experimental evaluation pipeline.
 
-We’re building Reforge for engineering teams that spend too much time repeating instructions, catching omissions and correcting familiar mistakes. The goal is to turn that effort into tested improvements the whole team can reuse on future tasks, with more reliable results and less repeated correction.
+The aim is a benefit that compounds. Engineers stop re-explaining what their agents should already know, and agents stop spending tokens rediscovering work an earlier session already did. Over time, the setup reflects how the team builds and what it is building toward, so more of each session goes into moving the product forward.
 
 [Watch: How Reforge works](https://www.youtube.com/watch?v=ndyH_JjmwLo)
 
