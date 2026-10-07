@@ -66,6 +66,24 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
   background:#EDEDED url(/static/moon.jpg) 50% 0/cover no-repeat;
   background-image:-webkit-image-set(url(/static/moon.jpg) 1x,url(/static/moon@2x.jpg) 2x);
   background-image:image-set(url(/static/moon.jpg) 1x,url(/static/moon@2x.jpg) 2x)}
+.meteor-field{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.meteor{position:absolute;width:clamp(90px,10vw,180px);height:1px;border-radius:999px;opacity:0;
+  background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.92) 8%,rgba(255,255,255,.12) 84%,transparent 100%);
+  filter:drop-shadow(0 0 4px rgba(255,255,255,.75));transform:rotate(-24deg);transform-origin:left center;
+  animation:meteor-pass 12s linear infinite;will-change:translate,opacity}
+.meteor::after{content:"";position:absolute;left:-2px;top:50%;width:4px;height:4px;border-radius:50%;background:#fff;
+  box-shadow:0 0 7px 2px rgba(255,255,255,.9);transform:translateY(-50%)}
+.meteor-1{top:15%;right:8%;animation-delay:-1.5s}
+.meteor-2{top:30%;right:31%;width:clamp(70px,7vw,125px);animation-duration:15s;animation-delay:-9s}
+.meteor-3{top:9%;right:57%;width:clamp(55px,6vw,105px);animation-duration:18s;animation-delay:-13s}
+.meteor-4{top:40%;right:3%;width:clamp(65px,8vw,135px);animation-duration:21s;animation-delay:-6s}
+@keyframes meteor-pass{
+  0%,68%{opacity:0;translate:0 0}
+  70%{opacity:0;translate:0 0}
+  72%{opacity:.9}
+  78%{opacity:.75}
+  84%,100%{opacity:0;translate:-42vw 19vw}
+}
 .hero-copy{position:relative;z-index:2;text-align:center;padding-top:clamp(120px,17vh,168px);display:flex;flex-direction:column;align-items:center;gap:22px}
 .hero-copy h1{max-width:none}
 .hero-sub{font-size:clamp(16px,1.25vw,19px);line-height:1.5;color:#2A2A28;max-width:58ch}
@@ -144,6 +162,36 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 .funnel.s2 .ring.st0,.funnel.s3 .ring.st1,.funnel.s4 .ring.st2,.funnel.s5 .ring.st3,.funnel.s6 .ring.st4,.funnel.s6 .ring.st5{opacity:1}
 .funnel.done .dot,.funnel.done .ring{transition:none}
 .funnel.done .ln{transition:none}
+
+/* ---- ambient circuit field: one quiet network behind the editorial body ---- */
+.circuit-stage{position:relative;isolation:isolate;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 8% 22%,rgba(198,203,209,.38),transparent 31%),
+    radial-gradient(ellipse at 92% 63%,rgba(205,209,214,.4),transparent 30%),
+    linear-gradient(180deg,#fff 0%,#F4F6F7 12%,#EEF1F2 50%,#F6F7F7 88%,#fff 100%)}
+.circuit-stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.42;
+  background-image:linear-gradient(rgba(105,113,123,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(105,113,123,.055) 1px,transparent 1px);
+  background-size:96px 96px}
+.circuit-stage>section{position:relative;z-index:1}
+.circuit-field{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:.86;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 95%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 95%,transparent 100%)}
+.circuit-grid{fill:rgba(94,103,114,.13)}
+.circuit-static{fill:none;stroke:rgba(105,114,125,.34);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.circuit-mesh{fill:none;stroke:rgba(124,133,143,.24);stroke-width:.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2 5;vector-effect:non-scaling-stroke}
+.circuit-modules rect{fill:rgba(255,255,255,.56);stroke:rgba(100,109,120,.34);stroke-width:1;vector-effect:non-scaling-stroke}
+.circuit-modules path{fill:none;stroke:rgba(100,109,120,.3);stroke-width:1;vector-effect:non-scaling-stroke}
+.circuit-modules circle{fill:rgba(119,128,139,.34)}
+.circuit-nodes{fill:#F7F8F8;stroke:rgba(113,120,129,.34);stroke-width:1;vector-effect:non-scaling-stroke}
+.circuit-flow{fill:none;stroke:rgba(255,255,255,.98);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:9 150;filter:drop-shadow(0 0 3px rgba(119,127,137,.32));vector-effect:non-scaling-stroke}
+.circuit-flow path{animation:circuit-current 18s linear infinite}
+.circuit-flow path:nth-child(2n){animation-duration:23s;animation-direction:reverse}
+.circuit-flow path:nth-child(3n){animation-duration:28s;animation-delay:-9s}
+.circuit-flow-soft{stroke:rgba(91,101,113,.4);stroke-width:1.4;stroke-dasharray:3 108;filter:none}
+.circuit-flow-soft path{animation-duration:32s;animation-direction:reverse}
+.circuit-flow-soft path:nth-child(2n){animation-duration:38s;animation-direction:normal}
+@keyframes circuit-current{to{stroke-dashoffset:-636}}
 
 /* ---- problem ---- */
 .problem{padding:clamp(120px,15vw,200px) 0;text-align:center}
@@ -261,6 +309,8 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
   .dash-wrap{top:57%;padding-inline:16px}
   .dash{width:900px;margin-inline:0;grid-template-columns:180px minmax(0,1fr)}
   .metric b{font-size:34px}
+  .circuit-stage::before{opacity:.3;background-size:72px 72px}
+  .circuit-field{width:150%;left:-25%;opacity:.68}
 }
 @media (max-width:480px){
   .foot-in{grid-template-columns:1fr}
@@ -268,8 +318,10 @@ h2{font-size:32px;line-height:1.2;letter-spacing:-.02em}
 }
 @media (prefers-reduced-motion:reduce){
   .dash{animation:none;transform:none;opacity:1}
+  .meteor{display:none}
   .reveal{opacity:1;transform:none;transition:none}
   .funnel .dot,.funnel .ring,.funnel .ln{transition:none}
   .prod,.prod *,.prod::before,.prod::after{transition:none}
+  .circuit-flow path{animation:none}
   html{scroll-behavior:auto}
 }
