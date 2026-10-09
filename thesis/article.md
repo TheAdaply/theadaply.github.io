@@ -12,7 +12,7 @@ We compare each change with the current setup on the same tasks, then test the s
 
 Suppose an engineer’s agent works out how to move a service to a new system on Monday. Reforge tests the approach and saves the checks that made it work. On Tuesday, a teammate’s agent can use the accepted pattern where it applies and verify its own work. Sharing follows the team’s permissions.
 
-[Watch: How Reforge works](https://www.youtube.com/watch?v=ndyH_JjmwLo)
+[Watch: How Reforge works](https://www.youtube.com/watch?v=tPs2lCjgNic)
 
 ## Customer case: completing a UI brief
 
