@@ -1,6 +1,6 @@
-# TheAdaply: agents that evolve with your work
+# The intelligence layer for adaptive systems
 
-The intelligence layer for adaptive systems: TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.
+TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.
 
 ## The thesis
 

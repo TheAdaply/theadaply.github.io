@@ -1,7 +1,7 @@
 {
   "brand": "TheAdaply",
-  "title": "TheAdaply: agents that evolve with your work",
-  "subtitle": "The intelligence layer for adaptive systems: TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.",
+  "title": "The intelligence layer for adaptive systems",
+  "subtitle": "TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.",
   "description": "The TheAdaply thesis: capture real work, test proposed improvements against the current setup, and reuse what passes. Software engineering agents today; robotics on the same learning loop.",
   "closing": "Each accepted improvement should give the team’s next agent a stronger starting point.",
   "conclusion": "Our longer-term direction is to adapt private models using work that passes the team’s checks. Further out, the same direction applies to robot policies adapted from evaluated trajectories; that is a direction, not something implemented today. We will compare adapted models with the team’s existing options on quality, cost and control over data before adopting them.",
