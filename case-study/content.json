@@ -1,0 +1,165 @@
+{
+  "brand": "TheAdaply",
+  "title": "TheAdaply case study: completing a UI brief",
+  "subtitle": "A concrete example of the TheAdaply loop on a software agent: a partial UI brief becomes a reviewable specification, a tested capability and a shipped bundle.",
+  "description": "A TheAdaply case study: turning a partial UI brief into a reviewable specification and a tested, shipped capability, with the complete before and after bundle.",
+  "sections": [
+    {
+      "heading": "",
+      "paragraphs": [
+        "TheAdaply’s thesis is that every task a team completes should make its agents better at the next one: capture real work, test proposed improvements against the current setup, and reuse what passes. This page walks through that loop on one real case, end to end, including the complete before and after bundle. The thesis itself is at theadaply.com/thesis."
+      ]
+    },
+    {
+      "heading": "Customer case: completing a UI brief",
+      "paragraphs": [
+        "One customer wanted a design system that accounted for the different states a product can reach. They asked whether a skill could help an agent complete the UI details they left open. They described the current process this way:"
+      ]
+    },
+    {
+      "heading": "Make the remaining UI decisions visible",
+      "paragraphs": [
+        "Consider a possible next request: “Add a team members page with invitations.” A table and invite button leave much unresolved: loading, failed invitations, permissions and narrow screens. Each missing state can send the customer back into another round of decisions and corrections.",
+        "The proposed workflow starts from the customer’s accepted patterns and review corrections. The agent inspects existing components and design documentation, then maps relevant states and checks before implementation. It cites conventions for supported details and puts unsupported choices in front of the customer.",
+        "Product decisions stay with the customer when no authoritative rule settles them. “Can a member invite people, or only an admin?” is a question to resolve before code. The table shows some of the decisions and checks this brings forward."
+      ]
+    },
+    {
+      "heading": "Test for better results and less review",
+      "paragraphs": [
+        "Once the customer resolves those choices, the agent implements the page with existing components, runs focused tests and checks the result in the browser. A review agent checks the agreed states and design patterns. The customer can review the flow against explicit decisions and checks.",
+        "To decide whether to adopt this workflow, we compare it with the current setup and a generic improvement on the same UI tasks, then test it on fresh tasks. The comparison covers missed states, correctness and consistency with accepted patterns, alongside review effort, time and cost. Retain the change only if the work improves against the customer’s criteria with less human effort.",
+        "The same discipline holds outside software, with acceptance criteria that fit the domain. Software evaluation weighs correctness, test results, regressions, review effort, time and cost. Robotics evaluation weighs task success, recovery, intervention rate, completion time and safety constraints where they are measured. We do not reuse one domain’s criteria for the other."
+      ]
+    }
+  ],
+  "caseNote": "This is the kind of work TheAdaply can learn from: the customer’s specifications, accepted designs and review corrections. The proposed improvement is a workflow for turning a partial UI brief into a page the customer can review with fewer omissions.",
+  "files": [
+    {
+      "path": "global/CLAUDE.md",
+      "category": "Instructions",
+      "why": "Make UI specification and observed validation part of the working agreement.",
+      "before": "# Working agreement\nUse the existing project conventions.\nKeep changes focused on the requested task.\nSummarize the change and its tests when finished.\n",
+      "after": "# Working agreement\nUse the existing project conventions.\nKeep changes focused on the requested task.\nFor UI tasks, follow the ui-spec skill before implementation.\nResolve product decisions with the user; cite precedent for inferred details.\nReport checks actually run, results and anything left unchecked.\n"
+    },
+    {
+      "path": "global/skills/ui-spec/SKILL.md",
+      "category": "Skill",
+      "why": "Turn a partial brief into explicit states and a small list of unresolved product decisions.",
+      "before": "---\nname: ui-spec\ndescription: Specify and implement a UI change.\n---\nRead the brief and existing components.\nReuse the design system. Keep changes focused.\nRun relevant checks and summarize the result.\n",
+      "after": "---\nname: ui-spec\ndescription: Specify and implement a UI change.\n---\nRead the brief, repository design documentation and relevant components.\nUse available captured review corrections as evidence, not automatic authority.\nDraft a state matrix: state, expected behavior, precedent, acceptance check.\nConsider loading, empty, error, permission, narrow-layout and keyboard states.\nInclude only relevant states; explain exclusions.\nCite repository rules or accepted patterns for supported details.\nLabel unsupported details as proposals. Ask the user about unresolved product choices.\nFor invitations, resolve who may invite before implementing that permission.\nAfter resolving choices, implement with existing components and targeted tests.\nRequest ui-reviewer review of the changed files and acceptance cases.\nUse existing authorized browser tooling for rendered-state and keyboard checks.\nIf unavailable, report browser review as outstanding; request manual review.\nReport commands, results and unchecked cases.\n"
+    },
+    {
+      "path": "global/agents/ui-reviewer.md",
+      "category": "Agent",
+      "why": "Check the implementation against the agreed states and design precedents.",
+      "before": "---\nname: ui-reviewer\ndescription: Review UI changes and their tests.\ntools: Read, Grep, Glob\nmodel: inherit\n---\nRead the changed code and its tests.\nReport correctness problems with file references.\n",
+      "after": "---\nname: ui-reviewer\ndescription: Review UI changes against their specification and design system.\ntools: Read, Grep, Glob\nmodel: inherit\n---\nRead the agreed state matrix, cited conventions, changed code and tests.\nFlag missing acceptance cases and inconsistencies with existing components.\nCheck permission behavior against the resolved product decision.\nReport findings with file references; do not invent product rules.\nCode review cannot prove rendered behavior or that tests ran.\nList browser and keyboard checks that still need execution.\n"
+    },
+    {
+      "path": "global/settings.json",
+      "category": "Configuration",
+      "why": "Keep the model and hook wiring fixed so the candidate changes the working procedure.",
+      "before": "{\n  \"model\": \"sonnet\",\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 \\\"$HOME/.claude/hooks/context.py\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}\n",
+      "after": "{\n  \"model\": \"sonnet\",\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 \\\"$HOME/.claude/hooks/context.py\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}\n"
+    },
+    {
+      "path": "repo/.claude/settings.json",
+      "category": "Tool permissions",
+      "why": "Preserve the same test permissions and publishing restrictions in both versions.",
+      "before": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read\",\n      \"Grep\",\n      \"Glob\",\n      \"Bash(node --test *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Bash(npm publish *)\"\n    ]\n  }\n}\n",
+      "after": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read\",\n      \"Grep\",\n      \"Glob\",\n      \"Bash(node --test *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Bash(npm publish *)\"\n    ]\n  }\n}\n"
+    },
+    {
+      "path": "hooks/context.py",
+      "category": "Hook",
+      "why": "Remind the agent at session start; the hook does not enforce completion.",
+      "before": "#!/usr/bin/env python3\nprint(\"Use the project conventions and keep the change focused.\")\n",
+      "after": "#!/usr/bin/env python3\nprint(\"Use the project conventions and keep the change focused.\")\nprint(\"For UI tasks: follow ui-spec; resolve product choices; report checks actually run.\")\n"
+    },
+    {
+      "path": "global/mcp.json",
+      "category": "MCP",
+      "why": "Keep MCP configuration fixed; browser review needs existing authorized tooling or a manual check.",
+      "before": "{}\n",
+      "after": "{}\n"
+    },
+    {
+      "path": "manifest.yaml",
+      "category": "Bundle manifest",
+      "why": "Record the whole setup by content hash and link the candidate to its parent.",
+      "before": "id: \"baseline-ac058e0c060f\"\nparent: null\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"settings\", \"hook\", \"mcp\"]\nwhy: \"Starting setup.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"ac058e0c060fa28f463ed2e5a8edb4f95b1a193d559b598dfd0f2639ecc1481e\"\nsource: {\"kind\": \"example\", \"note\": \"Members/invitations example based on a customer conversation. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n",
+      "after": "id: \"candidate-8049017db1c0\"\nparent: \"baseline-ac058e0c060f\"\nagent: \"claude-code\"\ntarget: \"both\"\nsurfaces_changed: [\"instructions\", \"skill\", \"agent\", \"hook\"]\nwhy: \"Test whether explicit UI states and supported precedents improve specification quality.\"\nevidence_tasks: []\ncreated_at: \"2026-10-05T00:00:00Z\"\ncontent_sha256: \"8049017db1c0b46d4ee337e36ed0febf54512cdc72b199b9878929ce43f24047\"\nsource: {\"kind\": \"example\", \"note\": \"Members/invitations example based on a customer conversation. Requires Python 3, Node and project tests. Browser review requires existing authorized tooling or a manual check. All files mode 644.\"}\n"
+    }
+  ],
+  "explorerTitle": "Inspect the setup for this customer case",
+  "explorerDescription": "The bundle shows how the preparation and review in this example become part of the agent’s setup. A skill sets out the procedure; instructions make it the default for UI tasks. A review agent checks the agreed states, and a hook provides a reminder. The model and its permissions stay the same. This bundle is a concrete example of adapting a software-agent setup; other improvements, and robotic adaptations especially, use different components under the same evaluation discipline.",
+  "closing": "Each accepted improvement should give the team’s next agent a stronger starting point.",
+  "evaluation": {
+    "title": "Checks for this candidate",
+    "checks": [
+      "Cover the agreed UI states and preserve existing behavior.",
+      "Compare the candidate, current setup and a generic improvement across UI tasks.",
+      "Measure missed states, pattern consistency, correctness, review effort, time and cost.",
+      "Check held-out tasks before deciding whether to adopt the candidate."
+    ]
+  },
+  "loop": [
+    {
+      "label": "Evidence",
+      "detail": "Accepted patterns and review corrections"
+    },
+    {
+      "label": "Change",
+      "detail": "Specification and review workflow"
+    },
+    {
+      "label": "Test",
+      "detail": "UI tasks → adopt or reject"
+    }
+  ],
+  "quote": {
+    "afterSection": 1,
+    "text": "i spec it out 80% and then fire it off and pray",
+    "attribution": "Customer conversation",
+    "context": ""
+  },
+  "specPreview": {
+    "afterSection": 2,
+    "title": "A reviewable specification before implementation",
+    "description": "For the same team members page, separate decisions the customer needs to make from details the agent can support with existing conventions.",
+    "columns": [
+      "Missing state",
+      "Open decision",
+      "Proposed behavior",
+      "Checks"
+    ],
+    "rows": [
+      {
+        "state": "Invite permission",
+        "decision": "Can a member invite people, or only an admin?",
+        "behavior": "Ask the customer unless an authoritative rule settles it.",
+        "checks": "Test allowed and denied roles once resolved."
+      },
+      {
+        "state": "Empty list",
+        "decision": "Which existing empty-state pattern applies?",
+        "behavior": "Reuse that component; show the invite action only to an allowed role.",
+        "checks": "Render an empty result for each relevant role."
+      },
+      {
+        "state": "Failed or duplicate invite",
+        "decision": "What should a duplicate invitation do?",
+        "behavior": "Propose keeping the email input and reusing the form-error pattern, if established.",
+        "checks": "Exercise request failure and the agreed duplicate behavior."
+      },
+      {
+        "state": "Narrow layout and keyboard",
+        "decision": "Which responsive and dialog conventions apply?",
+        "behavior": "Reuse established conventions; propose visible focus, focus return and no horizontal overflow.",
+        "checks": "Review a narrow viewport and complete the flow by keyboard."
+      }
+    ]
+  },
+  "conclusion": "Our longer-term direction is to adapt private models using work that passes the team’s checks. For this customer, that means learning from accepted UI work. We will compare those models with the team’s existing options on quality, cost and control over data before adopting them."
+}

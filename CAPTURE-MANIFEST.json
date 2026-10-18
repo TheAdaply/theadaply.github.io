@@ -1,7 +1,7 @@
 {
   "manifest_version": "1.0",
-  "product": "re-forge capture client",
-  "purpose": "A machine-readable, agent-legible declaration of exactly what the re-forge capture client reads, what leaves the machine, where it goes, and how to stop it. An evaluating coding agent (or a human) can parse this and verify every claim against the open client source in this directory before consenting to install. This file is TRUE to the code (clients/capture/*, clients/mcp/reforge_mcp.py); the human-readable version is clients/CONSENT.md and docs/DISCLOSURES.md.",
+  "product": "TheAdaply capture client",
+  "purpose": "A machine-readable, agent-legible declaration of exactly what the TheAdaply capture client reads, what leaves the machine, where it goes, and how to stop it. An evaluating coding agent (or a human) can parse this and verify every claim against the open client source in this directory before consenting to install. This file is TRUE to the code (clients/capture/*, clients/mcp/reforge_mcp.py); the human-readable version is clients/CONSENT.md and docs/DISCLOSURES.md.",
   "human_readable": ["clients/CONSENT.md", "docs/DISCLOSURES.md"],
   "install": {
     "human_installed": true,
@@ -36,9 +36,9 @@
     ],
     "destinations": [
       {
-        "name": "your team's re-forge cloud",
+        "name": "your team's TheAdaply cloud",
         "url_env": "REFORGE_INGEST_URL",
-        "hosting": "re-forge-hosted OR self-hosted by your team",
+        "hosting": "TheAdaply-hosted OR self-hosted by your team",
         "endpoints": ["/v1/events", "/v1/events/batch", "/v1/agent-runs", "/v1/preflight", "/v1/mergeplan", "/v1/repo-graph"]
       },
       {
@@ -62,7 +62,7 @@
   },
   "kill_switch": {
     "local_stop": "~/.reforge/DISABLED — create this one-byte sentinel and the client captures and sends nothing (durable, unambiguous, fastest path).",
-    "fleet_stop": "~/.reforge/killswitch.json — fetched from the PUBLIC re-forge repo manifest, lets re-forge halt a client version fleet-wide.",
+    "fleet_stop": "~/.reforge/killswitch.json — fetched from the PUBLIC TheAdaply repo manifest, lets TheAdaply halt a client version fleet-wide.",
     "uninstall": "reforge uninstall  (removes hooks, config, and local state)"
   },
   "retention": "Captured content is kept until your org's retention window expires (set by your admin).",

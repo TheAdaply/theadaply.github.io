@@ -1,6 +1,6 @@
 # theadaply.github.io
 
-The re-forge landing page, served at <https://theadaply.com/> by GitHub Pages
+The TheAdaply landing page, served at <https://theadaply.com/> by GitHub Pages
 from the `main` branch at the repo root. `CNAME` carries the custom domain.
 
 Fully static: one page, one stylesheet, one small script, one logo, and the
@@ -13,7 +13,7 @@ machine-readable trust artifacts. No backend, no build step.
 | `static/v3.js` | draws the selection funnel and runs the scroll reveals |
 | `static/moon.jpg` | the hero image, also ghosted behind the closing call to action |
 | `static/reforge-mark.png` | the mark |
-| `FOR-AGENTS.md` | how an assistant should audit re-forge before a human installs it |
+| `FOR-AGENTS.md` | how an assistant should audit TheAdaply before a human installs it |
 | `CAPTURE-MANIFEST.json` | machine-readable declaration of what is captured, sent, and never sent |
 | `llms.txt` | orientation for language models |
 | `CNAME`, `.nojekyll` | Pages configuration |

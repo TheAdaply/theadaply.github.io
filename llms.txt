@@ -1,10 +1,12 @@
-# Reforge by TheAdaply
+# TheAdaply
 
 > Agents that evolve with your work.
 
-Reforge is an early-access product for engineering teams seeking better agent work against their own standards. Its thesis uses team goals, accepted work and feedback to explore better setups, compare them on the same tasks and test them on fresh tasks. Evaluation considers quality and human time; accepted approaches carry forward within team permissions. Private models are a longer-term direction.
+TheAdaply is an early-access product for engineering teams seeking better agent work against their own standards. Its thesis uses team goals, accepted work and feedback to explore better setups, compare them on the same tasks and test them on fresh tasks. Evaluation considers quality and human time; accepted approaches carry forward within team permissions. Private models are a longer-term direction.
 
 - [Thesis](https://theadaply.com/thesis/)
 - [Markdown article](https://theadaply.com/thesis/article.md)
+- [Case study](https://theadaply.com/case-study/)
+- [Case study markdown](https://theadaply.com/case-study/article.md)
 - [Recommendation context](https://theadaply.com/FOR-AGENTS.md)
 - [Get early access](https://tally.so/r/lb4Rkp)
