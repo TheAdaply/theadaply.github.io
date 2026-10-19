@@ -16,7 +16,55 @@ The same problem exists beyond software. A robot’s work also leaves a trajecto
 
 [Watch: How TheAdaply works](https://www.youtube.com/watch?v=tPs2lCjgNic)
 
-Read the full case study, completing a UI brief with the before and after bundle: [theadaply.com/case-study](https://theadaply.com/case-study/)
+## Customer case: completing a UI brief
+
+One customer wanted a design system that accounted for the different states a product can reach. They asked whether a skill could help an agent complete the UI details they left open. They described the current process this way:
+
+> i spec it out 80% and then fire it off and pray
+>
+> — Customer conversation
+
+This is the kind of work TheAdaply can learn from: the customer’s specifications, accepted designs and review corrections. The proposed improvement is a workflow for turning a partial UI brief into a page the customer can review with fewer omissions.
+
+### Make the remaining UI decisions visible
+
+Consider a possible next request: “Add a team members page with invitations.” A table and invite button leave much unresolved: loading, failed invitations, permissions and narrow screens. Each missing state can send the customer back into another round of decisions and corrections.
+
+The proposed workflow starts from the customer’s accepted patterns and review corrections. The agent inspects existing components and design documentation, then maps relevant states and checks before implementation. It cites conventions for supported details and puts unsupported choices in front of the customer.
+
+Product decisions stay with the customer when no authoritative rule settles them. “Can a member invite people, or only an admin?” is a question to resolve before code. The table shows some of the decisions and checks this brings forward.
+
+#### A reviewable specification before implementation
+
+For the same team members page, separate decisions the customer needs to make from details the agent can support with existing conventions.
+
+| Missing state | Open decision | Proposed behavior | Checks |
+| --- | --- | --- | --- |
+| Invite permission | Can a member invite people, or only an admin? | Ask the customer unless an authoritative rule settles it. | Test allowed and denied roles once resolved. |
+| Empty list | Which existing empty-state pattern applies? | Reuse that component; show the invite action only to an allowed role. | Render an empty result for each relevant role. |
+| Failed or duplicate invite | What should a duplicate invitation do? | Propose keeping the email input and reusing the form-error pattern, if established. | Exercise request failure and the agreed duplicate behavior. |
+| Narrow layout and keyboard | Which responsive and dialog conventions apply? | Reuse established conventions; propose visible focus, focus return and no horizontal overflow. | Review a narrow viewport and complete the flow by keyboard. |
+
+### Test for better results and less review
+
+Once the customer resolves those choices, the agent implements the page with existing components, runs focused tests and checks the result in the browser. A review agent checks the agreed states and design patterns. The customer can review the flow against explicit decisions and checks.
+
+To decide whether to adopt this workflow, we compare it with the current setup and a generic improvement on the same UI tasks, then test it on fresh tasks. The comparison covers missed states, correctness and consistency with accepted patterns, alongside review effort, time and cost. Retain the change only if the work improves against the customer’s criteria with less human effort.
+
+The same discipline holds outside software, with acceptance criteria that fit the domain. Software evaluation weighs correctness, test results, regressions, review effort, time and cost. Robotics evaluation weighs task success, recovery, intervention rate, completion time and safety constraints where they are measured. We do not reuse one domain’s criteria for the other.
+
+### Inspect the setup for this customer case
+
+The bundle shows how the preparation and review in this example become part of the agent’s setup. A skill sets out the procedure; instructions make it the default for UI tasks. A review agent checks the agreed states, and a hook provides a reminder. The model and its permissions stay the same. This bundle is a concrete example of adapting a software-agent setup; other improvements, and robotic adaptations especially, use different components under the same evaluation discipline.
+
+#### Checks for this candidate
+
+- Cover the agreed UI states and preserve existing behavior.
+- Compare the candidate, current setup and a generic improvement across UI tasks.
+- Measure missed states, pattern consistency, correctness, review effort, time and cost.
+- Check held-out tasks before deciding whether to adopt the candidate.
+
+Download the complete example: [Before bundle](before-bundle.zip) · [After bundle](after-bundle.zip)
 
 ## Private models for the team’s work
 

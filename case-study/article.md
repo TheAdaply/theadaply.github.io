@@ -28,10 +28,10 @@ For the same team members page, separate decisions the customer needs to make fr
 
 | Missing state | Open decision | Proposed behavior | Checks |
 | --- | --- | --- | --- |
-| state | decision | behavior | checks |
-| state | decision | behavior | checks |
-| state | decision | behavior | checks |
-| state | decision | behavior | checks |
+| Invite permission | Can a member invite people, or only an admin? | Ask the customer unless an authoritative rule settles it. | Test allowed and denied roles once resolved. |
+| Empty list | Which existing empty-state pattern applies? | Reuse that component; show the invite action only to an allowed role. | Render an empty result for each relevant role. |
+| Failed or duplicate invite | What should a duplicate invitation do? | Propose keeping the email input and reusing the form-error pattern, if established. | Exercise request failure and the agreed duplicate behavior. |
+| Narrow layout and keyboard | Which responsive and dialog conventions apply? | Reuse established conventions; propose visible focus, focus return and no horizontal overflow. | Review a narrow viewport and complete the flow by keyboard. |
 
 ### Test for better results and less review
 

@@ -16,14 +16,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=thesis-video-1">
-  <script src="app.js?v=thesis-v6-split-1" defer></script>
+  <script src="app.js?v=thesis-v7-case-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#article">Skip to article</a>
   <header class="site-header">
     <div class="nav-in">
       <a class="brand" href="https://theadaply.com" aria-label="TheAdaply home"><img src="/static/reforge-mark.png" width="20" height="20" alt="">TheAdaply</a>
-      <nav aria-label="Page"><a href="#article">Article</a><a href="/case-study/">Case study</a><a class="offline-link" href="article.md" download>Read offline <span aria-hidden="true">↓</span></a></nav>
+      <nav aria-label="Page"><a href="#article">Article</a><a href="#customer-case">Case study</a><a href="#explorer">Bundle</a><a class="offline-link" href="article.md" download>Read offline <span aria-hidden="true">↓</span></a></nav>
     </div>
   </header>
   <main id="top">
@@ -37,10 +37,21 @@
         <iframe src="https://www.youtube-nocookie.com/embed/tPs2lCjgNic?playsinline=1&amp;rel=0" title="How TheAdaply works — video" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
         <figcaption><a href="https://www.youtube.com/watch?v=tPs2lCjgNic">Watch on YouTube</a></figcaption>
       </figure>
-      <section class="case-link article-body" aria-label="Case study">
-        <p><a class="download-link primary" href="/case-study/">Read the case study: completing a UI brief <span aria-hidden="true">→</span></a></p>
+      <section id="customer-case" aria-labelledby="customer-case-title">
+        <div id="case-sections" class="article-body"></div>
+        <section id="explorer" class="explorer-section wrap" aria-labelledby="explorer-title">
+          <div class="explorer-heading"><h3 id="explorer-title">Inspect the setup for this customer case</h3><p id="case-note"></p></div>
+          <div class="explorer-toolbar"><div><strong id="bundle-count"></strong><span class="toolbar-separator" aria-hidden="true">/</span><span>Before → after</span></div><div class="view-toggle" role="group" aria-label="Lines shown"><button type="button" id="all-lines" aria-pressed="true">All lines</button><button type="button" id="changes-only" aria-pressed="false">Changes only</button></div></div>
+          <div class="bundle-explorer">
+            <nav id="file-tree" class="file-tree" aria-label="Bundle files"></nav>
+            <div class="file-view"><div class="file-heading"><div><h4 id="selected-file"></h4><p id="file-purpose"></p></div><div id="diff-stats" class="diff-stats"></div></div><div class="code-columns"><section class="code-pane" aria-labelledby="before-title"><h5 id="before-title">Before</h5><div id="before-code" class="code-content"></div></section><section class="code-pane" aria-labelledby="after-title"><h5 id="after-title">After</h5><div id="after-code" class="code-content"></div></section></div></div>
+          </div>
+          <p id="selection-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+          <aside id="evaluation" class="evaluation"></aside>
+          <div class="bundle-downloads"><p>Download the complete example.</p><div><a class="download-link" href="before-bundle.zip" download>Before bundle <span aria-hidden="true">↓</span></a><a class="download-link primary" href="after-bundle.zip" download>After bundle <span aria-hidden="true">↓</span></a></div></div>
+        </section>
       </section>
-            <section class="case-conclusion article-body" aria-labelledby="conclusion-title">
+      <section class="case-conclusion article-body" aria-labelledby="conclusion-title">
         <h2 id="conclusion-title">Private models for the team’s work</h2>
         <p id="conclusion-text"></p>
       </section>
