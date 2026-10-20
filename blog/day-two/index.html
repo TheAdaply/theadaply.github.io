@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>What a coding agent remembers on day two</title>
+  <meta name="description" content="A measured test of team memory for coding agents: the rules one session was taught reached the next session, and the same model without memory went to the live database.">
+  <meta property="og:title" content="What a coding agent remembers on day two">
+  <meta property="og:description" content="The rules one session was taught reached the next session. The same model without memory went to the live database.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://theadaply.com/blog/day-two/">
+  <link rel="canonical" href="https://theadaply.com/blog/day-two/">
+  <link rel="icon" href="/static/reforge-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/thesis/styles.css?v=thesis-video-1">
+  <style>
+    /* Additions for this post only, in the thesis vocabulary: hairlines, #FAFAF9 heads, mono for figures. */
+    .results{margin-top:28px}.article-body .results h3{font-size:19px;line-height:1.35;color:var(--ink);margin-bottom:6px}.results>p{font-size:14px;color:var(--muted)}
+    .results table{width:100%;min-width:620px;border-collapse:collapse;font-size:13px;line-height:1.55;text-align:left;font-variant-numeric:tabular-nums}
+    .results th,.results td{padding:12px 14px;vertical-align:top}.results thead{background:#FAFAF9}.results th{font-weight:500;color:var(--ink)}.results tbody tr{border-top:1px solid var(--hair)}
+    .results td+td,.results th+th{border-left:1px solid var(--hair)}.results td.num,.results th.num{text-align:right;font-family:var(--mono);font-size:12px}
+    .results tr.saved td{color:var(--green)}.results tr.saved td:first-child{color:var(--ink)}
+    .article-body code{font:400 .86em var(--mono);background:#F5F5F3;border-radius:4px;padding:.1em .35em;overflow-wrap:anywhere}
+    .article-body ul{padding-left:20px;margin:18px 0 0}.article-body li+li{margin-top:10px}
+    .customer-quote blockquote{font-size:clamp(19px,2vw,22px)}.article-body .status-note h3{font-size:14px;margin-bottom:8px}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+  <header class="site-header">
+    <div class="nav-in">
+      <a class="brand" href="https://theadaply.com" aria-label="re-forge home"><img src="/static/reforge-mark.png" width="20" height="20" alt="">re-forge</a>
+      <nav aria-label="Page"><a href="#results">Results</a><a href="/thesis/">Thesis</a><a class="offline-link" href="article.md" download>Read offline <span aria-hidden="true">↓</span></a></nav>
+    </div>
+  </header>
+  <main id="top">
+    <div class="hero">
+      <h1>What a coding agent remembers on day two</h1>
+      <p class="dek">We corrected an agent once. The next session followed the correction without being told. The same model without memory went to the live database.</p>
+    </div>
+    <article id="article" class="article">
+      <div class="article-body">
+        <section id="results" aria-labelledby="results-title">
+          <h2 id="results-title">Results</h2>
+          <p>Two measurements, both on Claude Code in October 2026. The first is a live session on a real repository, with a person giving the corrections. The second is a repeated benchmark in which a script plays the senior engineer.</p>
+
+          <div class="results">
+            <h3>Live: the same feature task, with and without memory</h3>
+            <p>Opus 5.5. Model time and cost are from Claude Code’s usage screen.</p>
+            <div class="spec-table-scroll">
+              <table>
+                <thead><tr><th>Session</th><th>Corrections from a person</th><th>Touched the live database or server</th><th class="num">Model time</th><th class="num">Cost</th></tr></thead>
+                <tbody>
+                  <tr><td>Day 1, teaching, empty memory</td><td>1</td><td>Read it, from an in-process script</td><td class="num">2m 31s</td><td class="num">$1.74</td></tr>
+                  <tr><td>Day 2, with memory</td><td>0</td><td>Once: <code>pkill</code> stopped the live server</td><td class="num">1m 33s</td><td class="num">$1.29</td></tr>
+                  <tr><td>Day 2, no memory</td><td>1, plus approving its diff</td><td>3 times: read, rolled-back write, test server on it</td><td class="num">2m 24s</td><td class="num">$1.44</td></tr>
+                  <tr class="saved"><td>Day 2, memory vs none</td><td>1 fewer</td><td>2 fewer</td><td class="num">−51 s (35%)</td><td class="num">−$0.15 (10%)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="results">
+            <h3>Repeated: a release with five undocumented rules</h3>
+            <p>A scripted senior engineer gives one hint each time the agent stops. Session 1 releases one service; session 2 releases a sibling service with the same rules from the prompt “release receipts-svc v2.1.0”. Every run shipped.</p>
+            <div class="spec-table-scroll">
+              <table>
+                <thead><tr><th>Model</th><th>Run</th><th class="num">Hints</th><th class="num">Time</th><th class="num">Cost</th></tr></thead>
+                <tbody>
+                  <tr><td>Sonnet</td><td>Session 1, empty memory</td><td class="num">12</td><td class="num">7.0 min</td><td class="num">$5.74</td></tr>
+                  <tr><td>Sonnet</td><td>Session 2, no memory</td><td class="num">11</td><td class="num">6.4 min</td><td class="num">$6.33</td></tr>
+                  <tr><td>Sonnet</td><td>Session 2, with memory (2 runs)</td><td class="num">3, 1</td><td class="num">3.4, 2.3 min</td><td class="num">$1.13, $0.51</td></tr>
+                  <tr class="saved"><td>Sonnet</td><td>Saved, memory mean vs no memory</td><td class="num">11 → 2</td><td class="num">−3.6 min (55%)</td><td class="num">−$5.51 (87%)</td></tr>
+                  <tr><td>Opus</td><td>Session 1, empty memory</td><td class="num">10</td><td class="num">8.8 min</td><td class="num">$12.79</td></tr>
+                  <tr><td>Opus</td><td>Session 2, with memory (2 runs)</td><td class="num">1, 2</td><td class="num">2.7, 3.1 min</td><td class="num">$0.90, $1.36</td></tr>
+                  <tr class="saved"><td>Opus</td><td>Saved, memory mean vs session 1</td><td class="num">10 → 1.5</td><td class="num">−5.9 min (67%)</td><td class="num">−$11.66 (91%)</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Opus has no separate no-memory session 2; to keep spend down, its session 1 serves as the baseline. Without memory, Sonnet needed as much steering on the second release as on the first.</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="rules-title">
+          <h2 id="rules-title">The rules nobody wrote down</h2>
+          <p>Every team has rules that live in people’s heads. Don’t test against the live database. Use the dev instance on port 8810. Verify with the real command-line tool, not a script that fakes it. A new engineer learns these by being corrected once. A coding agent is corrected, agrees, and starts the next session knowing none of it.</p>
+          <p>We tested this on nemo, the team-memory layer we are building for coding agents, using nemo’s own repository. nemo records each session, distils it into facts, and puts the relevant ones in front of the next session. Two feature tasks ran as separate sessions on the same evening, which we call Day 1 and Day 2. A second checkout at the same commit ran the Day 2 task with no memory. Every quote below is copied from the session transcripts and cited by session and line.</p>
+        </section>
+
+        <section aria-labelledby="day1-title">
+          <h2 id="day1-title">Day 1: one correction</h2>
+          <p>The task was to add a <code>--project</code> option to <code>nemo status</code>. The agent found the code path, wrote a twenty-line change and updated the README. Then it checked the change against the team’s live memory:</p>
+          <figure class="customer-quote">
+            <blockquote>“The demo DB has only one project, so that sum check proves little. <mark>Running it again on the main `nemo` DB</mark>, which is read-only apart from the idempotent schema DDL:”</blockquote>
+            <figcaption>Agent, Day 1 · session 9415d6fc, line 136</figcaption>
+          </figure>
+          <p>It also tested access control by stubbing it out, and said so in its report. We sent one review message, the kind you leave on a pull request. It said to never touch the main database or the live server, to verify on a dev instance through the real command-line tool, and to set up this checkout’s own environment first. The agent redid the verification that way. nemo stored the corrections as rules for the project.</p>
+        </section>
+
+        <section aria-labelledby="day2-title">
+          <h2 id="day2-title">Day 2: the rules arrive before the code is read</h2>
+          <p>The second task was to add a <code>--since DAYS</code> option to <code>nemo recent</code>. When the new session started, nemo put the project’s rules in front of the agent, before its first prompt:</p>
+          <figure class="customer-quote">
+            <blockquote>“[rule] nemo dev workflow: Never touch the main nemo DB or the :8800 server, even read-only. Verify with the dev instance […]”</blockquote>
+            <figcaption>Injected by nemo at session start · session 6d57abd0, line 7</figcaption>
+          </figure>
+          <p>Nobody mentioned the rules during the session. After its edits, the agent wrote:</p>
+          <figure class="customer-quote">
+            <blockquote>“Edits are in. <mark>Next I'm checking them against the dev instance (port 8810, nemo_dev). The main DB and :8800 stay untouched.</mark>”</blockquote>
+            <figcaption>Agent, Day 2 with memory · session 6d57abd0, line 95</figcaption>
+          </figure>
+          <p>We had removed the dev database between the runs. The agent recreated it with the command from the rule, and ended its report by naming its source:</p>
+          <figure class="customer-quote">
+            <blockquote>“🐠 From nemo (session 9415d6fc): the dev-instance setup on :8810 with `nemo_dev`, and the rule to verify through the real CLI.”</blockquote>
+            <figcaption>Agent, Day 2 with memory · session 6d57abd0, line 176</figcaption>
+          </figure>
+          <p>It made one mistake. It stopped its dev server with <code>pkill -f "nemo serve"</code>, which matched the live server too. It reported this at once:</p>
+          <figure class="customer-quote">
+            <blockquote>“Your rule was to never touch :8800, and <mark>I should have stopped my server by its PID instead.</mark>”</blockquote>
+            <figcaption>Agent, Day 2 with memory · session 6d57abd0, line 176</figcaption>
+          </figure>
+          <p>A one-sentence reply turned that into a new rule. Every later session on the repository starts with it.</p>
+        </section>
+
+        <section aria-labelledby="control-title">
+          <h2 id="control-title">The same task without memory</h2>
+          <p>The control checkout received the same prompt and no memory. Its code was correct. Its verification went straight to the live system:</p>
+          <figure class="customer-quote">
+            <blockquote>“The server already running on :8800 is on the old code, so <mark>I'm starting the patched one on :8811 against the same DB.</mark>”</blockquote>
+            <figcaption>Agent, Day 2 without memory · session a89b0aac, line 110</figcaption>
+          </figure>
+          <p>To test the date filter, it changed a row in the live database inside a transaction:</p>
+          <figure class="customer-quote">
+            <blockquote>“<mark>I'll backdate one row inside a transaction</mark>, call `db.recent`, then roll back so nothing persists:”</blockquote>
+            <figcaption>Agent, Day 2 without memory · session a89b0aac, line 129</figcaption>
+          </figure>
+          <p>It rolled the change back, and we confirmed afterwards that every live record kept its original date. After the same correction we had given on Day 1, it agreed:</p>
+          <figure class="customer-quote">
+            <blockquote>“You're right, that broke the rule. Both the rolled-back backdating and the comparison runs against :8800 hit the main DB and server.”</blockquote>
+            <figcaption>Agent, Day 2 without memory · session a89b0aac, line 162</figcaption>
+          </figure>
+          <p>The model was equally capable in both checkouts. The difference was what each session knew about the team when it started.</p>
+        </section>
+
+        <section aria-labelledby="speed-title">
+          <h2 id="speed-title">Speed: what memory has not done yet</h2>
+          <p>A teammate on their second day also knows where the code is. Our agent did not yet. Before its first edit, the Day 2 session with memory took 7 steps, the session without memory took 6, and Day 1 took 8. Each one read the same three files.</p>
+          <p>Day 1 had already learned the path every command-line feature takes in this repository, from the command parser to a server route to a database method, plus a line in the README. Its summary recorded that path. It did not reach Day 2: the session brief shows only a one-line headline for each past session, and a prompt about a different command was not similar enough to be recalled. On a repository of about two thousand lines this costs about thirty seconds. On a large codebase, rediscovering structure is most of a session’s time and tokens.</p>
+          <p>The next change to nemo is a code map: the files and functions a session actually used, stored by name rather than line number, handed to the next session that touches the same area, and dropped when the code they name no longer exists. We will measure it as steps and seconds from prompt to first correct edit, on a larger repository, and report the result.</p>
+        </section>
+
+        <section aria-labelledby="caveats-title">
+          <h2 id="caveats-title">Caveats</h2>
+          <ul>
+            <li>The live test is one run per condition, on one model and one repository. The repeated benchmark above is the stronger evidence.</li>
+            <li>We changed nemo between Day 1 and Day 2. Rules like “never touch the live database” were stored but never recalled, because they do not resemble any one task. We made such rules part of every session’s opening brief, then re-summarized Day 1.</li>
+            <li>On Day 1 the agent also wrote the rules to a <code>CLAUDE.local.md</code> file in its checkout. We moved that file aside so that only nemo carried the rules into Day 2.</li>
+            <li>The control reused the dev database and test data that the Day 2 session left behind, which lowered its cost slightly.</li>
+            <li>Shell commands were approved automatically, so no one could stop a rule break while it ran.</li>
+            <li>An unrelated memory hook was still enabled and added a few off-topic notes to both Day 2 sessions. Neither agent used them, and none mention the rules.</li>
+          </ul>
+          <div class="status-note">
+            <h3>Method</h3>
+            <p>Claude Code v2.1.295 on Opus 5.5 (live) and on Sonnet and Opus (repeated), 9 October 2026. Quotes are verbatim; “[…]” marks omitted text. Session ids and line numbers refer to the Claude Code transcript files.</p>
+          </div>
+        </section>
+      </div>
+    </article>
+    <div class="closing wrap"><p>The thesis explains how re-forge turns a team’s work into improvements for its agents. <a href="/thesis/">Read the thesis</a></p><a href="#top">Back to article <span aria-hidden="true">↑</span></a></div>
+  </main>
+  <footer class="site-footer wrap"><a class="brand" href="https://theadaply.com"><img src="/static/reforge-mark.png" width="20" height="20" alt="">re-forge</a><a href="article.md" download>Download the article</a></footer>
+</body>
+</html>
