@@ -2,6 +2,8 @@
 
 TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.
 
+[Watch the product video](https://www.youtube.com/watch?v=vBXZKS7iMBk)
+
 ## The thesis
 
 Every task your team completes should make its agents better at the next one. TheAdaply’s thesis is to turn the lessons in everyday work, from successful approaches to review feedback, into improvements the whole team can reuse.
@@ -14,7 +16,7 @@ Suppose an engineer’s agent works out how to move a service to a new system on
 
 The same problem exists beyond software. A robot’s work also leaves a trajectory: what it observed, what it was asked to do, what it tried, where it failed, where a person stepped in, and whether the outcome was accepted. Today most of that experience is thrown away. TheAdaply extends the same loop to robotics: capture the trajectory, keep what is useful, test a proposed adaptation against the current baseline, and retain it only when it passes.
 
-[Watch: How TheAdaply works](https://www.youtube.com/watch?v=tPs2lCjgNic)
+[Watch the earlier walkthrough](https://www.youtube.com/watch?v=tPs2lCjgNic)
 
 Read the full case study, completing a UI brief with the before and after bundle: [theadaply.com/case-study](https://theadaply.com/case-study/)
 
