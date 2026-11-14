@@ -1,0 +1,70 @@
+/* The site supplies type, palette, navigation, buttons, and focus states. */
+.study{max-width:1120px;padding-top:48px}
+.study-hero{min-height:0;padding-bottom:100px}
+.study-hero .hero-copy{padding-top:140px;gap:22px}
+.study-hero h1{max-width:900px}
+.context{font-size:14px;color:#2A2A28}
+.study section{margin-bottom:64px}
+.study h2{font-size:clamp(25px,3vw,32px);margin-bottom:24px}
+.screen{border:1px solid var(--hair);border-radius:12px;overflow:hidden;box-shadow:0 12px 36px -24px rgba(10,10,10,.25)}
+.screen-head{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:16px 24px;background:#f6f7f8;border-bottom:1px solid var(--hair);font-size:14px}
+.provenance{color:#565653;white-space:nowrap}
+.split{display:grid;grid-template-columns:1fr 1fr}
+.pane{padding:26px;min-width:0}
+.pane+.pane{border-left:1px solid var(--hair)}
+.screen h3{font-size:16px;font-weight:500;line-height:1.4;margin-bottom:18px}
+.utterance{margin-top:20px}
+.utterance span{display:block;font-size:13px;color:#62625f;margin-bottom:5px}
+.failure{background:#fff1ef;border-left:3px solid #b42318;padding:12px 14px;margin-left:-14px}
+.failure span,.fail{color:#a32319}
+code,pre{font-family:"Geist Mono",monospace;font-size:14px;overflow-wrap:anywhere;white-space:pre-wrap}
+.tool code{display:block;color:#565653;margin-bottom:22px}
+pre{line-height:2}
+mark{background:#ffe2dc;color:#8d1f16;padding:3px 0}
+.status{font-size:14px;margin-top:24px;color:#62625f}
+.status strong{color:var(--ink);font-weight:500}
+figcaption{font-size:14px;line-height:1.6;color:#62625f;margin-top:14px;max-width:85ch}
+.rule{padding:22px 24px;border-bottom:1px solid var(--hair);font-size:16px}
+.rule strong{font-weight:500}
+.cases{display:grid;grid-template-columns:1fr 1fr}
+.cases article{padding:24px;min-width:0}
+.cases article:nth-child(even){border-left:1px solid var(--hair)}
+.cases article:nth-child(n+3){border-top:1px solid var(--hair)}
+.cases h3{margin-bottom:10px}
+.cases code{color:#62625f;font-size:13px}
+.cases p{font-size:16px;margin-top:12px}
+.selected{background:#f6f7f8}
+.verdict{font-size:14px;margin-bottom:16px}
+.pass{color:#146c3e}
+blockquote{font-size:21px;line-height:1.5;max-width:32ch;min-height:64px}
+table{width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed}
+caption{text-align:left;padding:16px 24px;background:#f6f7f8;border-block:1px solid var(--hair);font-size:14px}
+th,td{text-align:left;padding:14px 24px;border-bottom:1px solid var(--hair);vertical-align:top;overflow-wrap:anywhere}
+th{font-weight:500}
+thead th{font-size:13px;color:#62625f}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+.service{padding-block:72px}
+.service h2{max-width:28ch;margin-bottom:24px}
+.service p{max-width:700px;margin-bottom:20px;color:rgba(255,255,255,.85)}
+.service .btn{margin-top:8px}
+@media(max-width:600px){
+  .study-hero::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.86)}
+  .nav-in{height:auto;min-height:86px;display:flex;flex-wrap:wrap;justify-content:center;padding:14px;gap:8px}
+  .nav-c{display:flex;gap:22px;font-size:14px;width:100%}
+  .nav-c a{min-height:32px}
+  .study{padding-top:28px}
+  .study-hero{padding-bottom:68px}
+  .study-hero .hero-copy{padding-top:150px}
+  .study-hero h1{font-size:38px}
+  .study section{margin-bottom:44px}
+  .screen-head{padding:14px 18px;align-items:flex-start;flex-direction:column;gap:4px}
+  .split,.cases{grid-template-columns:1fr}
+  .pane,.cases article{padding:22px 18px}
+  .pane+.pane,.cases article:nth-child(even){border-left:0;border-top:1px solid var(--hair)}
+  .rule{padding:20px 18px}
+  .failure{margin-left:0}
+  blockquote{min-height:0}
+  caption{padding:14px 16px}
+  th,td{padding:12px 10px;font-size:13px}
+  .service .btn{white-space:normal;line-height:1.4;padding-block:12px}
+}
