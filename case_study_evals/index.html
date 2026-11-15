@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/v3.css?v=14">
-<link rel="stylesheet" href="/case_study_evals/styles.css?v=2">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -30,14 +30,13 @@
   <div class="wrap hero-copy">
     <p class="context">Voice appointment booking · An example engagement</p>
     <h1>How to catch a false booking confirmation before it ships</h1>
-    <p class="hero-sub">TheAdaply gives software teams rigorous evals and observability so they can test whether their AI agents behave as expected in production. Here’s how we’d apply that to a voice appointment-booking workflow.</p>
-    <p class="promise">Bring example calls. We build tests showing what your next agent change fixes or breaks.</p>
+    <p class="hero-sub">Maya, a fictional booking agent, says “You’re booked” after the booking tool fails. TheAdaply helps your team find that mistake, test the fix, and catch it in future changes before shipping.</p>
   </div>
   </div>
   <div class="wrap study">
   <section aria-labelledby="trace-title">
-    <h2 id="trace-title">1. Give Maya one test call.</h2>
-    <p class="step-copy">TheAdaply tests this fictional voice agent against an unavailable slot.</p>
+    <h2 id="trace-title">The problem: Maya confirms a booking that failed.</h2>
+    <p class="step-copy">We put Maya’s conversation and tool response together so your engineer can see the mismatch.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Trace / B02 · Unavailable slot</span><span class="provenance">Illustrative mockup</span></div>
@@ -69,8 +68,8 @@
     </figure>
   </section>
   <section aria-labelledby="dataset-title">
-    <h2 id="dataset-title">2. Make that mistake a test you can rerun.</h2>
-    <p class="step-copy">Together, we define correct behavior. We build tool-state checks and calibrate conversation checks against human-reviewed calls.</p>
+    <h2 id="dataset-title">Our solution: turn that mistake into a test.</h2>
+    <p class="step-copy">With your team, we define what Maya should do and build checks for her reply and booking result. We verify those checks against human reviews.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Dataset / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
@@ -86,8 +85,8 @@
     </figure>
   </section>
   <section aria-labelledby="replay-title">
-    <h2 id="replay-title">3. Test your change before customers hear it.</h2>
-    <p class="step-copy">Your engineer adds a rule to Maya’s instructions. We rerun the same saved tests.</p>
+    <h2 id="replay-title">Before shipping: check the fix on the same calls.</h2>
+    <p class="step-copy">Add one instruction. Rerun the saved tests. See what improved and what still needs fixing.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Release comparison / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
@@ -115,14 +114,14 @@
   <section class="cta service" aria-labelledby="service-title">
     <div class="cta-bg" aria-hidden="true"></div>
     <div class="wrap cta-in">
-    <h2 id="service-title">Your starting point. Our deliverables.</h2>
+    <h2 id="service-title">What we build for your team</h2>
     <p>Bring one workflow and a small set of sanitized traces or example calls. TheAdaply sets up and hands over:</p>
     <dl class="deliverables">
       <div><dt>Trace capture</dt><dd>See calls, tool requests, and responses together.</dd></div>
       <div><dt>Dataset + checks</dt><dd>Saved cases and agreed pass/fail rules.</dd></div>
       <div><dt>Baseline report + rerun workflow</dt><dd>Compare prompt, model, or tool changes before release.</dd></div>
     </dl>
-    <p>Your team reviews failures, fixes the change, and reruns the checks. New production failures become regression cases.</p>
+    <p>Use the report before each release. New production failures become regression cases.</p>
     <a class="btn btn-white" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a>
     </div>
   </section>

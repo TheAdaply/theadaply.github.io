@@ -3,7 +3,6 @@
 .study-hero{min-height:0;padding-bottom:56px}
 .study-hero .hero-copy{padding-top:120px;gap:22px}
 .study-hero h1{max-width:900px}
-.promise{max-width:680px;font-size:17px;font-weight:500;line-height:1.5}
 .context{font-size:14px;color:#2A2A28}
 .study section{margin-bottom:64px}
 .study h2{font-size:clamp(25px,3vw,32px);margin-bottom:12px}
