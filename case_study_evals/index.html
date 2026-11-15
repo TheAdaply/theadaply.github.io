@@ -31,22 +31,27 @@
     <p class="context">Voice appointment booking · An example engagement</p>
     <h1>How to catch a false booking confirmation before it ships</h1>
     <p class="hero-sub">TheAdaply gives software teams rigorous evals and observability so they can test whether their AI agents behave as expected in production. Here’s how we’d apply that to a voice appointment-booking workflow.</p>
-    <p class="promise">You bring example calls. We build a repeatable test that shows what your next AI change fixes—and what it breaks.</p>
+    <p class="promise">Bring example calls. We build tests showing what your next agent change fixes or breaks.</p>
   </div>
   </div>
   <div class="wrap study">
   <section aria-labelledby="trace-title">
-    <h2 id="trace-title">1. See exactly where the booking went wrong.</h2>
-    <p class="step-copy">We connect conversations to tool responses. The caller hears confirmation; no appointment exists.</p>
+    <h2 id="trace-title">1. Give Maya one test call.</h2>
+    <p class="step-copy">TheAdaply tests this fictional voice agent against an unavailable slot.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Trace / B02 · Unavailable slot</span><span class="provenance">Illustrative mockup</span></div>
+        <div class="rule">
+          <h3>Maya · AI appointment-booking agent</h3>
+          <p><strong>Persona:</strong> Friendly, concise receptionist.</p>
+          <p><strong>Starting instructions:</strong> “Use the booking tool to help callers book or reschedule appointments.”</p>
+        </div>
         <div class="split">
           <div class="pane">
-            <h3>Call transcript</h3>
+            <h3>Test call · B02</h3>
             <p class="utterance"><span>Caller · 00:04</span>“Book Tuesday at 10, please.”</p>
-            <p class="utterance"><span>Agent · 00:06</span>“Let me check that slot.”</p>
-            <p class="utterance failure"><span>Agent · 00:09 · Incorrect confirmation</span><strong>“You’re booked.”</strong></p>
+            <p class="utterance"><span>Maya · 00:06</span>“Let me check that slot.”</p>
+            <p class="utterance failure"><span>Maya · 00:09 · Incorrect confirmation</span><strong>“You’re booked.”</strong></p>
           </div>
           <div class="pane tool">
             <h3>Booking tool · 00:08</h3>
@@ -60,7 +65,7 @@
           </div>
         </div>
       </div>
-      <figcaption>The tool returned no confirmation ID. The agent’s promise is unsupported. All calls shown are fictional.</figcaption>
+      <figcaption>Maya says “booked” without a confirmation ID. This test catches the false promise.</figcaption>
     </figure>
   </section>
   <section aria-labelledby="dataset-title">
@@ -82,14 +87,14 @@
   </section>
   <section aria-labelledby="replay-title">
     <h2 id="replay-title">3. Test your change before customers hear it.</h2>
-    <p class="step-copy">Your engineer edits the prompt. We run the current and proposed versions against the same cases and checks.</p>
+    <p class="step-copy">Your engineer adds a rule to Maya’s instructions. We rerun the same saved tests.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Release comparison / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
-        <p class="rule"><strong>Proposed change:</strong> Require a booking ID before confirming. Model and simulated tool responses stay fixed.</p>
+        <p class="rule"><strong>Added instruction:</strong> “Confirm only with a valid booking ID. If unavailable, offer another slot and wait for approval.” Model and simulated tool responses stay fixed.</p>
         <div class="split replay">
-          <div class="pane"><h3>B02 · Current prompt</h3><p class="verdict fail">Fail · False confirmation</p><blockquote>“You’re booked.”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
-          <div class="pane"><h3>B02 · Proposed prompt</h3><p class="verdict pass">Pass · Waits for approval</p><blockquote>“10:00 is unavailable. Would 11:00 work?”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
+          <div class="pane"><h3>B02 · Maya before</h3><p class="verdict fail">Fail · False confirmation</p><blockquote>“You’re booked.”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
+          <div class="pane"><h3>B02 · Maya with the added rule</h3><p class="verdict pass">Pass · Waits for approval</p><blockquote>“10:00 is unavailable. Would 11:00 work?”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
         </div>
         <table>
           <caption>Baseline report → proposed change</caption>
