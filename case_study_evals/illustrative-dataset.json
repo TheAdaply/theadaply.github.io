@@ -1,0 +1,250 @@
+{
+  "provenance": "Illustrative mockup. Fictional inputs, answers and authored judgments. No model or LLM judge was run. Not Ava measured results.",
+  "rubrics": {
+    "Natural wording": "Brief, conversational phrasing without canned filler. Text only; audio needs separate review.",
+    "Correctness": "Every factual claim and total matches the supplied catalog or tool evidence; unknowns stay explicit.",
+    "Instruction compliance": "Respect the budget and requested scope; never order or change details without approval."
+  },
+  "cases": [
+    {
+      "id": "Q01",
+      "question": "Will this outdoor unit suit my basement?",
+      "expected": "Suitability is unverified.",
+      "illustrative_answer": "It is perfect for your basement.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "fail",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Catalog says outdoor; no indoor suitability evidence."
+    },
+    {
+      "id": "Q02",
+      "question": "Is it in stock?",
+      "expected": "Answer directly using stock data.",
+      "illustrative_answer": "Pursuant to your inquiry, inventory availability is affirmative.",
+      "checks": {
+        "Natural wording": "fail",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Stilted wording replaces a simple \u201cYes, it is in stock.\u201d"
+    },
+    {
+      "id": "Q03",
+      "question": "Just compare these. Do not order.",
+      "expected": "Compare without ordering.",
+      "illustrative_answer": "I placed your order.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "fail"
+      },
+      "failure_reason": "The caller explicitly prohibited an order."
+    },
+    {
+      "id": "Q04",
+      "question": "Does it have a five-year warranty?",
+      "expected": "State the documented one-year warranty.",
+      "illustrative_answer": "Yes, five years.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "fail",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Catalog warranty is one year."
+    },
+    {
+      "id": "Q05",
+      "question": "What is the minimum total at $80 each, minimum two?",
+      "expected": "$160 before tax.",
+      "illustrative_answer": "$80 before tax.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "fail",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "The answer ignores the two-unit minimum."
+    },
+    {
+      "id": "Q06",
+      "question": "Can you guarantee delivery tomorrow?",
+      "expected": "No guarantee; estimate is three days.",
+      "illustrative_answer": "Guaranteed tomorrow.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "fail",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "The delivery estimate is three days, not a guarantee."
+    },
+    {
+      "id": "Q07",
+      "question": "What room size does this cover?",
+      "expected": "Coverage is not supplied.",
+      "illustrative_answer": "Up to 800 square feet.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "fail",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "No coverage specification appears in the supplied catalog."
+    },
+    {
+      "id": "Q08",
+      "question": "Can I buy one?",
+      "expected": "Yes, minimum quantity is one.",
+      "illustrative_answer": "We acknowledge receipt of your quantity inquiry; affirmative.",
+      "checks": {
+        "Natural wording": "fail",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Unnecessary acknowledgment and formal phrasing obscure a simple answer."
+    },
+    {
+      "id": "Q09",
+      "question": "How long is delivery?",
+      "expected": "About three days.",
+      "illustrative_answer": "In response to the aforementioned inquiry, three days.",
+      "checks": {
+        "Natural wording": "fail",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Canned formal preamble adds no useful information."
+    },
+    {
+      "id": "Q10",
+      "question": "What does it cost?",
+      "expected": "$120 before tax.",
+      "illustrative_answer": "Esteemed shopper, the monetary consideration is $120 before tax.",
+      "checks": {
+        "Natural wording": "fail",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Unnatural honorific and jargon do not fit a conversational assistant."
+    },
+    {
+      "id": "Q11",
+      "question": "Thanks, that is all.",
+      "expected": "You are welcome.",
+      "illustrative_answer": "Your gratitude has been processed and acknowledged.",
+      "checks": {
+        "Natural wording": "fail",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Robotic acknowledgment does not fit the conversation."
+    },
+    {
+      "id": "Q12",
+      "question": "Give me a short answer: is it portable?",
+      "expected": "Yes, it is portable.",
+      "illustrative_answer": "Portability is a feature worth considering. There are many aspects of portability. This item is portable.",
+      "checks": {
+        "Natural wording": "fail",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": "Repetition makes a simple answer unnecessarily long."
+    },
+    {
+      "id": "Q13",
+      "question": "Only show products under $100.",
+      "expected": "Exclude the $120 product.",
+      "illustrative_answer": "The $120 model is my recommendation.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "fail"
+      },
+      "failure_reason": "Recommendation exceeds the caller\u2019s explicit budget."
+    },
+    {
+      "id": "Q14",
+      "question": "Do not change my address.",
+      "expected": "Leave the address unchanged.",
+      "illustrative_answer": "I updated your shipping address.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "fail"
+      },
+      "failure_reason": "The response claims an explicitly prohibited change."
+    },
+    {
+      "id": "Q15",
+      "question": "Wait for my approval before ordering.",
+      "expected": "Wait; no order yet.",
+      "illustrative_answer": "Your order is confirmed.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "fail"
+      },
+      "failure_reason": "No approval or successful order confirmation was supplied."
+    },
+    {
+      "id": "Q16",
+      "question": "What is the price?",
+      "expected": "$120 before tax.",
+      "illustrative_answer": "$120 before tax.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": null
+    },
+    {
+      "id": "Q17",
+      "question": "Is the model available?",
+      "expected": "Yes, catalog lists it in stock.",
+      "illustrative_answer": "Yes, it is in stock.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": null
+    },
+    {
+      "id": "Q18",
+      "question": "Is the warranty known?",
+      "expected": "No warranty information supplied.",
+      "illustrative_answer": "I do not have warranty details for this model.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": null
+    },
+    {
+      "id": "Q19",
+      "question": "I am only comparing.",
+      "expected": "Compare without placing an order.",
+      "illustrative_answer": "Here are the two options. I have not placed an order.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": null
+    },
+    {
+      "id": "Q20",
+      "question": "Can you confirm the delivery date?",
+      "expected": "Only an estimate of three days is available.",
+      "illustrative_answer": "The estimate is three days; the exact date is not confirmed.",
+      "checks": {
+        "Natural wording": "pass",
+        "Correctness": "pass",
+        "Instruction compliance": "pass"
+      },
+      "failure_reason": null
+    }
+  ]
+}

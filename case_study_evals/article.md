@@ -1,10 +1,10 @@
 # How we improved Ava’s product recommendations
 
-Ava sounded helpful, but recommended a product without establishing that it suited the shopper. TheAdaply helped us find the gap, test a fix, and compare the results.
+Ava recommended a product without verifying suitability. TheAdaply helped us find the gap, test a fix, and compare results.
 
 ## Meet Ava, our retail voice agent
 
-Fantastic-Ava-3 helps shoppers compare products and place orders after confirmation. Her role: a helpful shopping assistant using catalog search, prices, and order tools.
+Fantastic-Ava-3 is our retail voice assistant: compare catalog products, explain prices, and order after approval.
 
 > “I need one portable dehumidifier for a damp basement. My total budget is $1,000 before tax, and I can wait.”
 
@@ -26,26 +26,72 @@ Recorded local eval · actual answer excerpts. The revised agent searched more b
 
 ## Turn the failure into a test
 
-In our evaluation app, we saved the conversation as a test and defined four checks: product fit, supported “cheapest” claims, minimum-order totals, and no unrequested order.
+We saved the conversation as a test: check product fit, “cheapest” claims, minimum-order totals, and order approval.
 
-We added two instructions: verify suitability against product evidence; qualify claims when fit or comparison coverage is uncertain. Then we ran both versions on the same saved cases.
+We prompted Ava to verify suitability and qualify uncertain claims, then replayed the same cases.
 
 ## Choose what the judge checks
 
-Built-in rubric starters cover correctness, groundedness, relevance, instructions, task completion, tool use, brand/tone, and extraction. Edit the criteria for your agent—including conciseness or formal tone.
+Choose a built-in judge starter, then define observable pass criteria for your agent.
 
 [![Reforge Evaluations app dropdown showing eight editable rubric starters, including groundedness, instruction compliance, and brand alignment and tone.](/case_study_evals/images/rubric-options.png)](/case_study_evals/images/rubric-options.png)
 
 
-Actual app screenshot · eight editable starters. On mobile, swipe to read; open the image for the full view.
+Actual app screenshot · eight starters. Swipe on mobile; click to enlarge.
 
 
 [![Editable brand and tone rubric awards credit for each satisfied criterion and requires a short explanation citing evidence for unmet criteria.](/case_study_evals/images/rubric-criteria.png)](/case_study_evals/images/rubric-criteria.png)
 
 
-Actual app screenshot · criteria and score definitions, with evidence-backed explanations. This shows judge setup, not an Ava result.
+Actual app screenshot · editable scoring criteria. Judge setup, not Ava results.
 
-## The result—and the trade-off
+## 20 questions. Three clear checks.
+
+**Illustrative mockup · fictional results.** Twenty authored Q&A examples; no model run.
+
+Rubrics and example failures across 20 Q&A cases
+
+| Rubric · pass criterion | Pass / fail |
+| --- | --- |
+| Natural wording Brief, conversational phrasing without canned filler. Text only; audio needs separate review. | 14 / 6 |
+| Correctness Every factual claim and total matches the supplied catalog or tool evidence; unknowns stay explicit. | 15 / 5 |
+| Instruction compliance Respect the budget and requested scope; never order or change details without approval. | 16 / 4 |
+
+Open a failure to inspect the answer and evidence.
+
+Q01 · Fail: Correctness
+
+**Caller:** Will this outdoor unit suit my basement?
+
+**Ava:** “It is perfect for your basement.”
+
+**Why it fails:** Catalog says outdoor; no indoor suitability evidence.
+
+**Expected:** Suitability is unverified.
+
+Q02 · Fail: Natural wording
+
+**Caller:** Is it in stock?
+
+**Ava:** “Pursuant to your inquiry, inventory availability is affirmative.”
+
+**Why it fails:** Stilted wording replaces a simple “Yes, it is in stock.”
+
+**Expected:** Answer directly using stock data.
+
+Q03 · Fail: Instruction compliance
+
+**Caller:** Just compare these. Do not order.
+
+**Ava:** “I placed your order.”
+
+**Why it fails:** The caller explicitly prohibited an order.
+
+**Expected:** Compare without ordering.
+
+[Inspect all 20 questions, expected answers, and judgments ↓](/case_study_evals/illustrative-dataset.json)
+
+## Recorded Ava results
 
 Independent answer and tool review, before and after the prompt change
 
@@ -59,11 +105,11 @@ Ten conversations, one run per version, cached catalog data, text/tool evaluatio
 
 ## Test a cheaper model
 
-**Illustrative scenario.** Astra handles the workflow well. We inspect successful traces and turn the useful behaviors into explicit instructions for Sol or Terra. We then compare unseen cases using the same rubric and measured cost per successful task. Switch only if quality holds and cost falls. Savings are unverified.
+**Illustrative scenario.** Use successful Astra traces to improve Sol or Terra’s instructions. Compare unseen cases and cost per successful task before switching. Savings are unverified.
 
 ## What we do for your team
 
-Bring one workflow and sanitized example calls. We set up traces, build your dataset and checks, and deliver a baseline report plus a repeatable comparison for prompt, model, or tool changes. Review failures before shipping; add new production failures as regression tests.
+Bring one workflow and sanitized calls. We deliver trace capture, a dataset, rubrics, a baseline report, and repeatable comparisons. Test prompt, model, or tool changes before shipping. Turn production failures into regression cases.
 
 [Bring us one agent workflow.](https://tally.so/r/lb4Rkp)
 

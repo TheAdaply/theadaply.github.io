@@ -1,6 +1,6 @@
 /* Layout and components come from the existing case-study stylesheet. */
 .section-gap{margin-top:48px}
-.comparison,.app-capture{margin-top:32px;margin-bottom:32px}
+.comparison,.app-capture{width:100%;max-width:700px;padding-inline:0;margin:28px auto}
 .comparison .explorer-heading{margin-bottom:18px}
 .answer-comparison{border:1px solid var(--hair);border-radius:10px}
 .answer-comparison blockquote{margin:0;padding:24px;font-size:20px;line-height:1.55}
@@ -24,3 +24,11 @@
   .app-capture{overflow-x:auto}
   .shot{min-width:680px}
 }
+
+.fixture caption{text-align:left;padding:12px;font-size:13px;color:var(--muted)}
+.fixture .criterion{font-weight:400;font-size:14px}
+.fixture th:first-child{width:75%}
+.fixture details{border-bottom:1px solid var(--hair);padding:14px 0}
+.fixture summary{cursor:pointer;font-size:15px;font-weight:500}
+.fixture details p{font-size:14px;margin-top:12px}
+@media(max-width:800px){.comparison,.app-capture{width:calc(100% - 48px);max-width:652px}}

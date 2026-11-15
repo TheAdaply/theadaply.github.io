@@ -27,12 +27,12 @@
 <main id="top">
   <div class="hero">
     <h1>How we improved Ava’s product recommendations</h1>
-    <p class="dek">Ava sounded helpful, but recommended a product without establishing that it suited the shopper. TheAdaply helped us find the gap, test a fix, and compare the results.</p>
+    <p class="dek">Ava recommended a product without verifying suitability. TheAdaply helped us find the gap, test a fix, and compare results.</p>
   </div>
   <article id="article" class="article">
     <section class="article-body" aria-labelledby="agent-title">
       <h2 id="agent-title">Meet Ava, our retail voice agent</h2>
-      <p>Fantastic-Ava-3 helps shoppers compare products and place orders after confirmation. Her role: a helpful shopping assistant using catalog search, prices, and order tools.</p>
+      <p>Fantastic-Ava-3 is our retail voice assistant: compare catalog products, explain prices, and order after approval.</p>
       <figure class="customer-quote">
         <blockquote>“I need one portable dehumidifier for a <mark>damp basement.</mark> My total budget is $1,000 before tax, and I can wait.”</blockquote>
         <figcaption>Recorded test input · local demo, not a customer testimonial.</figcaption>
@@ -49,27 +49,37 @@
     </figure>
     <section class="article-body section-gap" aria-labelledby="work-title">
       <h2 id="work-title">Turn the failure into a test</h2>
-      <p>In our evaluation app, we saved the conversation as a test and defined four checks: product fit, supported “cheapest” claims, minimum-order totals, and no unrequested order.</p>
-      <p>We added two instructions: verify suitability against product evidence; qualify claims when fit or comparison coverage is uncertain. Then we ran both versions on the same saved cases.</p>
+      <p>We saved the conversation as a test: check product fit, “cheapest” claims, minimum-order totals, and order approval.</p>
+      <p>We prompted Ava to verify suitability and qualify uncertain claims, then replayed the same cases.</p>
     </section>
     <section class="article-body section-gap" aria-labelledby="judges-title">
       <h2 id="judges-title">Choose what the judge checks</h2>
-      <p>Built-in rubric starters cover correctness, groundedness, relevance, instructions, task completion, tool use, brand/tone, and extraction. Edit the criteria for your agent—including conciseness or formal tone.</p>
+      <p>Choose a built-in judge starter, then define observable pass criteria for your agent.</p>
     </section>
     <figure class="wrap app-capture">
       <a class="shot options" href="/case_study_evals/images/rubric-options.png" target="_blank" rel="noopener" aria-label="Open full screenshot of the eight editable LLM judge starters">
         <img src="/case_study_evals/images/rubric-options.png" width="2560" height="1640" loading="lazy" alt="Reforge Evaluations app dropdown showing eight editable rubric starters, including groundedness, instruction compliance, and brand alignment and tone.">
       </a>
-      <figcaption>Actual app screenshot · eight editable starters. On mobile, swipe to read; open the image for the full view.</figcaption>
+      <figcaption>Actual app screenshot · eight starters. Swipe on mobile; click to enlarge.</figcaption>
     </figure>
     <figure class="wrap app-capture">
       <a class="shot criteria" href="/case_study_evals/images/rubric-criteria.png" target="_blank" rel="noopener" aria-label="Open full screenshot of the editable brand and tone scoring rubric">
         <img src="/case_study_evals/images/rubric-criteria.png" width="2560" height="1640" loading="lazy" alt="Editable brand and tone rubric awards credit for each satisfied criterion and requires a short explanation citing evidence for unmet criteria.">
       </a>
-      <figcaption>Actual app screenshot · criteria and score definitions, with evidence-backed explanations. This shows judge setup, not an Ava result.</figcaption>
+      <figcaption>Actual app screenshot · editable scoring criteria. Judge setup, not Ava results.</figcaption>
     </figure>
+    <section class="article-body section-gap spec-preview fixture" aria-labelledby="fixture-title">
+      <h2 id="fixture-title">20 questions. Three clear checks.</h2>
+      <p><strong>Illustrative mockup · fictional results.</strong> Twenty authored Q&amp;A examples; no model run.</p>
+      <div class="spec-table-scroll"><table><caption>Rubrics and example failures across 20 Q&amp;A cases</caption><thead><tr><th scope="col">Rubric · pass criterion</th><th scope="col">Pass / fail</th></tr></thead><tbody><tr><th scope="row">Natural wording<br><span class="criterion">Brief, conversational phrasing without canned filler. Text only; audio needs separate review.</span></th><td>14 / 6</td></tr><tr><th scope="row">Correctness<br><span class="criterion">Every factual claim and total matches the supplied catalog or tool evidence; unknowns stay explicit.</span></th><td>15 / 5</td></tr><tr><th scope="row">Instruction compliance<br><span class="criterion">Respect the budget and requested scope; never order or change details without approval.</span></th><td>16 / 4</td></tr></tbody></table></div>
+      <p class="method">Open a failure to inspect the answer and evidence.</p>
+      <details><summary>Q01 · Fail: Correctness</summary><p><strong>Caller:</strong> Will this outdoor unit suit my basement?</p><p><strong>Ava:</strong> “It is perfect for your basement.”</p><p><strong>Why it fails:</strong> Catalog says outdoor; no indoor suitability evidence.</p><p><strong>Expected:</strong> Suitability is unverified.</p></details>
+      <details><summary>Q02 · Fail: Natural wording</summary><p><strong>Caller:</strong> Is it in stock?</p><p><strong>Ava:</strong> “Pursuant to your inquiry, inventory availability is affirmative.”</p><p><strong>Why it fails:</strong> Stilted wording replaces a simple “Yes, it is in stock.”</p><p><strong>Expected:</strong> Answer directly using stock data.</p></details>
+      <details><summary>Q03 · Fail: Instruction compliance</summary><p><strong>Caller:</strong> Just compare these. Do not order.</p><p><strong>Ava:</strong> “I placed your order.”</p><p><strong>Why it fails:</strong> The caller explicitly prohibited an order.</p><p><strong>Expected:</strong> Compare without ordering.</p></details>
+      <p class="method"><a href="/case_study_evals/illustrative-dataset.json" download>Inspect all 20 questions, expected answers, and judgments ↓</a></p>
+    </section>
     <section id="results" class="article-body section-gap spec-preview" aria-labelledby="results-title">
-      <h2 id="results-title">The result—and the trade-off</h2>
+      <h2 id="results-title">Recorded Ava results</h2>
       <div class="spec-table-scroll"><table>
         <caption class="sr-only">Independent answer and tool review, before and after the prompt change</caption>
         <thead><tr><th scope="col">Reviewed outcomes</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
@@ -79,11 +89,11 @@
     </section>
     <section class="article-body section-gap" aria-labelledby="cost-title">
       <h2 id="cost-title">Test a cheaper model</h2>
-      <p><strong>Illustrative scenario.</strong> Astra handles the workflow well. We inspect successful traces and turn the useful behaviors into explicit instructions for Sol or Terra. We then compare unseen cases using the same rubric and measured cost per successful task. Switch only if quality holds and cost falls. Savings are unverified.</p>
+      <p><strong>Illustrative scenario.</strong> Use successful Astra traces to improve Sol or Terra’s instructions. Compare unseen cases and cost per successful task before switching. Savings are unverified.</p>
     </section>
     <section class="article-body case-conclusion" aria-labelledby="deliver-title">
       <h2 id="deliver-title">What we do for your team</h2>
-      <p>Bring one workflow and sanitized example calls. We set up traces, build your dataset and checks, and deliver a baseline report plus a repeatable comparison for prompt, model, or tool changes. Review failures before shipping; add new production failures as regression tests.</p>
+      <p>Bring one workflow and sanitized calls. We deliver trace capture, a dataset, rubrics, a baseline report, and repeatable comparisons. Test prompt, model, or tool changes before shipping. Turn production failures into regression cases.</p>
       <p><a class="download-link primary" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a></p>
     </section>
   </article>
