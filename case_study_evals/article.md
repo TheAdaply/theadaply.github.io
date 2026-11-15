@@ -57,6 +57,10 @@ Independent answer and tool review, before and after the prompt change
 
 Ten conversations, one run per version, cached catalog data, text/tool evaluation. Voice quality and production reliability weren’t tested. Running cost is unknown; savings aren’t established. Judge rationales contained errors, so these outcomes use independent AI-assisted answer/tool review, not the judge’s score increase.
 
+## Test a cheaper model
+
+**Illustrative scenario.** Astra handles the workflow well. We inspect successful traces and turn the useful behaviors into explicit instructions for Sol or Terra. We then compare unseen cases using the same rubric and measured cost per successful task. Switch only if quality holds and cost falls. Savings are unverified.
+
 ## What we do for your team
 
 Bring one workflow and sanitized example calls. We set up traces, build your dataset and checks, and deliver a baseline report plus a repeatable comparison for prompt, model, or tool changes. Review failures before shipping; add new production failures as regression tests.
