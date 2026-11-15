@@ -3,129 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How to catch a false booking confirmation before it ships | TheAdaply</title>
-<meta name="description" content="From a false booking confirmation to a repeatable release check: how TheAdaply would build evals and observability for a voice appointment-booking agent.">
-<meta property="og:title" content="How to catch a false booking confirmation before it ships">
-<meta property="og:description" content="One workflow. A trace, a regression dataset, and a comparison before you ship.">
+<meta name="theme-color" content="#FFFFFF">
+<title>How we improved Ava’s product recommendations | TheAdaply</title>
+<meta name="description" content="An actual Ava evaluation: find an unsupported recommendation, save the failure as a test, and compare a focused prompt change using TheAdaply.">
+<meta property="og:title" content="How we improved Ava’s product recommendations">
+<meta property="og:description" content="The agent, the failure, the rubric, and the reviewed before-and-after result.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://theadaply.com/case_study_evals">
-<link rel="canonical" href="https://theadaply.com/case_study_evals">
+<meta property="og:url" content="https://theadaply.com/case_study_evals/">
+<link rel="canonical" href="https://theadaply.com/case_study_evals/">
 <link rel="icon" href="/static/reforge-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/v3.css?v=14">
-<link rel="stylesheet" href="/case_study_evals/styles.css?v=3">
+<link rel="stylesheet" href="/case-study/styles.css?v=thesis-video-1">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=ava-1">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="/" aria-label="TheAdaply home"><img src="/static/reforge-mark.png" width="20" height="20" alt="">TheAdaply</a>
-    <nav class="nav-c" aria-label="Sections"><a href="/thesis/">Thesis</a><a href="/case-study/">Case study</a><a href="/for-agents/">For agents</a></nav>
+<a class="skip-link" href="#article">Skip to article</a>
+<header class="site-header"><div class="nav-in">
+  <a class="brand" href="/" aria-label="TheAdaply home"><img src="/static/reforge-mark.png" width="20" height="20" alt="">TheAdaply</a>
+  <nav aria-label="Page"><a href="/thesis/">Thesis</a><a href="#article">Article</a><a href="#results">Results</a><a class="offline-link" href="/case_study_evals/article.md" download>Read offline <span aria-hidden="true">↓</span></a></nav>
+</div></header>
+<main id="top">
+  <div class="hero">
+    <h1>How we improved Ava’s product recommendations</h1>
+    <p class="dek">Ava sounded helpful, but recommended a product without establishing that it suited the shopper. TheAdaply helped us find the gap, test a fix, and compare the results.</p>
   </div>
-</header>
-<main id="main">
-  <div class="hero study-hero">
-  <div class="wrap hero-copy">
-    <p class="context">Voice appointment booking · An example engagement</p>
-    <h1>How to catch a false booking confirmation before it ships</h1>
-    <p class="hero-sub">Maya, a fictional booking agent, says “You’re booked” after the booking tool fails. TheAdaply helps your team find that mistake, test the fix, and catch it in future changes before shipping.</p>
-  </div>
-  </div>
-  <div class="wrap study">
-  <section aria-labelledby="trace-title">
-    <h2 id="trace-title">The problem: Maya confirms a booking that failed.</h2>
-    <p class="step-copy">We put Maya’s conversation and tool response together so your engineer can see the mismatch.</p>
-    <figure>
-      <div class="screen">
-        <div class="screen-head"><span>Trace / B02 · Unavailable slot</span><span class="provenance">Illustrative mockup</span></div>
-        <div class="rule">
-          <h3>Maya · AI appointment-booking agent</h3>
-          <p><strong>Persona:</strong> Friendly, concise receptionist.</p>
-          <p><strong>Starting instructions:</strong> “Use the booking tool to help callers book or reschedule appointments.”</p>
-        </div>
-        <div class="split">
-          <div class="pane">
-            <h3>Test call · B02</h3>
-            <p class="utterance"><span>Caller · 00:04</span>“Book Tuesday at 10, please.”</p>
-            <p class="utterance"><span>Maya · 00:06</span>“Let me check that slot.”</p>
-            <p class="utterance failure"><span>Maya · 00:09 · Incorrect confirmation</span><strong>“You’re booked.”</strong></p>
-          </div>
-          <div class="pane tool">
-            <h3>Booking tool · 00:08</h3>
-            <code>book_appointment({slot: "Tue 10:00"})</code>
-            <pre>{
-  <mark>"status": "slot_unavailable"</mark>,
-  "confirmation_id": null,
-  "alternative": "Tue 11:00"
-}</pre>
-            <p class="status">Booking: <strong>Unconfirmed</strong></p>
-          </div>
-        </div>
+  <article id="article" class="article">
+    <section class="article-body" aria-labelledby="agent-title">
+      <h2 id="agent-title">Meet Ava, our retail voice agent</h2>
+      <p>Fantastic-Ava-3 helps shoppers compare products and place orders after confirmation. Her role: a helpful shopping assistant using catalog search, prices, and order tools.</p>
+      <figure class="customer-quote">
+        <blockquote>“I need one portable dehumidifier for a <mark>damp basement.</mark> My total budget is $1,000 before tax, and I can wait.”</blockquote>
+        <figcaption>Recorded test input · local demo, not a customer testimonial.</figcaption>
+      </figure>
+      <p>Ava recommended an outdoor-described product without qualifying basement suitability. Ten search results also didn’t establish a catalog-wide “cheapest” option.</p>
+    </section>
+    <figure class="wrap comparison" aria-labelledby="comparison-title">
+      <div class="explorer-heading"><h3 id="comparison-title">What changed in Ava’s answer</h3></div>
+      <div class="code-columns answer-comparison">
+        <section class="code-pane"><h5>Before · unsupported fit</h5><blockquote>“Cheapest within your budget by actual required purchase is the portable non-powered outdoor dehumidifier…”</blockquote></section>
+        <section class="code-pane"><h5>After · suitability qualified</h5><blockquote>“For a damp basement, note it’s described for small-space moisture control, not whole-basement powered drying.”</blockquote></section>
       </div>
-      <figcaption>Maya says “booked” without a confirmation ID. This test catches the false promise.</figcaption>
+      <figcaption>Recorded local eval · actual answer excerpts. The revised agent searched more broadly and explained the product’s limitation.</figcaption>
     </figure>
-  </section>
-  <section aria-labelledby="dataset-title">
-    <h2 id="dataset-title">Our solution: turn that mistake into a test.</h2>
-    <p class="step-copy">With your team, we define what Maya should do and build checks for her reply and booking result. We verify those checks against human reviews.</p>
-    <figure>
-      <div class="screen">
-        <div class="screen-head"><span>Dataset / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
-        <p class="rule"><strong>Required check:</strong> Confirm only after a successful booking response contains a valid confirmation ID for the requested slot.</p>
-        <div class="cases">
-          <article><h3>B01 · Normal booking</h3><code>confirmed · DEMO-104</code><p>Confirm the requested slot and ID.</p></article>
-          <article class="selected"><h3>B02 · Unavailable slot</h3><code>slot_unavailable · ID: null</code><p>Offer 11:00; wait for caller approval. Stay unconfirmed.</p></article>
-          <article><h3>B03 · Booking timeout</h3><code>timeout · ID: unknown</code><p>Explain uncertainty; verify status before retrying.</p></article>
-          <article><h3>B04 · Reschedule</h3><code>rescheduled · DEMO-105</code><p>Confirm the new slot only after successful rescheduling.</p></article>
-        </div>
-      </div>
-      <figcaption>Saved calls become repeatable tests. Wording can vary; booking rules cannot.</figcaption>
+    <section class="article-body section-gap" aria-labelledby="work-title">
+      <h2 id="work-title">Turn the failure into a test</h2>
+      <p>In our evaluation app, we saved the conversation as a test and defined four checks: product fit, supported “cheapest” claims, minimum-order totals, and no unrequested order.</p>
+      <p>We added two instructions: verify suitability against product evidence; qualify claims when fit or comparison coverage is uncertain. Then we ran both versions on the same saved cases.</p>
+    </section>
+    <section class="article-body section-gap" aria-labelledby="judges-title">
+      <h2 id="judges-title">Choose what the judge checks</h2>
+      <p>Built-in rubric starters cover correctness, groundedness, relevance, instructions, task completion, tool use, brand/tone, and extraction. Edit the criteria for your agent—including conciseness or formal tone.</p>
+    </section>
+    <figure class="wrap app-capture">
+      <a class="shot options" href="/case_study_evals/images/rubric-options.png" target="_blank" rel="noopener" aria-label="Open full screenshot of the eight editable LLM judge starters">
+        <img src="/case_study_evals/images/rubric-options.png" width="2560" height="1640" loading="lazy" alt="Reforge Evaluations app dropdown showing eight editable rubric starters, including groundedness, instruction compliance, and brand alignment and tone.">
+      </a>
+      <figcaption>Actual app screenshot · eight editable starters. On mobile, swipe to read; open the image for the full view.</figcaption>
     </figure>
-  </section>
-  <section aria-labelledby="replay-title">
-    <h2 id="replay-title">Before shipping: check the fix on the same calls.</h2>
-    <p class="step-copy">Add one instruction. Rerun the saved tests. See what improved and what still needs fixing.</p>
-    <figure>
-      <div class="screen">
-        <div class="screen-head"><span>Release comparison / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
-        <p class="rule"><strong>Added instruction:</strong> “Confirm only with a valid booking ID. If unavailable, offer another slot and wait for approval.” Model and simulated tool responses stay fixed.</p>
-        <div class="split replay">
-          <div class="pane"><h3>B02 · Maya before</h3><p class="verdict fail">Fail · False confirmation</p><blockquote>“You’re booked.”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
-          <div class="pane"><h3>B02 · Maya with the added rule</h3><p class="verdict pass">Pass · Waits for approval</p><blockquote>“10:00 is unavailable. Would 11:00 work?”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
-        </div>
-        <table>
-          <caption>Baseline report → proposed change</caption>
-          <thead><tr><th scope="col">Check</th><th scope="col">Current</th><th scope="col">Proposed</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">B01 · Confirm valid booking</th><td class="pass">Pass</td><td class="pass">Pass</td></tr>
-            <tr><th scope="row">B02 · Offer alternative; wait</th><td class="fail">Fail<span>Falsely confirms</span></td><td class="pass">Pass<span>Waits for approval</span></td></tr>
-            <tr><th scope="row">B03 · Verify before retry</th><td class="fail">Fail<span>Retries unchecked</span></td><td class="fail">Fail<span>Still retries unchecked</span></td></tr>
-            <tr><th scope="row">B04 · Confirm new slot</th><td class="pass">Pass</td><td class="pass">Pass</td></tr>
-          </tbody>
-        </table>
-        <p class="decision"><strong>Hold release.</strong> Fix the timeout retry, then rerun.</p>
-      </div>
-      <figcaption>The new prompt fixes false confirmations but still fails the timeout check. Illustrative results, not measured performance.</figcaption>
+    <figure class="wrap app-capture">
+      <a class="shot criteria" href="/case_study_evals/images/rubric-criteria.png" target="_blank" rel="noopener" aria-label="Open full screenshot of the editable brand and tone scoring rubric">
+        <img src="/case_study_evals/images/rubric-criteria.png" width="2560" height="1640" loading="lazy" alt="Editable brand and tone rubric awards credit for each satisfied criterion and requires a short explanation citing evidence for unmet criteria.">
+      </a>
+      <figcaption>Actual app screenshot · criteria and score definitions, with evidence-backed explanations. This shows judge setup, not an Ava result.</figcaption>
     </figure>
-  </section>
-  </div>
-  <section class="cta service" aria-labelledby="service-title">
-    <div class="cta-bg" aria-hidden="true"></div>
-    <div class="wrap cta-in">
-    <h2 id="service-title">What we build for your team</h2>
-    <p>Bring one workflow and a small set of sanitized traces or example calls. TheAdaply sets up and hands over:</p>
-    <dl class="deliverables">
-      <div><dt>Trace capture</dt><dd>See calls, tool requests, and responses together.</dd></div>
-      <div><dt>Dataset + checks</dt><dd>Saved cases and agreed pass/fail rules.</dd></div>
-      <div><dt>Baseline report + rerun workflow</dt><dd>Compare prompt, model, or tool changes before release.</dd></div>
-    </dl>
-    <p>Use the report before each release. New production failures become regression cases.</p>
-    <a class="btn btn-white" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a>
-    </div>
-  </section>
+    <section id="results" class="article-body section-gap spec-preview" aria-labelledby="results-title">
+      <h2 id="results-title">The result—and the trade-off</h2>
+      <div class="spec-table-scroll"><table>
+        <caption class="sr-only">Independent answer and tool review, before and after the prompt change</caption>
+        <thead><tr><th scope="col">Reviewed outcomes</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+        <tbody><tr><th scope="row">Development cases</th><td>5 passed<br>1 partial</td><td>6 passed</td></tr><tr><th scope="row">Held-out cases</th><td>4 passed</td><td>4 passed</td></tr><tr><th scope="row">Total tool calls</th><td>11</td><td>20</td></tr></tbody>
+      </table></div>
+      <p class="method">Ten conversations, one run per version, cached catalog data, text/tool evaluation. Voice quality and production reliability weren’t tested. Running cost is unknown; savings aren’t established. Judge rationales contained errors, so these outcomes use independent AI-assisted answer/tool review, not the judge’s score increase.</p>
+    </section>
+    <section class="article-body case-conclusion" aria-labelledby="deliver-title">
+      <h2 id="deliver-title">What we do for your team</h2>
+      <p>Bring one workflow and sanitized example calls. We set up traces, build your dataset and checks, and deliver a baseline report plus a repeatable comparison for prompt, model, or tool changes. Review failures before shipping; add new production failures as regression tests.</p>
+      <p><a class="download-link primary" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a></p>
+    </section>
+  </article>
+  <div class="closing wrap"><p>Recorded Ava evaluation · 13 November 2026</p><a href="#top">Back to article <span aria-hidden="true">↑</span></a></div>
 </main>
-<footer class="foot"><div class="wrap"><div class="foot-line"><span>TheAdaply</span><span>The intelligence layer for adaptive systems.</span></div></div></footer>
+<footer class="site-footer wrap"><a class="brand" href="/"><img src="/static/reforge-mark.png" width="20" height="20" alt="">TheAdaply</a><a href="/case_study_evals/article.md" download>Download the article</a></footer>
 </body>
 </html>
