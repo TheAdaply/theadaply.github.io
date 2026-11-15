@@ -1,11 +1,13 @@
 /* The site supplies type, palette, navigation, buttons, and focus states. */
 .study{max-width:1120px;padding-top:48px}
-.study-hero{min-height:0;padding-bottom:100px}
-.study-hero .hero-copy{padding-top:140px;gap:22px}
+.study-hero{min-height:0;padding-bottom:56px}
+.study-hero .hero-copy{padding-top:120px;gap:22px}
 .study-hero h1{max-width:900px}
+.promise{max-width:680px;font-size:17px;font-weight:500;line-height:1.5}
 .context{font-size:14px;color:#2A2A28}
 .study section{margin-bottom:64px}
-.study h2{font-size:clamp(25px,3vw,32px);margin-bottom:24px}
+.study h2{font-size:clamp(25px,3vw,32px);margin-bottom:12px}
+.step-copy{max-width:760px;margin-bottom:24px;color:#565653}
 .screen{border:1px solid var(--hair);border-radius:12px;overflow:hidden;box-shadow:0 12px 36px -24px rgba(10,10,10,.25)}
 .screen-head{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:16px 24px;background:#f6f7f8;border-bottom:1px solid var(--hair);font-size:14px}
 .provenance{color:#565653;white-space:nowrap}
@@ -41,13 +43,20 @@ table{width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed}
 caption{text-align:left;padding:16px 24px;background:#f6f7f8;border-block:1px solid var(--hair);font-size:14px}
 th,td{text-align:left;padding:14px 24px;border-bottom:1px solid var(--hair);vertical-align:top;overflow-wrap:anywhere}
 th{font-weight:500}
+td span{display:block;font-size:13px;margin-top:4px;line-height:1.4}
+.decision{padding:18px 24px;background:#fff1ef;border-top:1px solid #f2c8c1;color:#8d1f16;font-size:16px}
 thead th{font-size:13px;color:#62625f}
 tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
 .service{padding-block:72px}
 .service h2{max-width:28ch;margin-bottom:24px}
 .service p{max-width:700px;margin-bottom:20px;color:rgba(255,255,255,.85)}
+.deliverables{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;text-align:left;max-width:900px;margin:12px 0 32px}
+.deliverables div{border-top:1px solid rgba(255,255,255,.3);padding-top:18px}
+.deliverables dt{font-weight:500;font-size:18px;margin-bottom:8px}
+.deliverables dd{font-size:16px;color:rgba(255,255,255,.85)}
 .service .btn{margin-top:8px}
 @media(max-width:600px){
+  .deliverables{grid-template-columns:1fr;gap:20px;width:100%}
   .study-hero::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.86)}
   .nav-in{height:auto;min-height:86px;display:flex;flex-wrap:wrap;justify-content:center;padding:14px;gap:8px}
   .nav-c{display:flex;gap:22px;font-size:14px;width:100%}
@@ -65,6 +74,8 @@ tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
   .failure{margin-left:0}
   blockquote{min-height:0}
   caption{padding:14px 16px}
-  th,td{padding:12px 10px;font-size:13px}
+  th,td{padding:12px 10px;font-size:14px}
+  th:first-child{width:40%}
+  .decision{padding:18px}
   .service .btn{white-space:normal;line-height:1.4;padding-block:12px}
 }

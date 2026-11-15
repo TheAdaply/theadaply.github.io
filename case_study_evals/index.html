@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/v3.css?v=14">
-<link rel="stylesheet" href="/case_study_evals/styles.css">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=2">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -31,11 +31,13 @@
     <p class="context">Voice appointment booking · An example engagement</p>
     <h1>How to catch a false booking confirmation before it ships</h1>
     <p class="hero-sub">TheAdaply gives software teams rigorous evals and observability so they can test whether their AI agents behave as expected in production. Here’s how we’d apply that to a voice appointment-booking workflow.</p>
+    <p class="promise">You bring example calls. We build a repeatable test that shows what your next AI change fixes—and what it breaks.</p>
   </div>
   </div>
   <div class="wrap study">
   <section aria-labelledby="trace-title">
-    <h2 id="trace-title">Find the failure in the trace.</h2>
+    <h2 id="trace-title">1. See exactly where the booking went wrong.</h2>
+    <p class="step-copy">We connect conversations to tool responses. The caller hears confirmation; no appointment exists.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Trace / B02 · Unavailable slot</span><span class="provenance">Illustrative mockup</span></div>
@@ -58,15 +60,16 @@
           </div>
         </div>
       </div>
-      <figcaption>The booking failed; the conversation claimed success. Fictional call data throughout.</figcaption>
+      <figcaption>The tool returned no confirmation ID. The agent’s promise is unsupported. All calls shown are fictional.</figcaption>
     </figure>
   </section>
   <section aria-labelledby="dataset-title">
-    <h2 id="dataset-title">Turn the failure into a regression test.</h2>
+    <h2 id="dataset-title">2. Make that mistake a test you can rerun.</h2>
+    <p class="step-copy">Together, we define correct behavior. We build tool-state checks and calibrate conversation checks against human-reviewed calls.</p>
     <figure>
       <div class="screen">
         <div class="screen-head"><span>Dataset / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
-        <p class="rule"><strong>Required check:</strong> Confirm only after the booking system returns a valid confirmation ID for the requested booking.</p>
+        <p class="rule"><strong>Required check:</strong> Confirm only after a successful booking response contains a valid confirmation ID for the requested slot.</p>
         <div class="cases">
           <article><h3>B01 · Normal booking</h3><code>confirmed · DEMO-104</code><p>Confirm the requested slot and ID.</p></article>
           <article class="selected"><h3>B02 · Unavailable slot</h3><code>slot_unavailable · ID: null</code><p>Offer 11:00; wait for caller approval. Stay unconfirmed.</p></article>
@@ -74,39 +77,47 @@
           <article><h3>B04 · Reschedule</h3><code>rescheduled · DEMO-105</code><p>Confirm the new slot only after successful rescheduling.</p></article>
         </div>
       </div>
-      <figcaption>Agree on expected behavior first, then check both the words spoken and the tool evidence.</figcaption>
+      <figcaption>Saved calls become repeatable tests. Wording can vary; booking rules cannot.</figcaption>
     </figure>
   </section>
   <section aria-labelledby="replay-title">
-    <h2 id="replay-title">Replay the same cases before shipping.</h2>
+    <h2 id="replay-title">3. Test your change before customers hear it.</h2>
+    <p class="step-copy">Your engineer edits the prompt. We run the current and proposed versions against the same cases and checks.</p>
     <figure>
       <div class="screen">
-        <div class="screen-head"><span>Compare / booking-v1 · Same tool fixtures</span><span class="provenance">Illustrative mockup</span></div>
+        <div class="screen-head"><span>Release comparison / booking-v1</span><span class="provenance">Illustrative mockup</span></div>
+        <p class="rule"><strong>Proposed change:</strong> Require a booking ID before confirming. Model and simulated tool responses stay fixed.</p>
         <div class="split replay">
-          <div class="pane"><h3>B02 · Baseline</h3><p class="verdict fail">Fail · False confirmation</p><blockquote>“You’re booked.”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
-          <div class="pane"><h3>B02 · Candidate</h3><p class="verdict pass">Pass · Waits for approval</p><blockquote>“10:00 is unavailable. Would 11:00 work?”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
+          <div class="pane"><h3>B02 · Current prompt</h3><p class="verdict fail">Fail · False confirmation</p><blockquote>“You’re booked.”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
+          <div class="pane"><h3>B02 · Proposed prompt</h3><p class="verdict pass">Pass · Waits for approval</p><blockquote>“10:00 is unavailable. Would 11:00 work?”</blockquote><p class="status">Booking: <strong>Unconfirmed</strong></p></div>
         </div>
         <table>
-          <caption>Case-level checks against expected behavior</caption>
-          <thead><tr><th scope="col">Case</th><th scope="col">Baseline</th><th scope="col">Candidate</th></tr></thead>
+          <caption>Baseline report → proposed change</caption>
+          <thead><tr><th scope="col">Check</th><th scope="col">Current</th><th scope="col">Proposed</th></tr></thead>
           <tbody>
-            <tr><th scope="row">B01 · Normal</th><td class="pass">Pass</td><td class="pass">Pass</td></tr>
-            <tr><th scope="row">B02 · Unavailable</th><td class="fail">Fail</td><td class="pass">Pass</td></tr>
-            <tr><th scope="row">B03 · Timeout</th><td class="fail">Fail</td><td class="fail">Fail · Retries without checking</td></tr>
-            <tr><th scope="row">B04 · Reschedule</th><td class="pass">Pass</td><td class="pass">Pass</td></tr>
+            <tr><th scope="row">B01 · Confirm valid booking</th><td class="pass">Pass</td><td class="pass">Pass</td></tr>
+            <tr><th scope="row">B02 · Offer alternative; wait</th><td class="fail">Fail<span>Falsely confirms</span></td><td class="pass">Pass<span>Waits for approval</span></td></tr>
+            <tr><th scope="row">B03 · Verify before retry</th><td class="fail">Fail<span>Retries unchecked</span></td><td class="fail">Fail<span>Still retries unchecked</span></td></tr>
+            <tr><th scope="row">B04 · Confirm new slot</th><td class="pass">Pass</td><td class="pass">Pass</td></tr>
           </tbody>
         </table>
+        <p class="decision"><strong>Hold release.</strong> Fix the timeout retry, then rerun.</p>
       </div>
-      <figcaption>The candidate fixes B02, but B03 still blocks release. These are illustrative results, not measured performance.</figcaption>
+      <figcaption>The new prompt fixes false confirmations but still fails the timeout check. Illustrative results, not measured performance.</figcaption>
     </figure>
   </section>
   </div>
   <section class="cta service" aria-labelledby="service-title">
     <div class="cta-bg" aria-hidden="true"></div>
     <div class="wrap cta-in">
-    <h2 id="service-title">What we’d build with your team</h2>
-    <p>Start with one workflow and a small set of sanitized traces or example calls. Together, we define expected behavior. TheAdaply sets up trace capture and builds the eval dataset and checks.</p>
-    <p>You receive a baseline report, the dataset and checks, and a repeatable way to compare prompt, model, or tool changes before shipping. Review case-level failures, fix the change, and rerun. New production failures become regression cases.</p>
+    <h2 id="service-title">Your starting point. Our deliverables.</h2>
+    <p>Bring one workflow and a small set of sanitized traces or example calls. TheAdaply sets up and hands over:</p>
+    <dl class="deliverables">
+      <div><dt>Trace capture</dt><dd>See calls, tool requests, and responses together.</dd></div>
+      <div><dt>Dataset + checks</dt><dd>Saved cases and agreed pass/fail rules.</dd></div>
+      <div><dt>Baseline report + rerun workflow</dt><dd>Compare prompt, model, or tool changes before release.</dd></div>
+    </dl>
+    <p>Your team reviews failures, fixes the change, and reruns the checks. New production failures become regression cases.</p>
     <a class="btn btn-white" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a>
     </div>
   </section>
