@@ -25,7 +25,18 @@ SAMPLE_ROUTES = {
         {"loc": "/vision/article.md", "source": "vision/article.md"},
         {"loc": "/case_study_evals/", "source": "case_study_evals/index.html"},
         {"loc": "/llms.txt", "source": "llms.txt"},
+        {"loc": "/example/", "source": "example/index.html"},
     ],
+}
+
+PREV_ROUTES = {
+    "site": "https://theadaply.com",
+    "routes": SAMPLE_ROUTES["routes"],
+}
+
+CURR_ROUTES = {
+    "site": "https://theadaply.com",
+    "routes": [r for r in SAMPLE_ROUTES["routes"] if r["loc"] != "/example/"],
 }
 
 
@@ -69,9 +80,9 @@ class RouteMappingTests(unittest.TestCase):
         )
         self.assertEqual(urls, ["https://theadaply.com/case_study_evals/"])
 
-    def test_public_routes_change_submits_all(self) -> None:
+    def test_public_routes_json_not_material_mapped(self) -> None:
         urls = in_.changed_files_to_urls(["seo/public-routes.json"], SAMPLE_ROUTES)
-        self.assertEqual(len(urls), len(SAMPLE_ROUTES["routes"]))
+        self.assertEqual(urls, [])
 
     def test_dedupe_urls(self) -> None:
         urls = in_.changed_files_to_urls(
@@ -81,10 +92,77 @@ class RouteMappingTests(unittest.TestCase):
         self.assertEqual(urls, ["https://theadaply.com/vision/"])
 
 
-class AllowlistTests(unittest.TestCase):
-    def test_unknown_path_never_submitted(self) -> None:
-        urls = in_.changed_files_to_urls(["demo/secret.html"], SAMPLE_ROUTES)
-        self.assertEqual(urls, [])
+class DenylistTests(unittest.TestCase):
+    def test_query_string_rejected(self) -> None:
+        self.assertEqual(in_.denylist_reason("https://theadaply.com/?x=1"), "query_or_fragment")
+
+    def test_fragment_rejected(self) -> None:
+        self.assertEqual(in_.denylist_reason("https://theadaply.com/vision/#top"), "query_or_fragment")
+
+    def test_wrong_host_rejected(self) -> None:
+        self.assertEqual(in_.denylist_reason("https://evil.example/"), "host_not_allowlisted")
+        self.assertEqual(in_.denylist_reason("http://theadaply.com/"), "host_not_allowlisted")
+
+    def test_denied_segments(self) -> None:
+        for path in (
+            "/app/",
+            "/dashboard/settings",
+            "/login",
+            "/signin/",
+            "/signup",
+            "/auth/callback",
+            "/account",
+            "/admin",
+            "/api/v1",
+            "/user/123",
+            "/users/",
+            "/settings/profile",
+        ):
+            self.assertEqual(
+                in_.denylist_reason(f"https://theadaply.com{path}"),
+                "denied_path_pattern",
+                path,
+            )
+
+    def test_design_options_rejected(self) -> None:
+        self.assertEqual(in_.denylist_reason("https://theadaply.com/design-options/"), "denied_path_pattern")
+
+    def test_filter_blocks_denied_even_if_in_allowlist(self) -> None:
+        allow = {"https://theadaply.com/login/"}
+        out = in_.filter_allowlisted_urls(["https://theadaply.com/login/"], allow, context="test")
+        self.assertEqual(out, [])
+
+
+class DeletionTests(unittest.TestCase):
+    def test_route_removed_from_json(self) -> None:
+        with mock.patch.object(in_, "load_routes_at_ref", return_value=PREV_ROUTES):
+            deleted = in_.detect_deleted_urls(
+                "before",
+                "after",
+                CURR_ROUTES,
+                [],
+            )
+        self.assertEqual(deleted, ["https://theadaply.com/example/"])
+
+    def test_deleted_source_maps_via_previous_allowlist(self) -> None:
+        with mock.patch.object(in_, "load_routes_at_ref", return_value=PREV_ROUTES):
+            deleted = in_.detect_deleted_urls(
+                "before",
+                "after",
+                CURR_ROUTES,
+                ["example/index.html"],
+            )
+        self.assertIn("https://theadaply.com/example/", deleted)
+
+    def test_deletion_not_in_previous_allowlist_ignored(self) -> None:
+        with mock.patch.object(in_, "load_routes_at_ref", return_value=CURR_ROUTES):
+            deleted = in_.detect_deleted_urls(
+                "before",
+                "after",
+                CURR_ROUTES,
+                ["secret/page.html"],
+            )
+        self.assertEqual(deleted, [])
 
 
 class RetryClassificationTests(unittest.TestCase):
@@ -101,6 +179,36 @@ class RetryClassificationTests(unittest.TestCase):
         self.assertEqual(in_.classify_response(503), "retry")
 
 
+class PayloadSpecTests(unittest.TestCase):
+    KEY = "e01f2ec2078f89bdc23373993cc8dccc"
+    URL = "https://theadaply.com/"
+
+    def test_build_payload_shape(self) -> None:
+        payload = in_.build_indexnow_payload(in_.SITE_HOST, self.KEY, [self.URL])
+        self.assertEqual(payload["host"], "theadaply.com")
+        self.assertEqual(payload["key"], self.KEY)
+        self.assertEqual(
+            payload["keyLocation"],
+            f"https://theadaply.com/{self.KEY}.txt",
+        )
+        self.assertEqual(payload["urlList"], [self.URL])
+
+    def test_denied_url_in_list_raises(self) -> None:
+        with self.assertRaises(ValueError):
+            in_.build_indexnow_payload(in_.SITE_HOST, self.KEY, ["https://theadaply.com/admin/"])
+
+    def test_url_list_max(self) -> None:
+        urls = [f"https://theadaply.com/page{i}/" for i in range(in_.MAX_URLLIST + 1)]
+        with self.assertRaises(ValueError):
+            in_.build_indexnow_payload(in_.SITE_HOST, self.KEY, urls)
+
+    def test_key_validation_length(self) -> None:
+        with self.assertRaises(SystemExit):
+            in_.validate_key("short")
+        in_.validate_key("a" * 8)
+        in_.validate_key("a" * 128)
+
+
 class ContentHashTests(unittest.TestCase):
     def test_skip_unchanged_urls(self) -> None:
         with mock.patch.object(in_, "content_hash_for_url", return_value="abc"):
@@ -113,7 +221,7 @@ class ContentHashTests(unittest.TestCase):
 
 
 class KeyFileTests(unittest.TestCase):
-    def test_read_key_rejects_trailing_newline_content_mismatch(self) -> None:
+    def test_read_key_rejects_trailing_newline(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "e01f2ec2078f89bdc23373993cc8dccc.txt"
             path.write_text("e01f2ec2078f89bdc23373993cc8dccc\n", encoding="utf-8")
@@ -125,6 +233,12 @@ class KeyFileTests(unittest.TestCase):
             path = Path(tmp) / "e01f2ec2078f89bdc23373993cc8dccc.txt"
             path.write_text("e01f2ec2078f89bdc23373993cc8dccc", encoding="utf-8")
             self.assertEqual(in_.read_key(path), "e01f2ec2078f89bdc23373993cc8dccc")
+
+
+class AllowlistTests(unittest.TestCase):
+    def test_unknown_path_never_submitted(self) -> None:
+        urls = in_.changed_files_to_urls(["demo/secret.html"], SAMPLE_ROUTES)
+        self.assertEqual(urls, [])
 
 
 if __name__ == "__main__":
