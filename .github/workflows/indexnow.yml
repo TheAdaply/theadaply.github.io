@@ -1,0 +1,63 @@
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Submit mode
+        type: choice
+        options:
+          - changed
+          - all
+        default: changed
+      urls:
+        description: Optional comma-separated canonical URLs (overrides mode)
+        required: false
+        type: string
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  notify-search-engines:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore IndexNow content-hash state
+        uses: actions/cache@v4
+        with:
+          path: seo/.indexnow-state.json
+          key: indexnow-state-v1
+          restore-keys: indexnow-state-v1
+
+      - name: Submit changed URLs to IndexNow
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          set +e
+          args=()
+          if [ -n "${{ inputs.urls }}" ]; then
+            args+=(--urls "${{ inputs.urls }}")
+          elif [ "${{ inputs.mode }}" = "all" ]; then
+            args+=(--all)
+          else
+            args+=(--before "$BEFORE_SHA" --after "$AFTER_SHA")
+          fi
+          python3 scripts/indexnow_submit.py \
+            "${args[@]}" \
+            --state-file seo/.indexnow-state.json \
+            --wait-timeout 600 \
+            --poll-interval 15
+          ec=$?
+          if [ "$ec" -ne 0 ]; then
+            echo "::warning::IndexNow script exited with status $ec (deploy unaffected)"
+          fi
+          exit 0

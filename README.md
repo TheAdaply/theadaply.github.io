@@ -73,6 +73,12 @@ python3 scripts/generate_sitemap.py
 `robots.txt` and `sitemap.xml` live at the repo root (served as static files;
 `.nojekyll` disables Jekyll so XML is not rewritten).
 
+**IndexNow** — after deploy, `.github/workflows/indexnow.yml` notifies search
+engines when allowlisted pages (`seo/public-routes.json`) change. Verification
+uses a public root key file (`<32-hex-chars>.txt`, not listed in the sitemap).
+Manual run: Actions → IndexNow → “all” or paste URLs. Logic:
+`python3 scripts/indexnow_submit.py --dry-run --all`.
+
 ## Publishing
 
 GitHub Pages serves `main` at the repo root; push to `main` and it redeploys.
