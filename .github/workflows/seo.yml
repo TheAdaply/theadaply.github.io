@@ -14,6 +14,10 @@ jobs:
           fetch-depth: 0
       - name: Verify sitemap.xml matches routes
         run: python3 scripts/generate_sitemap.py --check
+      - name: Check meta descriptions and unchanged title/canonical tags
+        run: python3 scripts/check_seo_meta.py
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
       - name: Install xmllint
         run: sudo apt-get update -qq && sudo apt-get install -y -qq libxml2-utils
       - name: Validate sitemap XML against sitemaps.org XSD
