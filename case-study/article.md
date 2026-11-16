@@ -9,8 +9,6 @@ TheAdaply’s thesis is that every task a team completes should make its agents 
 One customer wanted a design system that accounted for the different states a product can reach. They asked whether a skill could help an agent complete the UI details they left open. They described the current process this way:
 
 > i spec it out 80% and then fire it off and pray
->
-> — Customer conversation
 
 This is the kind of work TheAdaply can learn from: the customer’s specifications, accepted designs and review corrections. The proposed improvement is a workflow for turning a partial UI brief into a page the customer can review with fewer omissions.
 

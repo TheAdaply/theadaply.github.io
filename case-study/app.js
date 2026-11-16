@@ -56,7 +56,7 @@ if (typeof document !== 'undefined') {
     document.querySelector('meta[name=description]').content=data.description || data.subtitle;
     $('page-title').textContent=data.title; $('page-subtitle').textContent=data.subtitle;
     let customerQuote;
-    if(data.quote){const quote=node('figure',undefined,'customer-quote');const block=node('blockquote');const paragraph=node('p');paragraph.append(node('mark',data.quote.text));block.append(paragraph);quote.append(block,node('figcaption',data.quote.attribution));if(data.quote.context)quote.append(node('p',data.quote.context,'quote-context'));customerQuote=quote;}
+    if(data.quote){const quote=node('figure',undefined,'customer-quote');const block=node('blockquote');const paragraph=node('p');paragraph.append(node('mark',data.quote.text));block.append(paragraph);quote.append(block);if(data.quote.context)quote.append(node('p',data.quote.context,'quote-context'));customerQuote=quote;}
     function renderSpecPreview(preview) {
       const element=node('section',undefined,'spec-preview');const title=node('h4',preview.title);title.id='spec-preview-title';element.setAttribute('aria-labelledby',title.id);element.append(title,node('p',preview.description));
       const scroll=node('div',undefined,'spec-table-scroll');scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',`${preview.title}. Scroll horizontally to read all columns.`);

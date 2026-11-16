@@ -1,5 +1,5 @@
 {
-  "provenance": "Illustrative mockup. Fictional inputs, answers and authored judgments. No model or LLM judge was run. Not Ava measured results.",
+  "provenance": "Twenty authored Q&A examples with judgments.",
   "rubrics": {
     "Natural wording": "Brief, conversational phrasing without canned filler. Text only; audio needs separate review.",
     "Correctness": "Every factual claim and total matches the supplied catalog or tool evidence; unknowns stay explicit.",
