@@ -1,0 +1,34 @@
+name: SEO
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify sitemap.xml matches routes
+        run: python3 scripts/generate_sitemap.py --check
+      - name: Validate sitemap XML against sitemaps.org XSD
+        run: |
+          curl -fsSL -o /tmp/sitemap.xsd https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+          xmllint --noout --schema /tmp/sitemap.xsd sitemap.xml
+      - name: Check each sitemap URL has a built source file
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path(".")
+          routes = json.loads((root / "seo/public-routes.json").read_text())["routes"]
+          missing = [r for r in routes if not (root / r["source"]).is_file()]
+          if missing:
+              for r in missing:
+                  print(f"missing source for {r['loc']}: {r['source']}")
+              raise SystemExit(1)
+          print(f"OK: {len(routes)} routes")
+          PY
