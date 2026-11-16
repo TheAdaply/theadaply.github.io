@@ -524,33 +524,34 @@ def wait_for_deploy(
         return False
 
     def ready(status: int, url: str) -> bool:
+        try:
+            code = int(status)
+        except (TypeError, ValueError):
+            return False
         if url in removed_urls:
-            return status in (404, 410)
-        return status == 200
+            return code in (404, 410)
+        return code == 200
 
     pending = list(urls)
-    while pending and time.monotonic() < deadline:
+    while time.monotonic() < deadline:
         still: list[str] = []
         for url in pending:
             status, _ = http_get(url, timeout=15)
             expect = "404_or_410" if url in removed_urls else "200"
             log_event("deploy_poll", resource="page", url=url, http_status=status, expect=expect)
-            if ready(status, url):
-                continue
-            still.append(url)
+            if not ready(status, url):
+                still.append(url)
         if not still:
-            break
+            return True
         pending = still
         time.sleep(poll_interval)
 
-    if pending:
-        log_event(
-            "deploy_wait_partial",
-            pending_count=len(pending),
-            pending_urls=pending,
-        )
-        return len(pending) < len(urls)
-    return True
+    log_event(
+        "deploy_wait_partial",
+        pending_count=len(pending),
+        pending_urls=pending,
+    )
+    return False
 
 
 def submit_indexnow(

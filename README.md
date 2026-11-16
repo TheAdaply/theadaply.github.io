@@ -70,6 +70,10 @@ sitemap after adding a page:
 python3 scripts/generate_sitemap.py
 ```
 
+On each push to `main`, **Sync sitemap** (unless the commit message contains
+`[skip ci]`) runs `generate_sitemap.py` and commits `sitemap.xml` when
+`lastmod` dates drift, so CI stays green without manual regeneration.
+
 `robots.txt` and `sitemap.xml` live at the repo root (served as static files;
 `.nojekyll` disables Jekyll so XML is not rewritten).
 

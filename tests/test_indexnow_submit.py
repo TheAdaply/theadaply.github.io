@@ -241,5 +241,48 @@ class AllowlistTests(unittest.TestCase):
         self.assertEqual(urls, [])
 
 
+class DeployWaitTests(unittest.TestCase):
+    """Regression for production bug: HTTP 200 still left URL in pending after break."""
+
+    KEY = "e01f2ec2078f89bdc23373993cc8dccc"
+    PAGE = "https://theadaply.com/FOR-AGENTS.md"
+
+    @mock.patch("indexnow_submit.time.sleep")
+    @mock.patch("indexnow_submit.time.monotonic")
+    @mock.patch("indexnow_submit.http_get")
+    def test_single_url_200_is_ready_not_pending(
+        self, mock_get: mock.MagicMock, mock_mono: mock.MagicMock, _sleep: mock.MagicMock
+    ) -> None:
+        mock_get.side_effect = [
+            (200, self.KEY.encode()),
+            (200, b"# FOR-AGENTS"),
+        ]
+        mock_mono.side_effect = [0.0, 0.0, 1.0, 1.0, 2.0]
+
+        ok = in_.wait_for_deploy([self.PAGE], self.KEY, in_.SITE_HOST, 600.0, 15.0, set())
+
+        self.assertTrue(ok)
+        self.assertEqual(mock_get.call_count, 2)
+
+    @mock.patch("indexnow_submit.time.sleep")
+    @mock.patch("indexnow_submit.time.monotonic")
+    @mock.patch("indexnow_submit.http_get")
+    def test_retries_until_200_before_timeout(
+        self, mock_get: mock.MagicMock, mock_mono: mock.MagicMock, mock_sleep: mock.MagicMock
+    ) -> None:
+        mock_get.side_effect = [
+            (200, self.KEY.encode()),
+            (503, b""),
+            (200, b"# FOR-AGENTS"),
+        ]
+        mock_mono.side_effect = [0.0, 0.0, 5.0, 5.0, 20.0, 20.0]
+
+        ok = in_.wait_for_deploy([self.PAGE], self.KEY, in_.SITE_HOST, 600.0, 15.0, set())
+
+        self.assertTrue(ok)
+        mock_sleep.assert_called()
+        self.assertGreaterEqual(mock_get.call_count, 3)
+
+
 if __name__ == "__main__":
     unittest.main()
