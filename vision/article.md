@@ -1,4 +1,4 @@
-# The intelligence layer for adaptive systems
+# TheAdaply product vision
 
 TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.
 
