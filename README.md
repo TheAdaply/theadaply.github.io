@@ -70,6 +70,10 @@ sitemap after adding a page:
 python3 scripts/generate_sitemap.py
 ```
 
+On each push to `main`, **Sync sitemap** runs `generate_sitemap.py` and commits
+`sitemap.xml` when `lastmod` dates drift (bot commits do not re-trigger Sync or
+IndexNow; `GITHUB_TOKEN` pushes do not loop other workflows).
+
 `robots.txt` and `sitemap.xml` live at the repo root (served as static files;
 `.nojekyll` disables Jekyll so XML is not rewritten).
 

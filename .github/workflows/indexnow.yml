@@ -23,6 +23,7 @@ concurrency:
 
 jobs:
   notify-search-engines:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]' }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
