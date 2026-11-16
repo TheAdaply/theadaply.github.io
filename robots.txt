@@ -1,0 +1,21 @@
+# TheAdaply public site — https://theadaply.com/
+# Indexed URLs are listed in /sitemap.xml (generated from seo/public-routes.json).
+
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Design explorations and legacy redirects — not for indexing.
+Disallow: /design-options/
+Disallow: /thesis/v2/
+Disallow: /blog/
+
+Sitemap: https://theadaply.com/sitemap.xml

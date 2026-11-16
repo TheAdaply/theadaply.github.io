@@ -1,0 +1,19 @@
+{
+  "site": "https://theadaply.com",
+  "comment": "Canonical public URLs for theadaply.com. Add a row when shipping a new indexable page, then run: python3 scripts/generate_sitemap.py",
+  "routes": [
+  { "loc": "/", "source": "index.html", "priority": "1.0" },
+  { "loc": "/thesis/", "source": "thesis/index.html" },
+  { "loc": "/thesis/article.md", "source": "thesis/article.md" },
+  { "loc": "/case-study/", "source": "case-study/index.html" },
+  { "loc": "/case-study/article.md", "source": "case-study/article.md" },
+  { "loc": "/case_study_evals/", "source": "case_study_evals/index.html" },
+  { "loc": "/case_study_evals/article.md", "source": "case_study_evals/article.md" },
+  { "loc": "/vision/", "source": "vision/index.html" },
+  { "loc": "/for-agents/", "source": "for-agents/index.html" },
+  { "loc": "/demo/", "source": "demo/index.html" },
+  { "loc": "/example/", "source": "example/index.html" },
+  { "loc": "/llms.txt", "source": "llms.txt" },
+  { "loc": "/FOR-AGENTS.md", "source": "FOR-AGENTS.md" }
+  ]
+}

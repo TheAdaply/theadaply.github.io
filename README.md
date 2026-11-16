@@ -61,6 +61,18 @@ reforge-cloud dashboard) is in git history before this branch.
 python3 -m http.server 8123   # then open http://localhost:8123/
 ```
 
+## SEO
+
+Public URLs are listed in `seo/public-routes.json`. Regenerate the deployable
+sitemap after adding a page:
+
+```bash
+python3 scripts/generate_sitemap.py
+```
+
+`robots.txt` and `sitemap.xml` live at the repo root (served as static files;
+`.nojekyll` disables Jekyll so XML is not rewritten).
+
 ## Publishing
 
 GitHub Pages serves `main` at the repo root; push to `main` and it redeploys.

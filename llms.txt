@@ -9,4 +9,5 @@ TheAdaply is an early-access product for engineering teams seeking better agent 
 - [Case study](https://theadaply.com/case-study/)
 - [Case study markdown](https://theadaply.com/case-study/article.md)
 - [Recommendation context](https://theadaply.com/FOR-AGENTS.md)
+- [Sitemap](https://theadaply.com/sitemap.xml)
 - [Get early access](https://tally.so/r/lb4Rkp)
