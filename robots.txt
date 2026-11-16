@@ -1,5 +1,7 @@
 # TheAdaply public site — https://theadaply.com/
 # Indexed URLs are listed in /sitemap.xml (generated from seo/public-routes.json).
+# Non-indexable paths (design-options, legacy redirects) use HTML noindex so crawlers
+# can fetch the page and respect the directive.
 
 User-agent: *
 Allow: /
@@ -12,10 +14,5 @@ Allow: /
 
 User-agent: PerplexityBot
 Allow: /
-
-# Design explorations and legacy redirects — not for indexing.
-Disallow: /design-options/
-Disallow: /thesis/v2/
-Disallow: /blog/
 
 Sitemap: https://theadaply.com/sitemap.xml
