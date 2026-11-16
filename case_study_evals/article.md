@@ -10,6 +10,8 @@ Fantastic-Ava-3 is our retail voice assistant: compare catalog products, explain
 
 Ava recommended an outdoor-described product without qualifying basement suitability. Ten search results also didn’t establish a catalog-wide “cheapest” option.
 
+[![TheAdaply desktop app execution trace for AVA-BASEMENT-01 with a revised agent response step selected and an earlier step marked needs review.](/case_study_evals/images/app-execution-trace.png)](/case_study_evals/images/app-execution-trace.png)
+
 ### What changed in Ava’s answer
 
 ##### Before · unsupported fit
@@ -77,6 +79,8 @@ Q03 · Fail: Instruction compliance
 **Expected:** Compare without ordering.
 
 [Inspect all 20 questions, expected answers, and judgments ↓](/case_study_evals/illustrative-dataset.json)
+
+[![TheAdaply desktop app experiment comparison view with baseline and candidate runs and a recorded metrics table.](/case_study_evals/images/app-experiment-comparison.png)](/case_study_evals/images/app-experiment-comparison.png)
 
 ## Ava results
 
