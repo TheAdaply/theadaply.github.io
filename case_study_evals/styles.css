@@ -246,6 +246,26 @@ strong{font-weight:550}
 .shot.criteria{aspect-ratio:1560/375}
 .shot.criteria img{top:-233.333%}
 
+/* ── TheAdaply desktop app (full frame) ── */
+.desktop-capture{
+  width:100%;max-width:900px;padding-inline:0;margin:36px auto 0;
+}
+.desktop-capture figcaption{
+  margin-top:14px;
+  font-size:12px;
+  line-height:1.55;
+  color:var(--body);
+}
+.desktop-shot{
+  display:block;overflow:hidden;
+  border:1px solid var(--hairline);
+  border-radius:var(--r-md);
+  background:var(--surface);
+  box-shadow:var(--shadow-sm);
+}
+.desktop-shot:hover{text-decoration:none;box-shadow:var(--shadow-pop)}
+.desktop-shot picture,.desktop-shot img{display:block;width:100%;height:auto}
+
 /* ── Tables ── */
 .spec-preview{margin-top:0}
 .spec-table-scroll{max-width:100%;overflow-x:auto;margin-top:20px}
@@ -371,7 +391,7 @@ strong{font-weight:550}
   .wrap,.article-body,.nav-in{padding-inline:24px}
   .hero{padding:120px 24px 80px}
   .grad-panel{padding:44px 20px 36px}
-  .comparison,.app-capture{width:calc(100% - 48px);max-width:652px}
+  .comparison,.app-capture,.desktop-capture{width:calc(100% - 48px);max-width:652px}
   .results-section{padding-inline:16px}
 }
 @media (max-width: 720px){
@@ -411,7 +431,7 @@ strong{font-weight:550}
 }
 @media (max-width: 480px){
   .wrap,.article-body,.nav-in,.hero{padding-inline:20px}
-  .comparison,.app-capture{width:calc(100% - 40px)}
+  .comparison,.app-capture,.desktop-capture{width:calc(100% - 40px)}
   .brand{font-size:14px}
   .hero{padding-top:128px;padding-bottom:72px}
   .section-gap,.case-conclusion{margin-top:52px}
