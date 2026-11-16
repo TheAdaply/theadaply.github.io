@@ -371,7 +371,7 @@ strong{font-weight:550}
 .case-conclusion .btn{margin-top:22px}
 
 .closing{
-  display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+  display:flex;justify-content:flex-end;align-items:baseline;gap:24px;
   font-size:13px;color:var(--body);
   padding-top:48px;padding-bottom:36px;
 }
