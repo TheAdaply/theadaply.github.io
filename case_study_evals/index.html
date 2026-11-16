@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#F3F3F2">
 <title>How we improved Ava’s product recommendations | TheAdaply</title>
 <meta name="description" content="An actual Ava evaluation: find an unsupported recommendation, save the failure as a test, and compare a focused prompt change using TheAdaply.">
 <meta property="og:title" content="How we improved Ava’s product recommendations">
@@ -14,12 +14,15 @@
 <meta property="og:image" content="https://theadaply.com/static/og-hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://theadaply.com/static/og-hero.jpg">
-<link rel="icon" href="/static/reforge-mark.png">
+<link rel="icon" href="/case_study_evals/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/case_study_evals/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/case_study_evals/assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/case_study_evals/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/case-study/styles.css?v=thesis-video-1">
-<link rel="stylesheet" href="/case_study_evals/styles.css?v=ava-1">
+<link rel="stylesheet" href="/case_study_evals/tokens.css?v=ava-2">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=ava-2">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -34,15 +37,29 @@
 </head>
 <body>
 <a class="skip-link" href="#article">Skip to article</a>
-<header class="site-header"><div class="nav-in">
-  <a class="brand" href="/" aria-label="TheAdaply home"><img src="/static/reforge-mark.png" width="20" height="20" alt="">TheAdaply</a>
-  <nav aria-label="Page"><a href="/thesis/">Thesis</a><a href="#article">Article</a><a href="#results">Results</a><a class="offline-link" href="/case_study_evals/article.md" download>Read offline <span aria-hidden="true">↓</span></a></nav>
-</div></header>
-<main id="top">
-  <div class="hero">
-    <h1>How we improved Ava’s product recommendations</h1>
-    <p class="dek">Ava recommended a product without verifying suitability. TheAdaply helped us find the gap, test a fix, and compare results.</p>
+<header class="site-header is-over-hero" id="site-header">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="TheAdaply home">
+      <img class="mark mark-dark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">
+      <img class="mark mark-light" src="/case_study_evals/assets/mark-white.svg" width="22" height="21" alt="">
+      TheAdaply
+    </a>
+    <nav aria-label="Page">
+      <a href="/thesis/">Thesis</a>
+      <a href="#article">Article</a>
+      <a href="#results">Results</a>
+    </nav>
+    <a class="btn offline-link" href="/case_study_evals/article.md" download>Read offline <span aria-hidden="true">↓</span></a>
   </div>
+</header>
+<main id="top">
+  <div class="hero grad">
+    <div class="hero-in">
+      <h1>How we improved Ava’s product recommendations</h1>
+      <p class="dek">Ava recommended a product without verifying suitability. TheAdaply helped us find the gap, test a fix, and compare results.</p>
+    </div>
+  </div>
+
   <article id="article" class="article">
     <section class="article-body" aria-labelledby="agent-title">
       <h2 id="agent-title">Meet Ava, our retail voice agent</h2>
@@ -53,66 +70,172 @@
       </figure>
       <p>Ava recommended an outdoor-described product without qualifying basement suitability. Ten search results also didn’t establish a catalog-wide “cheapest” option.</p>
     </section>
+
     <figure class="wrap comparison" aria-labelledby="comparison-title">
       <div class="explorer-heading"><h3 id="comparison-title">What changed in Ava’s answer</h3></div>
-      <div class="code-columns answer-comparison">
-        <section class="code-pane"><h5>Before · unsupported fit</h5><blockquote>“Cheapest within your budget by actual required purchase is the portable non-powered outdoor dehumidifier…”</blockquote></section>
-        <section class="code-pane"><h5>After · suitability qualified</h5><blockquote>“For a damp basement, note it’s described for small-space moisture control, not whole-basement powered drying.”</blockquote></section>
+      <div class="code-columns answer-comparison float-card">
+        <section class="code-pane">
+          <h5>Before · unsupported fit</h5>
+          <blockquote>“Cheapest within your budget by actual required purchase is the portable non-powered outdoor dehumidifier…”</blockquote>
+        </section>
+        <section class="code-pane after">
+          <h5>After · suitability qualified</h5>
+          <blockquote>“For a damp basement, note it’s described for small-space moisture control, not whole-basement powered drying.”</blockquote>
+        </section>
       </div>
       <figcaption>Recorded local eval · actual answer excerpts. The revised agent searched more broadly and explained the product’s limitation.</figcaption>
     </figure>
+
     <section class="article-body section-gap" aria-labelledby="work-title">
       <h2 id="work-title">Turn the failure into a test</h2>
       <p>We saved the conversation as a test: check product fit, “cheapest” claims, minimum-order totals, and order approval.</p>
       <p>We prompted Ava to verify suitability and qualify uncertain claims, then replayed the same cases.</p>
     </section>
+
     <section class="article-body section-gap" aria-labelledby="judges-title">
       <h2 id="judges-title">Choose what the judge checks</h2>
       <p>Choose a built-in judge starter, then define observable pass criteria for your agent.</p>
     </section>
+
     <figure class="wrap app-capture">
       <a class="shot options" href="/case_study_evals/images/rubric-options.png" target="_blank" rel="noopener" aria-label="Open full screenshot of the eight editable LLM judge starters">
         <img src="/case_study_evals/images/rubric-options.png" width="2560" height="1640" loading="lazy" alt="Reforge Evaluations app dropdown showing eight editable rubric starters, including groundedness, instruction compliance, and brand alignment and tone.">
       </a>
       <figcaption>Actual app screenshot · eight starters. Swipe on mobile; click to enlarge.</figcaption>
     </figure>
+
     <figure class="wrap app-capture">
       <a class="shot criteria" href="/case_study_evals/images/rubric-criteria.png" target="_blank" rel="noopener" aria-label="Open full screenshot of the editable brand and tone scoring rubric">
         <img src="/case_study_evals/images/rubric-criteria.png" width="2560" height="1640" loading="lazy" alt="Editable brand and tone rubric awards credit for each satisfied criterion and requires a short explanation citing evidence for unmet criteria.">
       </a>
       <figcaption>Actual app screenshot · editable scoring criteria. Judge setup, not Ava results.</figcaption>
     </figure>
+
     <section class="article-body section-gap spec-preview fixture" aria-labelledby="fixture-title">
       <h2 id="fixture-title">20 questions. Three clear checks.</h2>
       <p><strong>Illustrative mockup · fictional results.</strong> Twenty authored Q&amp;A examples; no model run.</p>
-      <div class="spec-table-scroll"><table><caption>Rubrics and example failures across 20 Q&amp;A cases</caption><thead><tr><th scope="col">Rubric · pass criterion</th><th scope="col">Pass / fail</th></tr></thead><tbody><tr><th scope="row">Natural wording<br><span class="criterion">Brief, conversational phrasing without canned filler. Text only; audio needs separate review.</span></th><td>14 / 6</td></tr><tr><th scope="row">Correctness<br><span class="criterion">Every factual claim and total matches the supplied catalog or tool evidence; unknowns stay explicit.</span></th><td>15 / 5</td></tr><tr><th scope="row">Instruction compliance<br><span class="criterion">Respect the budget and requested scope; never order or change details without approval.</span></th><td>16 / 4</td></tr></tbody></table></div>
+      <div class="spec-table-scroll float-card">
+        <table>
+          <caption>Rubrics and example failures across 20 Q&amp;A cases</caption>
+          <thead>
+            <tr><th scope="col">Rubric · pass criterion</th><th scope="col">Pass / fail</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Natural wording<br><span class="criterion">Brief, conversational phrasing without canned filler. Text only; audio needs separate review.</span></th>
+              <td><span class="n-pass">14</span> / <span class="n-fail">6</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Correctness<br><span class="criterion">Every factual claim and total matches the supplied catalog or tool evidence; unknowns stay explicit.</span></th>
+              <td><span class="n-pass">15</span> / <span class="n-fail">5</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Instruction compliance<br><span class="criterion">Respect the budget and requested scope; never order or change details without approval.</span></th>
+              <td><span class="n-pass">16</span> / <span class="n-fail">4</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p class="method">Open a failure to inspect the answer and evidence.</p>
-      <details><summary>Q01 · Fail: Correctness</summary><p><strong>Caller:</strong> Will this outdoor unit suit my basement?</p><p><strong>Ava:</strong> “It is perfect for your basement.”</p><p><strong>Why it fails:</strong> Catalog says outdoor; no indoor suitability evidence.</p><p><strong>Expected:</strong> Suitability is unverified.</p></details>
-      <details><summary>Q02 · Fail: Natural wording</summary><p><strong>Caller:</strong> Is it in stock?</p><p><strong>Ava:</strong> “Pursuant to your inquiry, inventory availability is affirmative.”</p><p><strong>Why it fails:</strong> Stilted wording replaces a simple “Yes, it is in stock.”</p><p><strong>Expected:</strong> Answer directly using stock data.</p></details>
-      <details><summary>Q03 · Fail: Instruction compliance</summary><p><strong>Caller:</strong> Just compare these. Do not order.</p><p><strong>Ava:</strong> “I placed your order.”</p><p><strong>Why it fails:</strong> The caller explicitly prohibited an order.</p><p><strong>Expected:</strong> Compare without ordering.</p></details>
+      <div class="failure-list float-card">
+        <details>
+          <summary>Q01 · Fail: Correctness</summary>
+          <p><strong>Caller:</strong> Will this outdoor unit suit my basement?</p>
+          <p><strong>Ava:</strong> “It is perfect for your basement.”</p>
+          <p><strong>Why it fails:</strong> Catalog says outdoor; no indoor suitability evidence.</p>
+          <p><strong>Expected:</strong> Suitability is unverified.</p>
+        </details>
+        <details>
+          <summary>Q02 · Fail: Natural wording</summary>
+          <p><strong>Caller:</strong> Is it in stock?</p>
+          <p><strong>Ava:</strong> “Pursuant to your inquiry, inventory availability is affirmative.”</p>
+          <p><strong>Why it fails:</strong> Stilted wording replaces a simple “Yes, it is in stock.”</p>
+          <p><strong>Expected:</strong> Answer directly using stock data.</p>
+        </details>
+        <details>
+          <summary>Q03 · Fail: Instruction compliance</summary>
+          <p><strong>Caller:</strong> Just compare these. Do not order.</p>
+          <p><strong>Ava:</strong> “I placed your order.”</p>
+          <p><strong>Why it fails:</strong> The caller explicitly prohibited an order.</p>
+          <p><strong>Expected:</strong> Compare without ordering.</p>
+        </details>
+      </div>
       <p class="method"><a href="/case_study_evals/illustrative-dataset.json" download>Inspect all 20 questions, expected answers, and judgments ↓</a></p>
     </section>
-    <section id="results" class="article-body section-gap spec-preview" aria-labelledby="results-title">
-      <h2 id="results-title">Recorded Ava results</h2>
-      <div class="spec-table-scroll"><table>
-        <caption class="sr-only">Independent answer and tool review, before and after the prompt change</caption>
-        <thead><tr><th scope="col">Reviewed outcomes</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
-        <tbody><tr><th scope="row">Development cases</th><td>5 passed<br>1 partial</td><td>6 passed</td></tr><tr><th scope="row">Held-out cases</th><td>4 passed</td><td>4 passed</td></tr><tr><th scope="row">Total tool calls</th><td>11</td><td>20</td></tr></tbody>
-      </table></div>
-      <p class="method">Ten conversations, one run per version, cached catalog data, text/tool evaluation. Voice quality and production reliability weren’t tested. Running cost is unknown; savings aren’t established. Judge rationales contained errors, so these outcomes use independent AI-assisted answer/tool review, not the judge’s score increase.</p>
+    <section id="results" class="results-section" aria-labelledby="results-title">
+    <div class="grad-panel grad">
+      <div class="results-in">
+        <h2 id="results-title">Recorded Ava results</h2>
+        <div class="spec-preview results-card float-card">
+          <div class="spec-table-scroll">
+            <table>
+              <caption class="sr-only">Independent answer and tool review, before and after the prompt change</caption>
+              <thead>
+                <tr><th scope="col">Reviewed outcomes</th><th scope="col">Before</th><th scope="col">After</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Development cases</th>
+                  <td><span class="pill pass">5 passed</span><br><span class="pill partial">1 partial</span></td>
+                  <td><span class="pill pass">6 passed</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">Held-out cases</th>
+                  <td><span class="pill pass">4 passed</span></td>
+                  <td><span class="pill pass">4 passed</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">Total tool calls</th>
+                  <td class="mono-num">11</td>
+                  <td class="mono-num">20</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="method">Ten conversations, one run per version, cached catalog data, text/tool evaluation. Voice quality and production reliability weren’t tested. Running cost is unknown; savings aren’t established. Judge rationales contained errors, so these outcomes use independent AI-assisted answer/tool review, not the judge’s score increase.</p>
+        </div>
+      </div>
+    </div>
     </section>
+
+  <div class="after-results">
     <section class="article-body section-gap" aria-labelledby="cost-title">
       <h2 id="cost-title">Test a cheaper model</h2>
       <p><strong>Illustrative scenario.</strong> Use successful Astra traces to improve Sol or Terra’s instructions. Compare unseen cases and cost per successful task before switching. Savings are unverified.</p>
     </section>
+
     <section class="article-body case-conclusion" aria-labelledby="deliver-title">
       <h2 id="deliver-title">What we do for your team</h2>
       <p>Bring one workflow and sanitized calls. We deliver trace capture, a dataset, rubrics, a baseline report, and repeatable comparisons. Test prompt, model, or tool changes before shipping. Turn production failures into regression cases.</p>
-      <p><a class="download-link primary" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a></p>
+      <p><a class="btn glass primary" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a></p>
     </section>
+  </div>
   </article>
-  <div class="closing wrap"><p>Recorded Ava evaluation · 13 November 2026</p><a href="#top">Back to article <span aria-hidden="true">↑</span></a></div>
+
+  <div class="closing wrap">
+    <p>Recorded Ava evaluation · 13 November 2026</p>
+    <a href="#top">Back to article <span aria-hidden="true">↑</span></a>
+  </div>
 </main>
-<footer class="site-footer wrap"><a class="brand" href="/"><img src="/static/reforge-mark.png" width="20" height="20" alt="">TheAdaply</a><a href="/case_study_evals/article.md" download>Download the article</a></footer>
+<footer class="site-footer wrap">
+  <a class="brand" href="/" aria-label="TheAdaply home">
+    <img class="mark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">TheAdaply
+  </a>
+  <a href="/case_study_evals/article.md" download>Download the article</a>
+</footer>
+<script>
+(function () {
+  var header = document.getElementById("site-header");
+  var hero = document.querySelector(".hero");
+  if (!header || !hero) return;
+  function update() {
+    var hb = hero.getBoundingClientRect().bottom;
+    header.classList.toggle("is-over-hero", hb > header.offsetHeight + 24);
+  }
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+})();
+</script>
 </body>
 </html>
