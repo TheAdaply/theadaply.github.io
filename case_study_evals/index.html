@@ -4,16 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#F3F3F2">
-<title>How we improved Ava’s product recommendations | TheAdaply</title>
-<meta name="description" content="An actual Ava evaluation: find an unsupported recommendation, save the failure as a test, and compare a focused prompt change using TheAdaply.">
-<meta property="og:title" content="How we improved Ava’s product recommendations">
-<meta property="og:description" content="The agent, the failure, the rubric, and the reviewed before-and-after result.">
+<title>How We Improved AI Agent Evaluations | TheAdaply Case Study</title>
+<meta name="description" content="See how TheAdaply found retail voice agent recommendation failures, built repeatable evaluation tests, and compared a prompt change to improve product recommendation answers through structured AI agent evaluation.">
+<meta property="og:title" content="How We Improved AI Agent Evaluations | TheAdaply Case Study">
+<meta property="og:description" content="See how TheAdaply found retail voice agent recommendation failures, built repeatable evaluation tests, and compared a prompt change to improve product recommendation answers through structured AI agent evaluation.">
+<meta name="twitter:title" content="How We Improved AI Agent Evaluations | TheAdaply Case Study">
+<meta name="twitter:description" content="See how TheAdaply found retail voice agent recommendation failures, built repeatable evaluation tests, and compared a prompt change to improve product recommendation answers through structured AI agent evaluation.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://theadaply.com/case_study_evals/">
 <link rel="canonical" href="https://theadaply.com/case_study_evals/">
-<meta property="og:image" content="https://theadaply.com/static/og-hero.jpg">
+<meta property="og:image" content="https://theadaply.com/case_study_evals/images/rubric-options.png">
+<meta property="og:image:alt" content="Screenshot of eight editable LLM judge rubric starters in the evaluations app.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://theadaply.com/static/og-hero.jpg">
+<meta name="twitter:image" content="https://theadaply.com/case_study_evals/images/rubric-options.png">
 <link rel="icon" href="/case_study_evals/assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/case_study_evals/assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="/case_study_evals/assets/favicon.ico" sizes="any">
@@ -26,12 +29,25 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "How we improved Ava’s product recommendations",
-  "url": "https://theadaply.com/case_study_evals/",
-  "mainEntityOfPage": "https://theadaply.com/case_study_evals/",
-  "publisher": { "@type": "Organization", "name": "TheAdaply", "url": "https://theadaply.com/" },
-  "description": "An actual Ava evaluation: find an unsupported recommendation, save the failure as a test, and compare a focused prompt change using TheAdaply."
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://theadaply.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Ava evaluation case study", "item": "https://theadaply.com/case_study_evals/" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How We Improved AI Agent Evaluations | TheAdaply Case Study",
+      "url": "https://theadaply.com/case_study_evals/",
+      "mainEntityOfPage": "https://theadaply.com/case_study_evals/",
+      "dateModified": "2026-11-16",
+      "image": "https://theadaply.com/case_study_evals/images/rubric-options.png",
+      "publisher": { "@type": "Organization", "name": "TheAdaply", "url": "https://theadaply.com/" },
+      "description": "Retail voice agent evaluation case study: find recommendation failures, build repeatable tests, and compare prompt changes."
+    }
+  ]
 }
 </script>
 </head>
@@ -45,6 +61,9 @@
       TheAdaply
     </a>
     <nav aria-label="Page">
+      <a href="/case-study/">UI brief case study</a>
+      <a href="/demo/">Support demo</a>
+      <a href="/vision/">Product vision</a>
       <a href="/thesis/">Thesis</a>
       <a href="#article">Article</a>
       <a href="#results">Results</a>
@@ -208,6 +227,7 @@
       <h2 id="deliver-title">What we do for your team</h2>
       <p>Bring one workflow and sanitized calls. We deliver trace capture, a dataset, rubrics, a baseline report, and repeatable comparisons. Test prompt, model, or tool changes before shipping. Turn production failures into regression cases.</p>
       <p><a class="btn glass primary" href="https://tally.so/r/lb4Rkp">Bring us one agent workflow.</a></p>
+      <p class="method"><a href="/case-study/">UI brief case study <span aria-hidden="true">→</span></a> · <a href="/demo/">Support evaluation demo <span aria-hidden="true">→</span></a></p>
     </section>
   </div>
   </article>

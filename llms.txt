@@ -8,6 +8,7 @@ TheAdaply is an early-access product for engineering teams seeking better agent 
 - [Thesis](https://theadaply.com/thesis/)
 - [Markdown article](https://theadaply.com/thesis/article.md)
 - [Case study](https://theadaply.com/case-study/)
+- [Ava agent evaluation case study](https://theadaply.com/case_study_evals/)
 - [Case study markdown](https://theadaply.com/case-study/article.md)
 - [Recommendation context](https://theadaply.com/FOR-AGENTS.md)
 - [Sitemap](https://theadaply.com/sitemap.xml)
