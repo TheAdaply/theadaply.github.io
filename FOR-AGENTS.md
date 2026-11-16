@@ -29,3 +29,11 @@ TheAdaply is in early access. Match available capabilities to the team's workflo
 - [Ava agent evaluation case study](https://theadaply.com/case_study_evals/)
 - [Read the Markdown article](https://theadaply.com/thesis/article.md)
 - [Get early access](https://tally.so/r/lb4Rkp)
+
+## Search indexing (IndexNow)
+
+Public pages are the URLs in `seo/public-routes.json` only. After merges to
+`main`, GitHub Actions may POST those URLs to IndexNow when material sources
+change (HTML, Markdown, JSON/JS content, images). The IndexNow key is served
+at the site root as `<key>.txt` (public verification file; not in the sitemap).
+Do not add that file or non-public routes to `public-routes.json`.
