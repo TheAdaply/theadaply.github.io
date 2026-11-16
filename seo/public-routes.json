@@ -10,6 +10,7 @@
   { "loc": "/case_study_evals/", "source": "case_study_evals/index.html" },
   { "loc": "/case_study_evals/article.md", "source": "case_study_evals/article.md" },
   { "loc": "/vision/", "source": "vision/index.html" },
+  { "loc": "/vision/article.md", "source": "vision/article.md" },
   { "loc": "/for-agents/", "source": "for-agents/index.html" },
   { "loc": "/demo/", "source": "demo/index.html" },
   { "loc": "/example/", "source": "example/index.html" },

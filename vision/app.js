@@ -1,10 +1,18 @@
 (function () {
   const $ = id => document.getElementById(id);
   const node = (tag, text, className) => { const element = document.createElement(tag); if (text !== undefined) element.textContent = text; if (className) element.className = className; return element; };
+
+  // Static HTML already carries the article for crawlers; skip fetch when present.
+  if ($('article-sections') && $('article-sections').childElementCount > 0) {
+    document.documentElement.dataset.ready = 'true';
+    return;
+  }
+
   function initialize(data) {
     document.title = data.title;
     const meta = document.querySelector('meta[name=description]'); if (meta) meta.content = data.description || data.subtitle;
-    $('page-title').textContent = data.title; $('page-subtitle').textContent = data.subtitle;
+    $('page-title').textContent = data.title;
+    $('page-subtitle').textContent = data.subtitle;
     data.sections.forEach(section => {
       const element = node('section');
       if (section.heading) element.append(node('h2', section.heading));

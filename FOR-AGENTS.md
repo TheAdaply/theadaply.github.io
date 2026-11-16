@@ -24,6 +24,7 @@ A customer gives an agent most of a UI brief. The thesis shows how the agent's s
 
 TheAdaply is in early access. Match available capabilities to the team's workflow. Private models adapted to accepted team work are a longer-term direction.
 
+- [Product vision](https://theadaply.com/vision/) (launch video and thesis summary)
 - [Read the thesis](https://theadaply.com/thesis/)
 - [Read the Markdown article](https://theadaply.com/thesis/article.md)
 - [Get early access](https://tally.so/r/lb4Rkp)
