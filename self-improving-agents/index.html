@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3F3F2">
+<title>Self-improving coding agents · TheAdaply</title>
+<meta name="description" content="How TheAdaply turns engineering work into tested agent improvements—related to self-improving AI research, applied to a team's goals and accepted work.">
+<meta property="og:title" content="Self-improving coding agents · TheAdaply">
+<meta property="og:description" content="How TheAdaply turns engineering work into tested agent improvements—related to self-improving AI research, applied to a team's goals and accepted work.">
+<meta name="twitter:title" content="Self-improving coding agents · TheAdaply">
+<meta name="twitter:description" content="How TheAdaply turns engineering work into tested agent improvements—related to self-improving AI research, applied to a team's goals and accepted work.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://theadaply.com/self-improving-agents/">
+<link rel="canonical" href="https://theadaply.com/self-improving-agents/">
+<meta property="og:image" content="https://theadaply.com/static/og-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://theadaply.com/static/og-hero.jpg">
+<link rel="icon" href="/static/reforge-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/case_study_evals/tokens.css?v=landing-1">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=landing-1">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://theadaply.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Self-improving coding agents", "item": "https://theadaply.com/self-improving-agents/" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Self-improving coding agents",
+      "url": "https://theadaply.com/self-improving-agents/",
+      "mainEntityOfPage": "https://theadaply.com/self-improving-agents/",
+      "image": "https://theadaply.com/static/og-hero.jpg",
+      "publisher": { "@type": "Organization", "name": "TheAdaply", "url": "https://theadaply.com/" },
+      "description": "Research context for self-improving coding agents and how TheAdaply applies a tested evolution loop to a team's engineering work."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#article">Skip to article</a>
+<header class="site-header" id="site-header">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="TheAdaply home">
+      <img class="mark mark-dark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">
+      TheAdaply
+    </a>
+    <nav aria-label="Page">
+      <a href="/thesis/">Thesis</a>
+      <a href="/case_study_evals/">Ava case study</a>
+      <a href="/example/">Example</a>
+      <a href="#article">Article</a>
+    </nav>
+    <a class="btn offline-link" href="/self-improving-agents/article.md" download>Read offline <span aria-hidden="true">↓</span></a>
+  </div>
+</header>
+<main id="top">
+  <div class="hero grad">
+    <div class="hero-in">
+      <h1>Self-improving coding agents</h1>
+      <p class="dek">TheAdaply turns real work, from engineering sessions to robot trajectories, into tested improvements the whole team can reuse.</p>
+    </div>
+  </div>
+
+  <article id="article" class="article">
+    <section class="article-body" aria-labelledby="meaning-title">
+      <h2 id="meaning-title">What “self-improving” usually means</h2>
+      <p>Most coding agents today run on setups a person designed once: prompts, tools, workflows. A session may produce a good result, but the next agent often starts from the same baseline unless someone manually ports the lesson. Research on <em>self-improving</em> agents asks whether a system can change its own implementation and keep changes that measurably help—without requiring a human to rewrite the setup after every win.</p>
+      <p>That question sits behind a line of work from Gödel machines to recent coding-agent benchmarks. TheAdaply is not part of that research program. It is an early-access product for engineering teams that want a related loop on their own work, with the team’s goals, accepted output and feedback as the source material.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="dgm-title">
+      <h2 id="dgm-title">The Darwin Gödel Machine (research context)</h2>
+      <p>In 2025, Zhang, Hu, Lu, Lange, and Clune described the <a href="https://arxiv.org/abs/2505.22954" rel="noopener noreferrer">Darwin Gödel Machine</a> (“Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents,” arXiv:2505.22954). Sakana AI and UBC authors; TheAdaply is not affiliated with them.</p>
+      <p>In their framing, a <em>coding agent</em> is a system built around a frozen foundation model plus a code repository that defines tools and workflows. The DGM alternates <strong>self-modification</strong> with <strong>evaluation</strong> on coding benchmarks. It maintains an archive of agents, samples parents from that archive, and lets each parent edit its own codebase to spawn variants. Variants that compile and retain code-editing ability are evaluated; performance on benchmarks decides what enters the archive. Open-ended exploration—branching from varied parents rather than only the latest version—is part of the design.</p>
+      <p>Reported results on public benchmarks include moving from 20.0% to 50.0% on SWE-bench Verified and from 14.2% to 30.7% on Polyglot in their full evaluation, with sandboxing and human oversight noted in the paper. That is empirical self-improvement in a research sandbox, not a product integration path for a specific company.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="loop-title">
+      <h2 id="loop-title">A related loop on a team’s real work</h2>
+      <p>TheAdaply’s thesis is narrower and grounded in work the team already accepts.</p>
+      <p>Every task your team completes should make its agents better at the next one. TheAdaply’s thesis is to turn the lessons in everyday work, from successful approaches to review feedback, into improvements the whole team can reuse.</p>
+      <p>We start with software engineering agents. TheAdaply is for engineering teams that want their AI agents to produce better work than the team achieves today, with less direction, review and correction. We start with the team’s goals, accepted work and feedback, then test changes to agents’ instructions, tools and approaches against its own criteria. The search includes approaches the team has not yet tried.</p>
+      <p>We compare each change with the current setup on the same tasks, then test the strongest on fresh tasks. We measure the quality of the work and the time people spend guiding agents, reviewing results and correcting the same mistakes. Improvements that pass become the starting point for the next round.</p>
+      <p>Suppose an engineer’s agent works out how to move a service to a new system on Monday. TheAdaply tests the approach and saves the checks that made it work. On Tuesday, a teammate’s agent can use the accepted pattern where it applies and verify its own work. Sharing follows the team’s permissions. The <a href="/example/">example page</a> walks through that “second time is fast” pattern on a concrete internal service.</p>
+      <p>Where a research system mutates its own repository against a public benchmark, TheAdaply captures engineering sessions and replayable checks against <strong>the team’s</strong> criteria. Retain a change only when it improves quality or reduces the human effort the team already measures—not when a leaderboard score moves in isolation.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="passes-title">
+      <h2 id="passes-title">What “passes” looks like in practice</h2>
+      <p>The same discipline shows up outside toy tasks. In the <a href="/case_study_evals/">Ava evaluation case study</a>, a retail voice agent recommended a product without verifying basement suitability. TheAdaply helped turn that failure into a test, define observable pass criteria, compare a prompt change on the same cases, and check held-out conversations before treating the change as accepted.</p>
+      <p>Software evaluation weighs correctness, test results, regressions, review effort, time and cost. The UI brief <a href="/case-study/">case study</a> applies the same idea to partial specifications: compare a candidate workflow with the current setup and a generic improvement on the same UI tasks, then test on fresh tasks. Retain the change only if the work improves against the customer’s criteria with less human effort.</p>
+      <p>The <a href="/thesis/">full thesis</a> includes bundle downloads and a customer quote that states the problem plainly: “i spec it out 80% and then fire it off and pray.” TheAdaply learns from that kind of accepted work and review correction—not from invented personas or fabricated metrics.</p>
+    </section>
+
+    <section class="article-body section-gap case-conclusion" aria-labelledby="future-title">
+      <h2 id="future-title">Longer-term direction</h2>
+      <p>Our longer-term direction is to adapt private models using work that passes the team’s checks. Further out, the same direction applies to robot policies adapted from evaluated trajectories; that is a direction, not something implemented today. We will compare adapted models with the team’s existing options on quality, cost and control over data before adopting them.</p>
+      <p>Each accepted improvement should give the team’s next agent a stronger starting point.</p>
+      <p><a class="btn glass primary" href="https://tally.so/r/lb4Rkp">Get early access</a></p>
+      <p class="method"><a href="/thesis/">Read the thesis <span aria-hidden="true">→</span></a> · <a href="/example/">Team memory example <span aria-hidden="true">→</span></a> · <a href="/case_study_evals/">Ava evaluation case study <span aria-hidden="true">→</span></a></p>
+    </section>
+  </article>
+
+  <div class="closing wrap">
+    <a href="#top">Back to article <span aria-hidden="true">↑</span></a>
+  </div>
+</main>
+<footer class="site-footer wrap">
+  <a class="brand" href="/" aria-label="TheAdaply home">
+    <img class="mark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">TheAdaply
+  </a>
+  <a href="/self-improving-agents/article.md" download>Download the article</a>
+</footer>
+</body>
+</html>
