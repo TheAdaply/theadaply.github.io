@@ -14,6 +14,8 @@
   { "loc": "/for-agents/", "source": "for-agents/index.html" },
   { "loc": "/demo/", "source": "demo/index.html" },
   { "loc": "/example/", "source": "example/index.html" },
+  { "loc": "/self-improving-agents/", "source": "self-improving-agents/index.html" },
+  { "loc": "/self-improving-agents/article.md", "source": "self-improving-agents/article.md" },
   { "loc": "/llms.txt", "source": "llms.txt" },
   { "loc": "/FOR-AGENTS.md", "source": "FOR-AGENTS.md" }
   ]

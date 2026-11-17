@@ -77,19 +77,16 @@ def main() -> int:
 
         current = path.read_bytes()
         baseline = git_file_at_ref(args.main_ref, source)
-        if baseline is None:
-            errors.append(f"{source}: cannot read {args.main_ref}:{source}")
-            continue
-
-        for label, pattern in (("title", TITLE_RE), ("canonical", CANONICAL_RE)):
-            cur_tags = head_tags(source, pattern)
-            base_head = static_head(baseline.decode("utf-8"))
-            base_tags = pattern.findall(base_head)
-            if cur_tags != base_tags:
-                errors.append(
-                    f"{source}: {label} tag(s) differ from {args.main_ref} "
-                    f"(current={cur_tags!r}, main={base_tags!r})"
-                )
+        if baseline is not None:
+            for label, pattern in (("title", TITLE_RE), ("canonical", CANONICAL_RE)):
+                cur_tags = head_tags(source, pattern)
+                base_head = static_head(baseline.decode("utf-8"))
+                base_tags = pattern.findall(base_head)
+                if cur_tags != base_tags:
+                    errors.append(
+                        f"{source}: {label} tag(s) differ from {args.main_ref} "
+                        f"(current={cur_tags!r}, main={base_tags!r})"
+                    )
 
         head = static_head(current.decode("utf-8"))
         matches = META_DESC_RE.findall(head)
