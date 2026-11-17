@@ -16,6 +16,12 @@
   { "loc": "/example/", "source": "example/index.html" },
   { "loc": "/self-improving-agents/", "source": "self-improving-agents/index.html" },
   { "loc": "/self-improving-agents/article.md", "source": "self-improving-agents/article.md" },
+  { "loc": "/ai-agent-evaluation/", "source": "ai-agent-evaluation/index.html" },
+  { "loc": "/ai-agent-evaluation/article.md", "source": "ai-agent-evaluation/article.md" },
+  { "loc": "/coding-agent-memory/", "source": "coding-agent-memory/index.html" },
+  { "loc": "/coding-agent-memory/article.md", "source": "coding-agent-memory/article.md" },
+  { "loc": "/ai-agent-observability/", "source": "ai-agent-observability/index.html" },
+  { "loc": "/ai-agent-observability/article.md", "source": "ai-agent-observability/article.md" },
   { "loc": "/llms.txt", "source": "llms.txt" },
   { "loc": "/FOR-AGENTS.md", "source": "FOR-AGENTS.md" }
   ]

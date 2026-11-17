@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3F3F2">
+<title>AI agent evaluation · TheAdaply</title>
+<meta name="description" content="How TheAdaply runs agent evals: turn failures into tests, set pass criteria, compare changes on the same tasks, and check held-out work before accepting.">
+<meta property="og:title" content="AI agent evaluation · TheAdaply">
+<meta property="og:description" content="How TheAdaply runs agent evals: turn failures into tests, set pass criteria, compare changes on the same tasks, and check held-out work before accepting.">
+<meta name="twitter:title" content="AI agent evaluation · TheAdaply">
+<meta name="twitter:description" content="How TheAdaply runs agent evals: turn failures into tests, set pass criteria, compare changes on the same tasks, and check held-out work before accepting.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://theadaply.com/ai-agent-evaluation/">
+<link rel="canonical" href="https://theadaply.com/ai-agent-evaluation/">
+<meta property="og:image" content="https://theadaply.com/static/og-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://theadaply.com/static/og-hero.jpg">
+<link rel="icon" href="/static/reforge-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/case_study_evals/tokens.css?v=landing-1">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=landing-1">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://theadaply.com/ai-agent-evaluation/#webpage",
+      "url": "https://theadaply.com/ai-agent-evaluation/",
+      "name": "AI agent evaluation",
+      "isPartOf": { "@id": "https://theadaply.com/#website" },
+      "publisher": { "@id": "https://theadaply.com/#organization" },
+      "description": "How TheAdaply evaluates coding agents with observable pass criteria, controlled comparisons, and held-out tasks."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://theadaply.com/" },
+        { "@type": "ListItem", "position": 2, "name": "AI agent evaluation", "item": "https://theadaply.com/ai-agent-evaluation/" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "AI agent evaluation",
+      "url": "https://theadaply.com/ai-agent-evaluation/",
+      "mainEntityOfPage": { "@id": "https://theadaply.com/ai-agent-evaluation/#webpage" },
+      "image": "https://theadaply.com/static/og-hero.jpg",
+      "publisher": { "@id": "https://theadaply.com/#organization" },
+      "description": "How TheAdaply evaluates coding agents with observable pass criteria, controlled comparisons, and held-out tasks."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#article">Skip to article</a>
+<header class="site-header" id="site-header">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="TheAdaply home">
+      <img class="mark mark-dark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">
+      TheAdaply
+    </a>
+    <nav aria-label="Page">
+      <a href="/thesis/">Thesis</a>
+      <a href="/case_study_evals/">Ava case study</a>
+      <a href="/case-study/">UI brief case study</a>
+      <a href="#article">Article</a>
+    </nav>
+    <a class="btn offline-link" href="/ai-agent-evaluation/article.md" download>Read offline <span aria-hidden="true">↓</span></a>
+  </div>
+</header>
+<main id="top">
+  <div class="hero grad">
+    <div class="hero-in">
+      <h1>AI agent evaluation</h1>
+      <p class="dek">Agent evals should turn real failures into tests, compare a change against the current setup on the same work, and check held-out tasks before anything ships.</p>
+    </div>
+  </div>
+
+  <article id="article" class="article">
+    <section class="article-body" aria-labelledby="meaning-title">
+      <h2 id="meaning-title">What agent evaluation is for</h2>
+      <p>Teams running coding agents need more than a gut check after each session. <em>AI agent evaluation</em> asks whether a proposed change—instructions, tools, model choice, or workflow—actually improves the work the team already accepts, with criteria observers can verify. The bar is not a higher score on someone else’s benchmark. It is better results on the team’s tasks, with less time spent guiding agents, reviewing output and correcting the same mistakes.</p>
+      <p>TheAdaply is an early-access product built around that discipline. It starts from the team’s goals, accepted work and feedback, explores changes to agent instructions, tools and approaches, and keeps only what passes checks the team can see and replay.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="failure-title">
+      <h2 id="failure-title">Turn failures into tests</h2>
+      <p>Production mistakes are often the best source material. In the <a href="/case_study_evals/">Ava agent evaluation case study</a>, a retail voice agent recommended a product without verifying basement suitability. TheAdaply helped turn that failure into a test: save the conversation, define what “pass” means for product fit and ordering rules, and replay the same cases after a change.</p>
+      <p>The same pattern applies outside voice. When a customer gives an agent most of a UI brief and lives with repeated review rounds—one customer described the process as “i spec it out 80% and then fire it off and pray”—the gap is measurable. The <a href="/case-study/">UI brief case study</a> compares a candidate workflow with the current setup and a generic improvement on the same UI tasks, then tests on fresh tasks. Retain the change only if the work improves against the customer’s criteria with less human effort.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="criteria-title">
+      <h2 id="criteria-title">Observable pass criteria</h2>
+      <p>Evaluations fail when “better” stays vague. On Ava, the team chose judge starters and defined observable pass criteria—natural wording, correctness against catalog evidence, instruction compliance on budget and approval—then scored twenty authored Q&amp;A examples before and after a prompt change. Open a failure to inspect the answer, evidence and why a criterion failed.</p>
+      <p>For software agents, evaluation weighs correctness, test results, regressions, review effort, time and cost. Robotics evaluation, where measured, weighs task success, recovery, intervention rate, completion time and safety constraints. The domains differ; the habit is the same: write down what counts as pass before comparing runs.</p>
+      <p>The recorded <a href="/demo/">evaluations demo</a> shows the same six support questions answered with and without a supplied shop policy, with comparisons and judge rationales you can inspect—illustrating controlled comparison rather than anecdote.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="compare-title">
+      <h2 id="compare-title">Same tasks, then held-out tasks</h2>
+      <p>TheAdaply compares each change with the current setup on the same tasks, then tests the strongest on fresh tasks. In the Ava study, six development cases and four disjoint held-out conversations were compared with one run per version per case. Development cases moved from five passed and one partial to six passed; held-out cases stayed at four passed after the change that qualified uncertain claims.</p>
+      <p>The thesis loop is the same for engineering work: measure the quality of the work and the time people spend guiding agents, reviewing results and correcting the same mistakes. Improvements that pass become the starting point for the next round. That loop sits inside the broader <a href="/self-improving-agents/">self-improving coding agents</a> story—tested evolution on the team’s work, not an open-ended research archive.</p>
+      <p>At design partners VALSEA and 8x Social, repeated agent corrections fell 62% in two weeks. That is human effort measured on real workflows, not a leaderboard move.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="capture-title">
+      <h2 id="capture-title">Evaluation needs captured work</h2>
+      <p>Comparisons need structured task data: prompts, tool calls, outcomes and the checks that decided pass or fail. The <a href="/ai-agent-observability/">AI agent observability</a> page explains how TheAdaply’s Capture step turns sessions into that record from registered repositories—nothing outside the repositories you register is read—so evals can replay real cases instead of synthetic anecdotes.</p>
+      <p>Accepted evals also feed what the next agent starts from. Lessons that pass can carry to teammates under the team’s permissions, as described on the <a href="/coding-agent-memory/">coding agent memory</a> page and the <a href="/example/">second time is fast</a> example.</p>
+    </section>
+
+    <section class="article-body section-gap case-conclusion" aria-labelledby="future-title">
+      <h2 id="future-title">Robotics and longer-term direction</h2>
+      <p>The same discipline holds outside software, with acceptance criteria that fit the domain. The thesis extends the loop to robotics: capture the trajectory, test a proposed adaptation against the current baseline, and retain it only when it passes.</p>
+      <p>robot sim pick success went from 9/50 to 44/50 in six hours with zero new demos when the part changed from cube to pyramid.</p>
+      <p>Robot policies adapted from evaluated trajectories, and private models trained on work that passes the team’s checks, are longer-term directions—not shipped capabilities today. We will compare adapted models with the team’s existing options on quality, cost and control over data before adopting them.</p>
+      <p><a class="btn glass primary" href="https://tally.so/r/lb4Rkp">Get early access</a></p>
+      <p class="method"><a href="/thesis/">Read the thesis <span aria-hidden="true">→</span></a> · <a href="/case_study_evals/">Ava evaluation case study <span aria-hidden="true">→</span></a> · <a href="/ai-agent-observability/">Agent observability <span aria-hidden="true">→</span></a></p>
+    </section>
+  </article>
+
+  <div class="closing wrap">
+    <a href="#top">Back to article <span aria-hidden="true">↑</span></a>
+  </div>
+</main>
+<footer class="site-footer wrap">
+  <a class="brand" href="/" aria-label="TheAdaply home">
+    <img class="mark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">TheAdaply
+  </a>
+  <a href="/ai-agent-evaluation/article.md" download>Download the article</a>
+</footer>
+</body>
+</html>
