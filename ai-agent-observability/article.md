@@ -30,7 +30,7 @@ The evolving-agents product description on the homepage is the operational summa
 
 Captured traces become the substrate for evaluation. The Ava case study shows execution traces for a failure, rubric criteria observers can edit, and experiment comparisons between baseline and candidate runs. The UI brief case study shows how accepted work and review corrections become bundle changes you can inspect. None of that works without session capture first.
 
-TheAdaply compares each change with the current setup on the same tasks, then tests the strongest on fresh tasks, measuring quality and human effort. 62% fewer repeated agent corrections in two weeks at design partners (VALSEA, 8x Social)—a signal that better observability and eval discipline reduce rework, not just log volume.
+TheAdaply compares each change with the current setup on the same tasks, then tests the strongest on fresh tasks, measuring quality and human effort. At design partners VALSEA and 8x Social, repeated agent corrections fell 62% in two weeks. That is human effort measured on real workflows.
 
 Turn production failures into regression cases; retain improvements only when they pass checks the team can see. The [self-improving coding agents](/self-improving-agents/) article walks through that loop on engineering work; the [coding agent memory](/coding-agent-memory/) page explains how accepted lessons propagate under team permissions.
 

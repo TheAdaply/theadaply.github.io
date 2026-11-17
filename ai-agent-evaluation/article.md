@@ -28,7 +28,7 @@ TheAdaply compares each change with the current setup on the same tasks, then te
 
 The thesis loop is the same for engineering work: measure the quality of the work and the time people spend guiding agents, reviewing results and correcting the same mistakes. Improvements that pass become the starting point for the next round. That loop sits inside the broader [self-improving coding agents](/self-improving-agents/) story—tested evolution on the team’s work, not an open-ended research archive.
 
-62% fewer repeated agent corrections in two weeks at design partners (VALSEA, 8x Social). That is human effort measured on real workflows, not a leaderboard move.
+At design partners VALSEA and 8x Social, repeated agent corrections fell 62% in two weeks. That is human effort measured on real workflows, not a leaderboard move.
 
 ## Evaluation needs captured work
 
