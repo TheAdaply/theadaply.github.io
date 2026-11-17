@@ -14,6 +14,8 @@ jobs:
           fetch-depth: 0
       - name: Verify sitemap.xml matches routes
         run: python3 scripts/generate_sitemap.py --check
+      - name: Verify prerendered article HTML matches content.json
+        run: python3 scripts/prerender_articles.py --check
       - name: Check meta descriptions and unchanged title/canonical tags
         run: python3 scripts/check_seo_meta.py
       - name: Unit tests
