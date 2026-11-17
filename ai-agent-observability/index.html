@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3F3F2">
+<title>AI agent observability · TheAdaply</title>
+<meta name="description" content="AI agent observability at TheAdaply: agent session capture turns prompts, tool calls, and outcomes into structured task data for evaluation and improvement.">
+<meta property="og:title" content="AI agent observability · TheAdaply">
+<meta property="og:description" content="AI agent observability at TheAdaply: agent session capture turns prompts, tool calls, and outcomes into structured task data for evaluation and improvement.">
+<meta name="twitter:title" content="AI agent observability · TheAdaply">
+<meta name="twitter:description" content="AI agent observability at TheAdaply: agent session capture turns prompts, tool calls, and outcomes into structured task data for evaluation and improvement.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://theadaply.com/ai-agent-observability/">
+<link rel="canonical" href="https://theadaply.com/ai-agent-observability/">
+<meta property="og:image" content="https://theadaply.com/static/og-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://theadaply.com/static/og-hero.jpg">
+<link rel="icon" href="/static/reforge-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/case_study_evals/tokens.css?v=landing-1">
+<link rel="stylesheet" href="/case_study_evals/styles.css?v=landing-1">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://theadaply.com/ai-agent-observability/#webpage",
+      "url": "https://theadaply.com/ai-agent-observability/",
+      "name": "AI agent observability",
+      "isPartOf": { "@id": "https://theadaply.com/#website" },
+      "publisher": { "@id": "https://theadaply.com/#organization" },
+      "description": "How TheAdaply captures agent sessions as engineering workflow intelligence that feeds evaluation and team improvement."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://theadaply.com/" },
+        { "@type": "ListItem", "position": 2, "name": "AI agent observability", "item": "https://theadaply.com/ai-agent-observability/" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "AI agent observability",
+      "url": "https://theadaply.com/ai-agent-observability/",
+      "mainEntityOfPage": { "@id": "https://theadaply.com/ai-agent-observability/#webpage" },
+      "image": "https://theadaply.com/static/og-hero.jpg",
+      "publisher": { "@id": "https://theadaply.com/#organization" },
+      "description": "How TheAdaply captures agent sessions as engineering workflow intelligence that feeds evaluation and team improvement."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#article">Skip to article</a>
+<header class="site-header" id="site-header">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="TheAdaply home">
+      <img class="mark mark-dark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">
+      TheAdaply
+    </a>
+    <nav aria-label="Page">
+      <a href="/thesis/">Thesis</a>
+      <a href="/ai-agent-evaluation/">Agent evaluation</a>
+      <a href="/CAPTURE-MANIFEST.json">Capture manifest</a>
+      <a href="#article">Article</a>
+    </nav>
+    <a class="btn offline-link" href="/ai-agent-observability/article.md" download>Read offline <span aria-hidden="true">↓</span></a>
+  </div>
+</header>
+<main id="top">
+  <div class="hero grad">
+    <div class="hero-in">
+      <h1>AI agent observability</h1>
+      <p class="dek">Agent session capture should turn prompts, tool calls and outcomes into structured task data your team can evaluate—not anecdotes lost when the tab closes.</p>
+    </div>
+  </div>
+
+  <article id="article" class="article">
+    <section class="article-body" aria-labelledby="meaning-title">
+      <h2 id="meaning-title">Observability beyond logs</h2>
+      <p><em>AI agent observability</em> here means engineering workflow intelligence: a durable record of what agents were asked to do, which tools they called, and what outcomes the team accepted or sent back for correction. Generic request logging is not enough. Teams need task-shaped data they can compare, replay and turn into tests—the same material behind serious <a href="/ai-agent-evaluation/">agent evals</a>.</p>
+      <p>The homepage names the first step explicitly: <strong>Capture</strong>. Every session your team runs, with its prompts, tool calls and outcomes, becomes structured task data. Nothing outside the repositories you register is read.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="problem-title">
+      <h2 id="problem-title">What disappears today</h2>
+      <p>Before capture, knowledge walks out with the session. The homepage describes teams running a thousand agent sessions a week while the thousand-and-first starts from zero—the same tool path walked again as if for the first time.</p>
+      <p>The thesis extends the idea beyond software. A robot’s work also leaves a trajectory: what it observed, what it was asked to do, what it tried, where it failed, where a person stepped in, and whether the outcome was accepted. Today most of that experience is thrown away. Observability is the precondition for testing improvements on trajectories the team already has instead of collecting fresh demos for every change.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="manifest-title">
+      <h2 id="manifest-title">What capture declares</h2>
+      <p>The site publishes a machine-readable <a href="/CAPTURE-MANIFEST.json">capture manifest</a> so humans and agents can see what the client reads, what leaves the machine, and how to stop it. Capture proceeds only with human consent; the default state is off. The manifest describes reading local transcript files from supported coding tools, sending redacted event fields to the team’s TheAdaply cloud or a self-hosted endpoint, and client-side secret stripping before content is spooled or sent.</p>
+      <p>The homepage promise stays narrow: structured task data from registered repositories—not a blanket read of the machine. That boundary matters for trust and for evals: comparisons should reflect work the team chose to register, not ambient filesystem access.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="pipeline-title">
+      <h2 id="pipeline-title">Capture. Breed. Select.</h2>
+      <p>Observability feeds the rest of the loop named on the homepage. <strong>Capture</strong> records sessions. <strong>Breed</strong> spawns candidate agents on workflows the team repeats—different prompts, tools and orderings for the same job. <strong>Select</strong> keeps candidates that win on outcomes the team already has; weak variants retire each generation.</p>
+      <p>The evolving-agents product description on the homepage is the operational summary: capture every session your team runs, breed candidate agents for the work you repeat, and keep the ones that win on your own tasks. That is observability in service of improvement, not dashboards for their own sake.</p>
+    </section>
+
+    <section class="article-body section-gap" aria-labelledby="eval-title">
+      <h2 id="eval-title">From sessions to evals</h2>
+      <p>Captured traces become the substrate for evaluation. The Ava case study shows execution traces for a failure, rubric criteria observers can edit, and experiment comparisons between baseline and candidate runs. The UI brief case study shows how accepted work and review corrections become bundle changes you can inspect. None of that works without session capture first.</p>
+      <p>TheAdaply compares each change with the current setup on the same tasks, then tests the strongest on fresh tasks, measuring quality and human effort. 62% fewer repeated agent corrections in two weeks at design partners (VALSEA, 8x Social)—a signal that better observability and eval discipline reduce rework, not just log volume.</p>
+      <p>Turn production failures into regression cases; retain improvements only when they pass checks the team can see. The <a href="/self-improving-agents/">self-improving coding agents</a> article walks through that loop on engineering work; the <a href="/coding-agent-memory/">coding agent memory</a> page explains how accepted lessons propagate under team permissions.</p>
+    </section>
+
+    <section class="article-body section-gap case-conclusion" aria-labelledby="future-title">
+      <h2 id="future-title">Longer-term direction</h2>
+      <p>Private models adapted using work that passes the team’s checks, and robot policies adapted from evaluated trajectories, are longer-term directions—not shipped today. Capture and observability remain the ground truth layer: what was tried, what passed, and what the next agent may inherit.</p>
+      <p><a class="btn glass primary" href="https://tally.so/r/lb4Rkp">Get early access</a></p>
+      <p class="method"><a href="/thesis/">Read the thesis <span aria-hidden="true">→</span></a> · <a href="/case_study_evals/">Ava evaluation case study <span aria-hidden="true">→</span></a> · <a href="/ai-agent-evaluation/">Agent evaluation <span aria-hidden="true">→</span></a></p>
+    </section>
+  </article>
+
+  <div class="closing wrap">
+    <a href="#top">Back to article <span aria-hidden="true">↑</span></a>
+  </div>
+</main>
+<footer class="site-footer wrap">
+  <a class="brand" href="/" aria-label="TheAdaply home">
+    <img class="mark" src="/case_study_evals/assets/mark.svg" width="22" height="21" alt="">TheAdaply
+  </a>
+  <a href="/ai-agent-observability/article.md" download>Download the article</a>
+</footer>
+</body>
+</html>
