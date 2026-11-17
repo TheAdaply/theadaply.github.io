@@ -84,6 +84,10 @@ class RouteMappingTests(unittest.TestCase):
         urls = in_.changed_files_to_urls(["seo/public-routes.json"], SAMPLE_ROUTES)
         self.assertEqual(urls, [])
 
+    def test_root_404_html_not_submitted(self) -> None:
+        urls = in_.changed_files_to_urls(["404.html"], SAMPLE_ROUTES)
+        self.assertEqual(urls, [])
+
     def test_dedupe_urls(self) -> None:
         urls = in_.changed_files_to_urls(
             ["vision/index.html", "vision/app.js"],
