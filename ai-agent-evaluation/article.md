@@ -34,7 +34,7 @@ At design partners VALSEA and 8x Social, repeated agent corrections fell 62% in 
 
 Comparisons need structured task data: prompts, tool calls, outcomes and the checks that decided pass or fail. The [AI agent observability](/ai-agent-observability/) page explains how TheAdaply’s Capture step turns sessions into that record from registered repositories—nothing outside the repositories you register is read—so evals can replay real cases instead of synthetic anecdotes.
 
-Accepted evals also feed what the next agent starts from. Lessons that pass can carry to teammates under the team’s permissions, as described on the [coding agent memory](/coding-agent-memory/) page and the [second time is fast](/example/) example.
+Accepted evals also feed what the next agent starts from. Lessons that pass can carry to teammates under the team’s permissions, as described on the [coding agent memory](/coding-agent-memory/) page.
 
 ## Robotics and longer-term direction
 

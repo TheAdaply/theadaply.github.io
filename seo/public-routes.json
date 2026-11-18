@@ -13,7 +13,6 @@
   { "loc": "/vision/article.md", "source": "vision/article.md" },
   { "loc": "/for-agents/", "source": "for-agents/index.html" },
   { "loc": "/demo/", "source": "demo/index.html" },
-  { "loc": "/example/", "source": "example/index.html" },
   { "loc": "/self-improving-agents/", "source": "self-improving-agents/index.html" },
   { "loc": "/self-improving-agents/article.md", "source": "self-improving-agents/article.md" },
   { "loc": "/ai-agent-evaluation/", "source": "ai-agent-evaluation/index.html" },

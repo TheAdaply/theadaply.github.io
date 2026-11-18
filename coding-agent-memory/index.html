@@ -65,7 +65,6 @@
     </a>
     <nav aria-label="Page">
       <a href="/thesis/">Thesis</a>
-      <a href="/example/">Team memory example</a>
       <a href="/self-improving-agents/">Self-improving agents</a>
       <a href="#article">Article</a>
     </nav>
@@ -102,7 +101,7 @@
 
     <section class="article-body section-gap" aria-labelledby="example-title">
       <h2 id="example-title">The second time is fast</h2>
-      <p>The <a href="/example/">example page</a> measures team memory for coding agents on a concrete internal service. Last week, an agent in the <code>ledger</code> repo probed until <code>fetch_balance</code> worked and uncovered three undocumented rules; the session went into team memory. Today, a teammate in <code>reports</code> must build a monthly export from the same service—nothing in that repo mentions the rules.</p>
+      <p>This example measures team memory for coding agents on a concrete internal service. Last week, an agent in the <code>ledger</code> repo probed until <code>fetch_balance</code> worked and uncovered three undocumented rules; the session went into team memory. Today, a teammate in <code>reports</code> must build a monthly export from the same service—nothing in that repo mentions the rules.</p>
       <p>With team memory, the agent reads what was learned and gets the call right the first time. Without it, the agent starts probing from zero. On measured runs, tasks solved were 6/6 versus 2/4, and time to a passing fix was about 57 seconds versus 92–156 seconds. Team memory held summaries earlier sessions that the agent could search; writing the same three rules into the repo’s <code>CLAUDE.md</code> by hand also worked—memory gets the same effect without anyone writing it down.</p>
       <p>That example is shared team memory for AI agents in miniature: permission-scoped summaries, searchable across repos, grounded in a session that already succeeded.</p>
     </section>
@@ -117,7 +116,7 @@
       <h2 id="direction-title">What memory is not</h2>
       <p>Private models adapted using work that passes the team’s checks are a longer-term direction, not a shipped memory feature today. Robot policies adapted from evaluated trajectories are further out still. Each accepted improvement should give the team’s next agent a stronger starting point within the permissions the team already uses.</p>
       <p><a class="btn glass primary" href="https://tally.so/r/lb4Rkp">Get early access</a></p>
-      <p class="method"><a href="/thesis/">Read the thesis <span aria-hidden="true">→</span></a> · <a href="/example/">Team memory example <span aria-hidden="true">→</span></a> · <a href="/ai-agent-evaluation/">Agent evaluation <span aria-hidden="true">→</span></a></p>
+      <p class="method"><a href="/thesis/">Read the thesis <span aria-hidden="true">→</span></a> · <a href="/ai-agent-evaluation/">Agent evaluation <span aria-hidden="true">→</span></a></p>
     </section>
   </article>
 

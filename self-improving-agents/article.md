@@ -26,7 +26,7 @@ We start with software engineering agents. TheAdaply is for engineering teams th
 
 We compare each change with the current setup on the same tasks, then test the strongest on fresh tasks. We measure the quality of the work and the time people spend guiding agents, reviewing results and correcting the same mistakes. Improvements that pass become the starting point for the next round.
 
-Suppose an engineer’s agent works out how to move a service to a new system on Monday. TheAdaply tests the approach and saves the checks that made it work. On Tuesday, a teammate’s agent can use the accepted pattern where it applies and verify its own work. Sharing follows the team’s permissions. The [example page](/example/) walks through that “second time is fast” pattern on a concrete internal service.
+Suppose an engineer’s agent works out how to move a service to a new system on Monday. TheAdaply tests the approach and saves the checks that made it work. On Tuesday, a teammate’s agent can use the accepted pattern where it applies and verify its own work. Sharing follows the team’s permissions.
 
 Where a research system mutates its own repository against a public benchmark, TheAdaply captures engineering sessions and replayable checks against **the team’s** criteria. Retain a change only when it improves quality or reduces the human effort the team already measures—not when a leaderboard score moves in isolation.
 

@@ -24,7 +24,7 @@ Nemo is not a dump of raw transcripts. It sits downstream of capture and evaluat
 
 ## The second time is fast
 
-The [example page](/example/) measures team memory for coding agents on a concrete internal service. Last week, an agent in the `ledger` repo probed until `fetch_balance` worked and uncovered three undocumented rules; the session went into team memory. Today, a teammate in `reports` must build a monthly export from the same service—nothing in that repo mentions the rules.
+This example measures team memory for coding agents on a concrete internal service. Last week, an agent in the `ledger` repo probed until `fetch_balance` worked and uncovered three undocumented rules; the session went into team memory. Today, a teammate in `reports` must build a monthly export from the same service—nothing in that repo mentions the rules.
 
 With team memory, the agent reads what was learned and gets the call right the first time. Without it, the agent starts probing from zero. On measured runs, tasks solved were 6/6 versus 2/4, and time to a passing fix was about 57 seconds versus 92–156 seconds. Team memory held summaries earlier sessions that the agent could search; writing the same three rules into the repo’s `CLAUDE.md` by hand also worked—memory gets the same effect without anyone writing it down.
 
